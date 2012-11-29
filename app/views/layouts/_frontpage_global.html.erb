@@ -45,10 +45,6 @@
              <button type="submit" class="basic_button medium_button pale_button"><%=t("login.one")%></button>
            <% end -%>
 
-           <div id="subtexto">
-             <%= link_to t('user.lost_password'), lost_password_path, :class => "register_link" %>
-           </div>
-
            <% if current_site.shib_enabled? %>
              <div id="login-federation">
                <div class="button">

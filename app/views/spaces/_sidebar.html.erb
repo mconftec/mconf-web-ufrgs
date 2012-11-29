@@ -1,7 +1,7 @@
 <%if !logged_in?%>
     <div class="join">
       <div class="button_wrapper margin-up">
-        <%= link_to ("<span>" + t('register.one') + "</span>").html_safe, signup_path(), :class => "register_link big_button orange_button"%>
+        <%= link_to ("<span>" + t('login.one') + "</span>").html_safe, login_path(), :class => "register_link big_button orange_button"%>
       </div>
     </div>
 <%elsif !space.users.include?(current_user) %>

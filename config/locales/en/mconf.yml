@@ -186,7 +186,7 @@ en:
     login: "Login using CAFe"
     login_page: 
       click_here_to_login: "click here to log in"
-      description: "Experimental test of access to Mconf using the federation CAFe"
+      description: "Access Mconf using the federation from UFRGS"
       more_about_cafe: "Learn more about CAFe"
     login_tip: "Mconf is an experimental service in the federation CAFe. Click here to log in using the federation."
   calendar: 
@@ -842,7 +842,7 @@ en:
     email_or_login: "Email or username"
     one: Login
     password: Password
-  login_or_register: "Login / Register"
+  login_or_register: "Login"
   login_request: "You need to be logged in to "
   logo: 
     created: "Logo uploaded successfully"
@@ -1125,7 +1125,7 @@ en:
   shibboleth: 
     create: 
       account_associated: "Your account '%{login}' was associated to your federated account! You can now log to this account in using either your Mconf credentials or your federated account."
-      account_created: "A new account with a random password was created for you and linked to your federated account. Both accounts can be used to log in this website. You won't need the Mconf password to login using the federation, but you can change your password go to the <a href=\"%{url}\">forgot password page</a>."
+      account_created: "This is your first time here, so an account was created for you. Welcome!"
       data_error: "There was an error trying to access your information from the federation. Please contact us to solve the problem."
       existent_email: "There's already an account with your federated email (%{email}). If this account is yours, use the form below to associate it to your federated login. If you're having problems you may contact us or find help in the FAQ page."
       invalid_credentials: "Invalid account or password. Please, try again."

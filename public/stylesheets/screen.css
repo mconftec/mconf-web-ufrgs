@@ -2748,7 +2748,7 @@ h3.dialog_title {
 }
 
 #login_div #shib-login {
-  float: left;
+  margin: 20px auto;
   width: 400px;
   padding: 10px;
   text-align: center;

@@ -81,10 +81,11 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.xml
   def new
-    user.openid_identifier = session[:openid_identifier]
+    redirect_to login_path
+    # user.openid_identifier = session[:openid_identifier]
 
     #render :partial => "register" if request.xhr?
-    render :layout => 'application_without_sidebar'
+    # render :layout => 'application_without_sidebar'
   end
 
   # POST /users

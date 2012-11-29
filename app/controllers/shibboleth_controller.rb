@@ -63,7 +63,7 @@ class ShibbolethController < ApplicationController
       if token.user
         token.data = shib_data_from_session()
         token.save!
-        flash[:success] = t('shibboleth.create.account_created', :url => lost_password_path)
+        flash[:success] = t('shibboleth.create.account_created')
       else
         flash[:error] = t('shibboleth.create.existent_email', :email => shib_email_from_session())
       end
@@ -104,7 +104,7 @@ class ShibbolethController < ApplicationController
   # Checks if shibboleth is enabled in the current site.
   def check_shib_enabled
     unless current_site.shib_enabled
-      redirect_to login_path
+      redirect_to "/" # login_path
       return false
     else
       return true
