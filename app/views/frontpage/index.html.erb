@@ -1,41 +1,37 @@
-<div id="content_top">
+<div id="page-header-wrapper">
+  <div id="page-header">
+    <%= t('frontpage.ufrgs.description').html_safe %>
+  </div>
+</div>
 
-  <div id="content_top_container">
-    <div class="description">
-      <%= t('frontpage.project_description').html_safe %>
+<div id="frontpage_flashs">
+  <% flash.each do |name, msg| %>
+    <div class="<%= name %>"><%= msg.html_safe %></div>
+  <% end %>
+</div>
+
+<div id="content-container">
+
+  <div id="portal-ufrgs">
+    <div>
+      <div id="ufrgs-logo-container">
+        <%= link_to(image_tag("logos/ufrgs-logo.jpg"), shib_login_path) %>
+      </div>
+      <div id="ufrgs-description">
+        <%= t('frontpage.ufrgs.accessible_to').html_safe %>
+      </div>
     </div>
-    <div class="clearer"><span>&nbsp;</span></div>
+    <div class="clearer"></div>
+    <div id="ufrgs-login-link">
+      <a href="/secure" class="btn btn-large btn-danger"><%= t('frontpage.ufrgs.click_to_access').html_safe %></a>
+    </div>
   </div>
 
-</div>
-
-<div id="content_stats">
-  <b><%= t('frontpage.stats.title') %></b> <%= t('frontpage.stats.text', :users => @stats[:users], :spaces => @stats[:spaces], :meetings => @stats[:meetings]) %>
-</div>
-
-<div id="content_container">
-
-  <div id="public_spaces">
-    <div class="spaces_left">
-      <h2><%=t('frontpage.popular_spaces')%></h2>
-      <% if @popular_spaces.empty? %>
-        <br/>
-        <%= t('frontpage.no_spaces') %>
-      <% else %>
-        <%= render :partial => 'space_list', :locals => { :spaces => @popular_spaces } %>
-      <% end %>
-    </div>
-    <div class="spaces_right">
-      <h2><%=t('frontpage.running_spaces')%></h2>
-      <% if @running_spaces.empty? %>
-        <br/>
-        <%= t('frontpage.no_rooms') %>
-      <% else %>
-        <%= render :partial => 'space_list', :locals => { :spaces => @running_spaces } %>
-      <% end %>
-    </div>
-  </div>
-  <div class="clearer"><span>&nbsp;</span></div>
+  <!-- <div id="sponsor-wrapper"> -->
+  <!--   <h3><%= t('frontpage.ufrgs.supported_by').html_safe %></h3> -->
+  <!--   <%= render :partial => "layouts/sponsor" %> -->
+  <!-- </div> -->
 
 </div>
 
+<div class="clearer"></div>

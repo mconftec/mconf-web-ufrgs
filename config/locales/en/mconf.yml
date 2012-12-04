@@ -557,6 +557,11 @@ en:
     stats: 
       text: "%{users} users, %{spaces} spaces, %{meetings} active meetings"
       title: "Current statistics:"
+    ufrgs: 
+      accessible_to: "This service can be accessed by students, staff and professores that have an active enrollment with the university UFRGS. The access is provided by the federation UFRGS."
+      click_to_access: "Click here to access your account"
+      description: "This website is part of the project <a href=\"http://mconf.org\">Mconf</a>, currently being developed in the research group <a href=\"http://www.inf.ufrgs.br/prav\">PRAV</a> from <a href=\"http://www.ufrgs.br\">UFRGS</a> in partnership with <a href=\"http://www.rnp.br\">RNP</a>. It is integrated with the webconference system <a href=\"http://bigbluebutton.org/\">BigBlueButton</a>. For more information, access the project website <a href=\"http://www.inf.ufrgs.br/prav/gtmconf\">clicking here</a>."
+      supported_by: "Supported by"
   getting_started: "Getting started!"
   group: 
     other: "Mailing lists"
