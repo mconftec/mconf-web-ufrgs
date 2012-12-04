@@ -89,31 +89,31 @@
 
 <div id="userid">
   <label for="login"><%=t('user.id')%></label><br/>
-  <%= f.text_field :login %> <%=image_tag("icons/help.png",:title=>"",:size=>"16x16",:class=>"tooltip_user_id icon",:style=>"cursor:pointer")%>
+  <%= f.text_field :login, :disabled => true %>
   <div id="webconf-room-link">
     <span><%= t("user.your_webconf_room_is") %> </span>
     <span class="link"></span>
   </div>
 </div>
 
-<% if f.object.needs_password? -%>
-  <% if logged_in? %>
-    <div>
-      <label for="password"><%=t('user.new_password')%></label><br/>
-      <%= f.password_field :password %> <%=image_tag("icons/help.png",:title=>"",:size=>"16x16",:class=>"tooltip_new_password icon",:style=>"cursor:pointer")%>
-    </div>
-    <div>
-      <div><label for="password_confirmation"><%=t('user.new_password_confirmation')%></label><br/>
-      <%= f.password_field :password_confirmation%></div>
-    </div>
-  <% else %>
-    <div>
-      <label for="password"><%=t('user.password')%></label><br/>
-      <%= f.password_field :password %>
-    </div>
-    <div>
-      <div><label for="password_confirmation"><%=t('user.password_confirmation')%></label><br/>
-      <%= f.password_field :password_confirmation%></div>
-    </div>
-  <% end %>
-<% end -%>
+<!-- <% if f.object.needs_password? -%> -->
+<!--   <% if logged_in? %> -->
+<!--     <div> -->
+<!--       <label for="password"><%=t('user.new_password')%></label><br/> -->
+<!--       <%= f.password_field :password %> <%=image_tag("icons/help.png",:title=>"",:size=>"16x16",:class=>"tooltip_new_password icon",:style=>"cursor:pointer")%> -->
+<!--     </div> -->
+<!--     <div> -->
+<!--       <div><label for="password_confirmation"><%=t('user.new_password_confirmation')%></label><br/> -->
+<!--       <%= f.password_field :password_confirmation%></div> -->
+<!--     </div> -->
+<!--   <% else %> -->
+<!--     <div> -->
+<!--       <label for="password"><%=t('user.password')%></label><br/> -->
+<!--       <%= f.password_field :password %> -->
+<!--     </div> -->
+<!--     <div> -->
+<!--       <div><label for="password_confirmation"><%=t('user.password_confirmation')%></label><br/> -->
+<!--       <%= f.password_field :password_confirmation%></div> -->
+<!--     </div> -->
+<!--   <% end %> -->
+<!-- <% end -%> -->

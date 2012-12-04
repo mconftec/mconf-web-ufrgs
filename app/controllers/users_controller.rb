@@ -159,6 +159,9 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         params[:user].delete(:email) # block email changes
+        params[:user].delete(:login) # block login changes
+        params[:user].delete(:password) # block password changes
+        params[:user].delete(:password_confirmation)
         if user.update_attributes(params[:user])
           user.tag_with(params[:tags]) if params[:tags]
 
