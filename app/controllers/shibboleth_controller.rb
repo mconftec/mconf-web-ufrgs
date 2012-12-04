@@ -38,9 +38,14 @@ class ShibbolethController < ApplicationController
 
     # no user associated yet, render a page to do it
     if token.user.nil?
-      respond_to do |format|
-        format.html
-      end
+
+      # we have federated login only, so we always want a new account
+      params[:new_account] = true
+      associate()
+
+      # respond_to do |format|
+      #   format.html
+      # end
 
     # everything's ok, log in
     else
