@@ -1132,6 +1132,7 @@ en:
       account_associated: "Your account '%{login}' was associated to your federated account! You can now log to this account in using either your Mconf credentials or your federated account."
       account_created: "This is your first time here, so an account was created for you. Welcome!"
       data_error: "There was an error trying to access your information from the federation. Please contact us to solve the problem."
+      enrollment_error: "You don't have an active enrollment with the university. Sorry, but you cannot access this service."
       existent_email: "There's already an account with your federated email (%{email}). If this account is yours, use the form below to associate it to your federated login. If you're having problems you may contact us or find help in the FAQ page."
       invalid_credentials: "Invalid account or password. Please, try again."
     login: 

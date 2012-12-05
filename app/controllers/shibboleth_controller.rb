@@ -34,6 +34,8 @@ class ShibbolethController < ApplicationController
     shib_vars_to_session()
     return unless check_shib_information()
 
+    return unless check_active_enrollment()
+
     token = find_or_create_token()
 
     # no user associated yet, render a page to do it
@@ -137,6 +139,25 @@ class ShibbolethController < ApplicationController
       false
     else
       true
+    end
+  end
+
+  # Checks if the user has an active enrollment, otherwise he's not allowed
+  # to access the service.
+  def check_active_enrollment
+    if session[:shib_data] && session[:shib_data]["ufrgsVinculo"]
+      data = session[:shib_data]["ufrgsVinculo"]
+      if data.match(/(^|;)ativo/) # beggining of line or after a ';'
+        return true
+      else
+        flash[:error] = t("shibboleth.create.enrollment_error")
+        render 'error', :layout => 'application_without_sidebar'
+        false
+      end
+    else
+      flash[:error] = t("shibboleth.create.data_error")
+      render 'error', :layout => 'application_without_sidebar'
+      false
     end
   end
 
@@ -245,8 +266,12 @@ class ShibbolethController < ApplicationController
     request.env["Shib-inetOrgPerson-mail"] = "nevergonnagiveyouup@rick.com"
     request.env["cn"] = "Rick Astley"
     request.env["mail"] = "nevergonnagiveyouup@rick.com"
-    request.env["ufrgsVinculo"] = "anything in here"
     request.env["uid"] = "00000000000"
+    request.env["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    # active
+    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    # inactive
+    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Ativo Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico ativo:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
   end
 
 end

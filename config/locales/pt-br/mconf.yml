@@ -1130,6 +1130,7 @@ pt-br:
       account_associated: "Sua conta '%{login}' foi associada à sua conta federada! Você agora pode acessar esta conta tanto através da federação quando através de suas credenciais do Mconf."
       account_created: "Uma nova conta foi criada para você já que esta é sua primeira vez aqui. Bem-vindo(a)!"
       data_error: "Houve um erro tentando acessar suas informações através da federação. Por favor contate-nos para resolver o problema."
+      enrollment_error: "Você não possui um vínculo ativo com a universidade e portanto não pode acessar este serviço."
       existent_email: "Já existe uma conta com o seu e-mail federado (%{email}). Se esta conta é sua, use o formulário abaixo para associá-la à sua conta na federação. Se você tiver problemas você pode nos contatar ou encontrar ajuda na página FAQ."
       invalid_credentials: "Conta ou senha inválida. Por favor, tente novamente."
     login: 
