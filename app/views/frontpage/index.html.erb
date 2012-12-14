@@ -1,9 +1,3 @@
-<div id="page-header-wrapper">
-  <div id="page-header">
-    <%= t('frontpage.ufrgs.description').html_safe %>
-  </div>
-</div>
-
 <div id="frontpage_flashs">
   <% flash.each do |name, msg| %>
     <div class="<%= name %>"><%= msg.html_safe %></div>
@@ -12,25 +6,23 @@
 
 <div id="content-container">
 
-  <div id="portal-ufrgs">
-    <div>
-      <div id="ufrgs-logo-container">
-        <%= link_to(image_tag("logos/ufrgs-logo.jpg"), shib_login_path) %>
-      </div>
-      <div id="ufrgs-description">
-        <%= t('frontpage.ufrgs.accessible_to').html_safe %>
-      </div>
-    </div>
-    <div class="clearer"></div>
-    <div id="ufrgs-login-link">
-      <a href="/secure" class="btn btn-large btn-danger"><%= t('frontpage.ufrgs.click_to_access').html_safe %></a>
+  <div id="topo">
+    <div id="logo-ufrgs">
+      <%= link_to(image_tag("ufrgs/logo.jpg"), "http://www.ufrgs.br/") %>
     </div>
   </div>
 
-  <!-- <div id="sponsor-wrapper"> -->
-  <!--   <h3><%= t('frontpage.ufrgs.supported_by').html_safe %></h3> -->
-  <!--   <%= render :partial => "layouts/sponsor" %> -->
-  <!-- </div> -->
+  <div id="content-center">
+    <h1 id="content-title">Sistema de Webconferência</h1>
+    <div id="content-core">
+      <div id="login-button">
+        <a href="/secure" class="btn btn-large btn-danger">
+          <%= t('frontpage.ufrgs.click_to_access').html_safe %>
+        </a>
+        <span><%= t('frontpage.ufrgs.accessible_to').html_safe %></span>
+      </div>
+    </div>
+  </div>
 
 </div>
 

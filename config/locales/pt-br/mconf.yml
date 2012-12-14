@@ -533,7 +533,7 @@ pt-br:
   find_in: "Pesquisar em:"
   footer: 
     built_on_top_of: "Este site é baseado no <a href=\"https://github.com/ging/vcc\">VCC</a> (Global Plaza)"
-    find_us: "Você pode nos encontrar em"
+    find_us: "Saiba mais em"
     gcode: "Google Code"
     github: GitHub
     website: "Site do Projeto"
@@ -557,7 +557,7 @@ pt-br:
       text: "%{users} usuários, %{spaces} espaços, %{meetings} webconferências ativas"
       title: "Estatísticas atuais:"
     ufrgs: 
-      accessible_to: "Este serviço pode ser acessado por alunos, funcionários e professores que possuem vínculo ativo com a UFRGS. O acesso é feito via federação UFRGS."
+      accessible_to: "(é necessário código e senha do cartão UFRGS)"
       click_to_access: "Clique aqui para acessar sua conta"
       description: "Este website é parte do projeto <a href=\"http://mconf.org\">Mconf</a>, sistema em desenvolvimento no grupo de pesquisa <a href=\"http://www.inf.ufrgs.br/prav\">PRAV</a> da <a href=\"http://www.ufrgs.br\">UFRGS</a> em parceria com a <a href=\"http://www.rnp.br\">RNP</a>. Ele está integrado ao sistema de webconferência <a href=\"http://bigbluebutton.org/\">BigBlueButton</a>. Para mais informações, acesse o website do projeto <a href=\"http://www.inf.ufrgs.br/prav/gtmconf\">clicando aqui</a>."
       supported_by: "Apoio de"

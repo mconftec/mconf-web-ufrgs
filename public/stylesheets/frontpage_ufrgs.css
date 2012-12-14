@@ -89,8 +89,53 @@ ol{list-style-type:decimal;}*/
   display: block;
 }
 
+#barra {
+  height: 32px;
+  background-image: url('../images/ufrgs/barra_fundo.jpg');
+}
+
+#areabarra {
+  width: 960px;
+  margin: 0 auto;
+}
+
+#chama {
+  width: 50px;
+  height: 32px;
+  background-image: url('../images/ufrgs/barra_chama.jpg');
+  float: left;
+}
+
+#barra-links {
+  width: 650px;
+  height: 30px;
+  float: left;
+  margin-left: 10px;
+}
+
+#barra-links dl {
+  margin: 0;
+}
+
+#barra-links dd {
+  margin-left: 15px;
+  display: inline;
+  float: left;
+}
+
+#barra-links dd a {
+  color: #BBDCEA;
+  line-height: 32px;
+  font-size: 12px;
+}
+
 #navbar-wrapper {
   background: #004B82;
+}
+
+#topo #logo-ufrgs img {
+  width: 160px;
+  height: 127px;
 }
 
 #navbar {
@@ -125,10 +170,12 @@ ol{list-style-type:decimal;}*/
 
 
 #footer-wrapper {
-  background: #f6f6f6;
-  border-top: 1px solid #E4E4E4;
-  border-bottom: 1px solid #E4E4E4;
-  margin-bottom: 20px;
+  width: 100%;
+  height: 150px;
+  clear: both;
+  background-color: #004B82;
+  position: absolute;
+  bottom: 0;
 }
 #footer{
   width: 960px;
@@ -138,13 +185,27 @@ ol{list-style-type:decimal;}*/
 }
 #footer ul{list-style-type:none;margin:0 0.75em; }
 #footer ul li{display:inline-block;position:relative;margin-right:3px;}
-#footer ul #trade_mark{font-weight:bold;color:#111;}
+#footer ul #trade_mark{font-weight:bold;}
 #footer .icon,#global .icon{margin-bottom:-4px;}
-#footer .languages {
-  clear: both;
-  margin-top:10px;
-  padding-top:10px;
-  text-align:center;
+
+#footer {
+  width: 980px;
+  margin: auto;
+  background-image: url('../images/ufrgs/rodape.jpg');
+  background-repeat: no-repeat;
+  height: 150px;
+  padding: 0;
+}
+
+#footer .about-mconf {
+  float: right;
+  margin: 20px 0;
+  text-align: center;
+  color: #ccc;
+}
+
+#footer .about-mconf a {
+  color: #88b4d4;
 }
 
 #sponsor ul{list-style-type:none;margin:0 0.5em; }
@@ -162,7 +223,7 @@ ol{list-style-type:decimal;}*/
   margin-top: -5px;
 }
 #sponsor-wrapper {
-  text-align: right;
+  text-align: center;
   float: right;
   margin-top: -120px;
 }
@@ -171,34 +232,64 @@ ol{list-style-type:decimal;}*/
 }
 
 #content-container {
-  width: 960px;
+  width: 980px;
   margin: 0 auto;
-  padding: 40px 10px;
+  padding: 0 10px;
 }
 
-#portal-ufrgs {
-  width: 550px;
-  margin: 0 auto;
-  text-align: center;
-  /* padding-right: 200px; */
+#site {
+  position: relative;
+  min-height: 100%;
 }
 
-#ufrgs-logo-container {
-  min-width: 230px;
+html, body, #home {
+  height: 100%;
+}
+
+#content {
+  padding-bottom: 170px;
+}
+
+#content-center {
+  border: 1px solid #EEE;
+  border-top: none;
+  background: url('../images/ufrgs/degrade.jpg') repeat-x bottom;
+  margin-bottom: 40px;
+}
+
+#content-title {
+  width: 100%;
+  height: 50px;
+  background: url('../images/ufrgs/titulo.jpg') no-repeat;
+  color: white;
+  font-family: 'Trebuchet MS', Verdana, Arial, sans-serif;
+  font-size: 2.5em;
+  line-height: 1.5em;
+  text-indent: 10px;
+  letter-spacing: -2px;
   margin: 0;
-  padding: 0;
+  border-bottom: none;
 }
 
-#ufrgs-description {
-  margin: 20px 0;
-  margin-left: 30px;
-}
-
-#ufrgs-login-link {
+#content-core {
+  padding: 100px 50px;
   text-align: center;
-  clear: both;
-  margin-top: 10px;
 }
+
+#login-button {
+  min-width: 300px;
+}
+
+#login-button .btn {
+  width: 100%;
+}
+
+#login-button span {
+  display: block;
+  margin-top: 30px;
+  color: #666;
+}
+
 
 .btn {
   text-align: center;
@@ -210,12 +301,11 @@ ol{list-style-type:decimal;}*/
 }
 
 .btn-large {
-  font-size: 16px !important;
+  font-size: 20px !important;
   padding: 11px 19px;
   border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
-  font-size: 17.5px;
 }
 
 .btn-danger {
@@ -234,6 +324,28 @@ ol{list-style-type:decimal;}*/
   background-image: -webkit-linear-gradient(top, #62C462, #51A351);
   background-image: linear-gradient(to bottom, #62C462, #51A351);
   background-image: -moz-linear-gradient(top, #62C462, #51A351);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary {
+  background-color: #006DCC;
+  background-image: -webkit-linear-gradient(top, #08C, #04C);
+  background-image: linear-gradient(to bottom, #08C, #04C);
+  background-image: -moz-linear-gradient(top, #08C, #04C);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.btn-warning {
+  background-color: #FAA732;
+  background-image: -webkit-linear-gradient(top, #FBB450, #F89406);
+  background-image: linear-gradient(to bottom, #FBB450, #F89406);
+  background-image: -moz-linear-gradient(top, #FBB450, #F89406);
   background-repeat: repeat-x;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   color: white;

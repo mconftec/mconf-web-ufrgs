@@ -31,14 +31,14 @@
               </ul>
             </div>
           </div>
-
-          <div id="navbar-wrapper">
-            <div id="navbar">
-              <div id="main-logo">
-                <a href="/">
-                  <img src="../images/ufrgs/mconf-white-transp.png"
-                       width="231" height="120">
-                </a>
+          <div id="barra">
+            <div id="areabarra">
+              <div id="chama">
+              </div>
+              <div id="barra-links">
+                <dl><dd><%= link_to "UFRGS", "http://www.ufrgs.br/" %></dd></dl>
+                <!-- <dl><dd><%= link_to "Ouvidoria", "http://www.ouvidoria.ufrgs.br/" %></dd></dl> -->
+                <!-- <dl><dd><%= link_to "Guia Telefônico", "https://www1.ufrgs.br/portalservidor/GuiaServidor/" %></dd></dl> -->
               </div>
             </div>
           </div>
@@ -49,7 +49,7 @@
         </div>
 
         <div id="footer-wrapper">
-          <%= render :partial => "layouts/footer" %>
+          <%= render :partial => "layouts/footer_ufrgs" %>
         </div>
 
       </div>
