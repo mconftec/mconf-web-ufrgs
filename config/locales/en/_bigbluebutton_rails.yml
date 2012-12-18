@@ -3,13 +3,13 @@ en:
   activerecord: 
     attributes: 
       bigbluebutton_room: 
-        attendee_password: "Attendee Password"
+        attendee_password: "Attendee password"
         dial_number: "Dial Number"
         external: "Externally created"
         logout_url: "Logout URL"
         max_participants: "Maximum Number of Participants"
         meetingid: "Meeting ID"
-        moderator_password: "Moderator Password"
+        moderator_password: "Moderator password"
         name: Name
         param: "String ID"
         private: Private
@@ -23,6 +23,22 @@ en:
         salt: "Security Salt"
         url: URL
         version: Version
+      space: 
+        bigbluebutton_room: 
+          attendee_password: "Attendee password"
+          dial_number: "Dial Number"
+          external: "Externally created"
+          logout_url: "Logout URL"
+          max_participants: "Maximum Number of Participants"
+          meetingid: "Meeting ID"
+          moderator_password: "Moderator password"
+          name: Name
+          param: "String ID"
+          private: Private
+          randomize_meetingid: "Randomize Meeting ID"
+          server_id: "Server ID"
+          voice_bridge: "Voice Bridge"
+          welcome_msg: "Welcome Message"
     models: 
       bigbluebutton_room: "Web Conference Room"
       bigbluebutton_server: "Web Conference Server"
