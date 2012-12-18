@@ -1,20 +1,18 @@
-<div id="footer">
+<div id="footer-wrapper">
+  <div id="footer">
 
-  <div class="about-mconf">
-    <div class="logo-mconf">
-      <a href="http://mconf.org">
-        <img src="../images/ufrgs/mconf-white-transp.png" width="115" height="60">
-      </a>
+    <div class="about-mconf">
+      <div class="logo-mconf">
+      </div>
+      <ul>
+        <li><span id="trade_mark"><%= t('mconf') %></span> <%= t('all_rights_reserved') %>.</li>
+      </ul>
+      <ul>
+        <li><%= t('footer.find_us') %>:</li>
+        <li><a href="http://mconf.org">http://mconf.org</a></li>
+      </ul>
     </div>
-    <ul>
-      <li><span id="trade_mark"><%= t('mconf') %></span> <%= t('all_rights_reserved') %>.</li>
-    </ul>
-    <ul>
-      <li><%= t('footer.find_us') %>:</li>
-      <li><a href="http://mconf.org">http://mconf.org</a></li>
-    </ul>
+
+    <div class="clearer"></div>
   </div>
-
-  <div class="clearer"></div>
-
 </div>
