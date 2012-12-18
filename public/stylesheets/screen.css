@@ -242,11 +242,9 @@ body .icon{margin-bottom:-2px;}
 #search input[type="text"]{font-size:1em;width:150px;}
 /*#search a img,#search input[type="image"]{margin-bottom:-7px;}*/
 #header_logo1 {
-  float:right;
-  margin-top:17px;
-  margin-right: 10px;
-  width: 69px;
-  height: 45px;
+  float: right;
+  width: 94px;
+  height: 75px;
 }
 #header_logo2 {
   float:right;
