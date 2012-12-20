@@ -227,6 +227,7 @@ Mconf::Application.routes.draw do
   # resource :session
 
   # match '/login', :to => 'sessions#new', :as => 'login'
+  match '/admin', :to => 'admin#new', :as => 'admin'
   match '/logout', :to => 'sessions#destroy', :as => 'logout'
   # match '/signup', :to => 'users#new', :as => 'signup'
   # match '/lost_password', :to => 'users#lost_password', :as => 'lost_password'
