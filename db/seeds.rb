@@ -66,7 +66,9 @@ u = Site.create :name => config["site_name"],
                 :exception_notifications_prefix => config["site_exception_notifications_prefix"],
                 :shib_enabled => config["site_shibboleth"] == "true",
                 :shib_email_field => config["site_shibboleth_email_field"],
-                :shib_name_field => config["site_shibboleth_name_field"]
+                :shib_name_field => config["site_shibboleth_name_field"],
+                :shib_login_field => config["site_shibboleth_login_field"],
+                :shib_env_variables => config["site_shibboleth_env_variables"]
 
 
 puts "* Create Permissions"
