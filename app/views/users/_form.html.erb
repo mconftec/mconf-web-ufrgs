@@ -96,6 +96,18 @@
   </div>
 </div>
 
+<% if logged_in? and current_user.superuser %>
+  <div>
+    <label for="password"><%=t('user.new_password')%></label><br/>
+    <%= f.password_field :password %> <%=image_tag("icons/help.png",:title=>"",:size=>"16x16",:class=>"tooltip_new_password icon",:style=>"cursor:pointer")%>
+  </div>
+  <div>
+    <div><label for="password_confirmation"><%=t('user.new_password_confirmation')%></label><br/>
+    <%= f.password_field :password_confirmation%></div>
+  </div>
+<% end %>
+
+
 <!-- <% if f.object.needs_password? -%> -->
 <!--   <% if logged_in? %> -->
 <!--     <div> -->
