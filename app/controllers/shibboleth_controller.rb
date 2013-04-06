@@ -40,6 +40,7 @@ class ShibbolethController < ApplicationController
 
     # no user associated yet, render a page to do it
     if token.user.nil?
+      logger.info "Shibboleth: first access for this user, go to association page"
 
       # we have federated login only, so we always want a new account
       params[:new_account] = true
@@ -51,6 +52,7 @@ class ShibbolethController < ApplicationController
 
     # everything's ok, log in
     else
+      logger.info "Shibboleth: user logged in #{token.user.inspect}"
       self.current_agent = token.user
       flash.keep(:success)
       redirect_to home_path
@@ -68,6 +70,7 @@ class ShibbolethController < ApplicationController
                                   shib_email_from_session(),
                                   shib_login_from_session())
       if token.user
+        logger.info "Shibboleth: shib user associated to new user #{token.user.inspect}"
         token.data = shib_data_from_session()
         token.save!
         flash[:success] = t('shibboleth.create.account_created')
@@ -86,14 +89,18 @@ class ShibbolethController < ApplicationController
         break if agent
       end
 
-      # Let the user log even if not activated yet
+      # Let the user log in even if not activated yet
       if agent && !agent.disabled
+        logger.info "Shibboleth: shib user associated to a valid user #{agent.inspect}"
         token = find_or_create_token()
         token.user = agent
         token.data = shib_data_from_session()
         token.save!
         flash[:success] = t("shibboleth.create.account_associated", :login => agent.login)
+      elsif agent && agent.disabled
+        logger.info "Shibboleth: shib user associated to a disabled user #{agent.inspect}"
       else
+        logger.info "Shibboleth: invalid user or password #{agent.inspect}"
         flash[:error] = t("shibboleth.create.invalid_credentials")
       end
     end
@@ -111,6 +118,7 @@ class ShibbolethController < ApplicationController
   # Checks if shibboleth is enabled in the current site.
   def check_shib_enabled
     unless current_site.shib_enabled
+      logger.info "Shibboleth: tried to access but shibboleth is disabled"
       redirect_to "/" # login_path
       return false
     else
@@ -134,6 +142,10 @@ class ShibbolethController < ApplicationController
     unless session[:shib_data] &&
         shib_email_from_session() &&
         shib_name_from_session()
+
+      logger.info "Shibboleth: failed to find shib information in the session, " +
+        "data: #{session[:shib_data].inspect}"
+
       flash[:error] = t("shibboleth.create.data_error")
       render 'error', :layout => 'application_without_sidebar'
       false
@@ -185,6 +197,7 @@ class ShibbolethController < ApplicationController
         end
       end
     end
+    logger.info "Shibboleth: saving variables to session #{shib_data.inspect}, filter #{filter.inspect}"
     session[:shib_data] = shib_data
 
     shib_data
@@ -197,6 +210,9 @@ class ShibbolethController < ApplicationController
       email   = session[:shib_data][current_site.shib_email_field]
       email ||= session[:shib_data]["Shib-inetOrgPerson-mail"]
     end
+    logger.info "Shibboleth: couldn't get email from session, " +
+      "trying field #{current_site.shib_email_field} " +
+      "in #{session[:shib_data].inspect}" if email.nil?
     email
   end
 
@@ -207,6 +223,9 @@ class ShibbolethController < ApplicationController
       name   = session[:shib_data][current_site.shib_name_field]
       name ||= session[:shib_data]["Shib-inetOrgPerson-cn"]
     end
+    logger.info "Shibboleth: couldn't get name from session, " +
+      "trying field #{current_site.shib_name_field} " +
+      "in #{session[:shib_data].inspect}" if name.nil?
     name
   end
 
@@ -217,6 +236,9 @@ class ShibbolethController < ApplicationController
       login   = session[:shib_data][current_site.shib_login_field]
       login ||= shib_name_from_session()
     end
+    logger.info "Shibboleth: couldn't get login from session, " +
+      "trying field #{current_site.shib_login_field} " +
+      "in #{session[:shib_data].inspect}" if login.nil?
     login
   end
 
