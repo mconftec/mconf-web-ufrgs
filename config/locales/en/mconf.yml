@@ -270,7 +270,7 @@ en:
     one: email
     spam_activation: "If you did not register at this site, please <a href=\"mailto:%{contact}\"> contact us </a> or send us <a href=\"%{feedback}\"> feedback.</a>"
     spam_invitation: "If you believe this message is a spam, please <a href=\"mailto:%{contact}\"> contact us </a> or send us <a href=\"%{feedback}\"> feedback.</a>"
-    url_activated: "You can now login to your account with your email \"%{name}\" and your password in <a href=\"%{url}\"> %{url}</a>"
+    url_activated: "You can now login to your account with your UFRGS Card ID and your password in <a href=\"%{url}\"> %{url}</a>"
     used_from: "email used in contact form: %{dir}"
     welcome: "Welcome to %{sitename}"
   enable: Enable
