@@ -100,7 +100,14 @@ class ApplicationController < ActionController::Base
 
   # Overrides 'bigbluebutton_can_create?' in BigbluebuttonRails
   def bigbluebutton_can_create?(room, role)
-    role == :moderator
+    if role == :moderator
+      unless bigbluebutton_user.can_record_meeting?
+        room.update_attributes(:record => false)
+      end
+      true
+    else
+      false
+    end
   end
 
   # This method is the same as space, but raises error if no Space is found
