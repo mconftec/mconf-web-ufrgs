@@ -45,7 +45,7 @@ pt-br:
   bigbluebutton_rails: 
     bigbluebutton: BigBlueButton
     rooms: 
-      default_welcome_msg: "Bem-vindo(a) à conferência <b>%{name}!</b><br/><br/>Para entrar na conferência de áudio a partir de um telefone SIP, disque %{voice_number}.<br/><br/>Se você precisa ajuda para usar esta aplicação <u><a href=\"http://www.bigbluebutton.org/videos/\">veja estes vídeos</a></u>."
+      default_welcome_msg: "Bem-vindo(a) à conferência <b>%{name}!</b><br/><br/>Para entrar na conferência de áudio a partir de um telefone SIP, disque %{voice_number}.<br/><br/>Se você precisa ajuda para usar esta aplicação <u><a href=\"http://mconf.org/m/ufrgs/documentacao\">veja a documentação</a></u>."
       errors: 
         auth: 
           failure: "Falha de autenticação."
