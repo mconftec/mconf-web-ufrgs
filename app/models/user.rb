@@ -292,4 +292,25 @@ class User < ActiveRecord::Base
     rooms
   end
 
+  # Returns true or false based on the type of user we have
+  # If its a professor the meeting can be recorded, false otherwise
+  def can_record_meeting?
+    if !self.shib_token.nil?
+      shib_data = self.shib_token.data.split("\n")
+      shib_data.each do |x|
+        if x.match(/ufrgsVinculo/)
+          x = x.gsub("ufrgsVinculo:","")
+          ufrgs_vinculo = x.split(";")
+          ufrgs_vinculo.each do |y|
+            array_vinculo = y.split(":");
+            if !array_vinculo[0].match(/inativo/) && array_vinculo[0].match(/ativo/) && array_vinculo[2].match(/Docente/)
+              return true
+            end
+          end
+        end
+      end
+    end
+    return false
+  end
+
 end
