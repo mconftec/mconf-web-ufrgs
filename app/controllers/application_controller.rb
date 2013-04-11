@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
   def bigbluebutton_can_create?(room, role)
     if role == :moderator
       unless bigbluebutton_user.can_record_meeting?
-        room.update_attributes(:record => false)
+        room.update_attribute(:record, false)
       end
       true
     else
