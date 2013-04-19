@@ -168,30 +168,27 @@ class SpacesController < ApplicationController
     end
   end
 
+
+
   # PUT /spaces/1
   # PUT /spaces/1.xml
   # PUT /spaces/1.atom
   def update
-    # TODO update bigbluebutton_room.private when room.public is updated
-    #unless params[:space][:public].blank?
-    #  params[:space][:bigbluebutton_room_attributes] = Hash.new if params[:space][:bigbluebutton_room_attributes].blank?
-    #  params[:space][:bigbluebutton_room_attributes][:private] = params[:space][:public] == "true" ? "false" : "true"
-    #end
-
     if params[:bbb_room]
+      # TODO: treat possible errors
       @space.bigbluebutton_room.update_attributes(params[:bigbluebutton_room])
       respond_to do |format|
         format.html {
-          redirect_to(space_path(@space))
+          redirect_to request.referer
         }
         format.json {
-          render :json => @space.bigbluebutton_room.to_json(
-            :include => :metadata
-          )
+          render :json => @space.bigbluebutton_room.to_json(:include => :metadata)
         }
       end
     else
-
+      if params[:space][:bigbluebutton_room_attributes].blank?
+        params[:space][:bigbluebutton_room_attributes][:id] = @space.bigbluebutton_room.id
+      end
       if @space.update_attributes(params[:space])
         respond_to do |format|
           format.html {
@@ -201,11 +198,6 @@ class SpacesController < ApplicationController
           format.atom { head :ok }
           format.js{
             if params[:space][:name] or params[:space][:description]
-
-              # to set the correct logout_url in the webconference room
-              # update_url = { :logout_url => space_url(@space) }
-              # @space.bigbluebutton_room.update_attributes(update_url)
-
               @result = params[:space][:name] ? nil : params[:space][:description]
               flash[:success] = t('space.updated')
               render "result.js"
@@ -222,17 +214,13 @@ class SpacesController < ApplicationController
         end
       else
         respond_to do |format|
-          flash[:error] = t('error.change')
-          format.js {
-            @result = "$(\"#admin_tabs\").before(\"<div class=\\\"error\\\">" + t('.error.not_valid') +  "</div>\")"
-          }
-          format.html {
-            redirect_to edit_space_path() }
+          flash[:error] = @space.errors.full_messages.to_sentence
+          format.js { render :text => t('error.change') }
+          format.html { redirect_to edit_space_path() }
           format.xml  { render :xml => @space.errors, :status => :unprocessable_entity }
           format.atom { render :xml => @space.errors.to_xml, :status => :not_acceptable }
         end
       end
-
     end
   end
 

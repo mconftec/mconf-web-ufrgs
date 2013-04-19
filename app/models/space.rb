@@ -78,15 +78,15 @@ class Space < ActiveRecord::Base
                               :param => self.permalink,
                               :name => self.permalink,
                               :public => !self.public,
-                              :moderator_password => self._moderator_password,
-                              :attendee_password => self._attendee_password,
+                              :moderator_password => self._moderator_password || SecureRandom.hex(4),
+                              :attendee_password => self._attendee_password || SecureRandom.hex(4),
                               :logout_url => "/feedback/webconf/")
   end
 
   def update_bbb_room
     bigbluebutton_room.update_attributes(:param => self.permalink,
                                          :name => self.permalink,
-                                         :public => !self.public)
+                                         :private => !self.public)
   end
 
   def update_unique_permalink

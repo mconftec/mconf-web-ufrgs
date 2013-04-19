@@ -98,7 +98,9 @@ class User < ActiveRecord::Base
                               :server => BigbluebuttonServer.first,
                               :param => self.login,
                               :name => self.login,
-                              :logout_url => "/feedback/webconf/"
+                              :logout_url => "/feedback/webconf/",
+                              :moderator_password => SecureRandom.hex(4),
+                              :attendee_password => SecureRandom.hex(4)
   end
 
   def update_bbb_room
@@ -292,9 +294,11 @@ class User < ActiveRecord::Base
     rooms
   end
 
-  # Returns true or false based on the type of user we have
-  # If its a professor the meeting can be recorded, false otherwise
-  def can_record_meeting?
+  # Returns whether this user can record a meeting in `room` or not after BigbluebuttonRails
+  # decided that the user's role in this room is `role`.
+  def can_record_meeting?(room=nil, role=nil)
+
+    # check if the user is a professor
     if !self.shib_token.nil?
       shib_data = self.shib_token.data.split("\n")
       shib_data.each do |x|
@@ -310,7 +314,9 @@ class User < ActiveRecord::Base
         end
       end
     end
-    return false
+
+    # if not a professor, must be an admin to record
+    superuser
   end
 
 end

@@ -71,7 +71,6 @@
     });
   });
 
-
   $("#recording-title").editable("<%= route %>", {
     indicator: "<%= t('button.saving_dots') %>",
     tooltip: "<%= t('button.click_to_edit') %>",
@@ -134,13 +133,36 @@
   <!--   this.value = this.value.replace(/[^0-9\.]/g,''); -->
   <!-- }); -->
 
+  checkRecordingOptions = function(force) {
+    if (force || <%= @room.is_running? %>) {
+      $("#record-checkbox").attr("disabled", "disabled");
+      $("#recording-title").addClass("disabled");
+      $("#recording-title").unbind("click");
+      $("#recording-description").unbind("click");
+      $("#recording-description").addClass("disabled");
+      $("#no-recording-options").show();
+    }
+  }
+
+  $("#start-webconf").on("click", function() {
+    checkRecordingOptions(true);
+  });
+
+  $(document).ready(function() {
+    checkRecordingOptions();
+  });
+
 <% end %>
 
 <%= content_for :bottom do %>
   </br>
   <div id="dropdown-join-webconf" class="dropdown dropdown-tip dropdown-anchor-right">
     <ul class="dropdown-menu">
-      <% if current_user.can_record_meeting? %>
+      <% if current_user.can_record_meeting?(@room) %>
+      <div id="recording-options-list">
+        <li id="no-recording-options" class="<%= 'hide' unless @room.is_running? %>" >
+          <span class="red"><%= t('home.webconf.no_recording_options') %></span>
+        </li>
         <li><label>
           <%= check_box_tag 'bigbluebutton_room[record]', t('home.webconf.record'), @room.record, :id => 'record-checkbox' %>
           <span><%= t('home.webconf.record') %></span>
@@ -155,14 +177,15 @@
             <div class="field">
               <span><%= t('home.webconf.recording_title') %></span>
               <div id="recording-title" class="editable"><%= metaTitle.nil? ? "" : metaTitle.content %></div>
-            </field>
+           </div>
             <div class="field">
               <span><%= t('home.webconf.recording_description') %></span>
               <div id="recording-description" class="editable"><%= metaDesc.nil? ? "" : metaDesc.content %></div>
-            </field>
+            </div>
           </div>
         </li>
         <li class="dropdown-divider"></li>
+      </div>
       <% end %>
       <li><%= link_to t('home.webconf.invite_people'), inviteroom_invite_path(:type => "webconference", :room => @room.to_param), :id => 'invite_bbb_link' %></li>
       <li>
