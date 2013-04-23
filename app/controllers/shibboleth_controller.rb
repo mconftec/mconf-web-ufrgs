@@ -34,14 +34,21 @@ class ShibbolethController < ApplicationController
     shib_vars_to_session()
     return unless check_shib_information()
 
+    return unless check_active_enrollment()
+
     token = find_or_create_token()
 
     # no user associated yet, render a page to do it
     if token.user.nil?
       logger.info "Shibboleth: first access for this user, go to association page"
-      respond_to do |format|
-        format.html
-      end
+
+      # we have federated login only, so we always want a new account
+      params[:new_account] = true
+      associate()
+
+      # respond_to do |format|
+      #   format.html
+      # end
 
     # everything's ok, log in
     else
@@ -66,7 +73,7 @@ class ShibbolethController < ApplicationController
         logger.info "Shibboleth: shib user associated to new user #{token.user.inspect}"
         token.data = shib_data_from_session()
         token.save!
-        flash[:success] = t('shibboleth.create.account_created', :url => lost_password_path)
+        flash[:success] = t('shibboleth.create.account_created')
       else
         flash[:error] = t('shibboleth.create.existent_email', :email => shib_email_from_session())
       end
@@ -112,7 +119,7 @@ class ShibbolethController < ApplicationController
   def check_shib_enabled
     unless current_site.shib_enabled
       logger.info "Shibboleth: tried to access but shibboleth is disabled"
-      redirect_to login_path
+      redirect_to "/" # login_path
       return false
     else
       return true
@@ -144,6 +151,25 @@ class ShibbolethController < ApplicationController
       false
     else
       true
+    end
+  end
+
+  # Checks if the user has an active enrollment, otherwise he's not allowed
+  # to access the service.
+  def check_active_enrollment
+    if session[:shib_data] && session[:shib_data]["ufrgsVinculo"]
+      data = session[:shib_data]["ufrgsVinculo"]
+      if data.match(/(^|;)ativo/) # beggining of line or after a ';'
+        return true
+      else
+        flash[:error] = t("shibboleth.create.enrollment_error")
+        render 'error', :layout => 'application_without_sidebar'
+        false
+      end
+    else
+      flash[:error] = t("shibboleth.create.data_error")
+      render 'error', :layout => 'application_without_sidebar'
+      false
     end
   end
 
@@ -262,8 +288,12 @@ class ShibbolethController < ApplicationController
     request.env["Shib-inetOrgPerson-mail"] = "nevergonnagiveyouup@rick.com"
     request.env["cn"] = "Rick Astley"
     request.env["mail"] = "nevergonnagiveyouup@rick.com"
-    request.env["ufrgsVinculo"] = "anything in here"
     request.env["uid"] = "00000000000"
+    request.env["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    # active
+    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    # inactive
+    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Ativo Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico ativo:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
   end
 
 end

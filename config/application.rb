@@ -40,7 +40,7 @@ module Mconf
       Dir[Rails.root.join('config', 'locales', '**', '_*.yml').to_s] +
       Dir[Rails.root.join('config', 'locales', '**', 'mconf.yml').to_s]
     config.i18n.fallbacks = true
-    config.i18n.default_locale = :en
+    config.i18n.default_locale = :"pt-br"
 
     config.generators do |g|
       g.fixture_replacement :factory_girl

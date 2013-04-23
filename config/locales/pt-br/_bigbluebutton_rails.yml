@@ -21,7 +21,7 @@ pt-br:
         server_id: "ID do Servidor"
         start_time: "Tempo de Inicialização"
       bigbluebutton_room: 
-        attendee_password: "Senha de Participante"
+        attendee_password: "Senha de participante"
         dial_number: "Número de discagem"
         duration: Duração
         external: "Criada externamente"
@@ -29,7 +29,7 @@ pt-br:
         max_participants: "Número Máximo de Participantes"
         meetingid: "ID da Reunião"
         metadata: Metadados
-        moderator_password: "Senha de Moderador"
+        moderator_password: "Senha de moderador"
         name: Nome
         param: Identificador
         private: Privado
@@ -71,7 +71,7 @@ pt-br:
         update: 
           success: "Sua gravação foi atualizada com sucesso."
     rooms: 
-      default_welcome_msg: "Bem-vindo(a) à conferência <b>%{name}!</b><br/><br/>Para entrar na conferência de áudio a partir de um telefone SIP, disque %{voice_number}.<br/><br/>Se você precisa ajuda para usar esta aplicação <u><a href=\"http://www.bigbluebutton.org/videos/\">veja estes vídeos</a></u>."
+      default_welcome_msg: "Bem-vindo(a) à conferência <b>%{name}!</b><br/><br/>Para entrar na conferência de áudio a partir de um telefone SIP, disque %{voice_number}.<br/><br/>Se você precisa ajuda para usar esta aplicação <u><a href=\"http://mconf.org/m/ufrgs/documentacao\">veja a documentação</a></u>."
       errors: 
         auth: 
           cannot_create: "Você não tem permissões para iniciar esta reunião."
@@ -80,15 +80,17 @@ pt-br:
           wrong_params: "Parâmetros errados na sua requisição."
         external: 
           blank_meetingid: "Você deve especificar o meetingid da reunião que você deseja ingressar"
+          inexistent_meeting: "A reunião informada não existe neste servidor."
+          wrong_params: "Parâmetros errados na sua requisição."
         param_format: "você pode usar apenas letras, números e os símbolos \"-\" ou \"_\" (não no começo ou fim)"
         server: 
-          nil: "Sua sala deve ser associada a um servidor para executar esta operação."
+          not_set: "Sua sala deve estar associada a um servidor para executar esta operação."
       notice: 
         create: 
           failure: "Sua sala não pôde ser criada."
           success: "Sua sala foi criada com sucesso."
         destroy: 
-          success: "A reunião foi destruída com sucesso."
+          success: "A sala foi destruída com sucesso."
           success_with_bbb_error: "A sala foi destruída com sucesso mas a reunião não foi finalizada no servidor de webconferência (\"%{error}\")"
         end: 
           not_running: "A reunião não pôde ser finalizada pois não está em andamento."

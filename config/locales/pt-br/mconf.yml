@@ -202,7 +202,7 @@ pt-br:
     login: "Logar usando a CAFe"
     login_page: 
       click_here_to_login: "clique aqui para entrar"
-      description: "Teste experimental de acesso ao Mconf via Federação CAFe"
+      description: "Acesso ao Mconf via federação UFRGS"
       more_about_cafe: "Leia mais sobre a CAFe"
     login_tip: "O Mconf é um serviço experimental na federação CAFe. Clique neste botão para logar utilizando a federação."
   calendar: 
@@ -287,7 +287,7 @@ pt-br:
     one: e-mail
     spam_activation: "Se você não se registrou neste site, por favor <a href=\"mailto:%{contact}\"> entre em contato </a> ou nos <a href=\"%{feedback}\"> envie uma mensagem.</a>"
     spam_invitation: "Se você acredita que esta mensagem é um spam, por favor <a href=\"mailto:%{contact}\"> entre em contato </a> ou nos <a href=\"%{feedback}\"> envie uma mensagem.</a>"
-    url_activated: "Você agora pode entrar na sua conta com seu email \"%{name}\" e sua senha em <a href=\"%{url}\"> %{url}</a>"
+    url_activated: "Você agora pode entrar na sua conta com seu cartão e sua senha da UFRGS em: <a href=\"%{url}\"> %{url}</a>"
     used_from: "e-mail usado no formulário de contato: %{dir}"
     welcome: "Bem-vindo(a) a %{sitename}"
   enable: Habilitar
@@ -550,7 +550,7 @@ pt-br:
   find_in: "Pesquisar em:"
   footer: 
     built_on_top_of: "Este site é baseado no <a href=\"https://github.com/ging/vcc\">VCC</a> (Global Plaza)"
-    find_us: "Você pode nos encontrar em"
+    find_us: "Saiba mais em"
     gcode: "Google Code"
     github: GitHub
     website: "Site do Projeto"
@@ -573,6 +573,11 @@ pt-br:
     stats: 
       text: "%{users} usuários, %{spaces} espaços, %{meetings} webconferências ativas"
       title: "Estatísticas atuais:"
+    ufrgs: 
+      accessible_to: "(é necessário código e senha do cartão UFRGS)"
+      click_to_access: "Clique aqui para acessar sua conta"
+      description: "Este website é parte do projeto <a href=\"http://mconf.org\">Mconf</a>, sistema em desenvolvimento no grupo de pesquisa <a href=\"http://www.inf.ufrgs.br/prav\">PRAV</a> da <a href=\"http://www.ufrgs.br\">UFRGS</a> em parceria com a <a href=\"http://www.rnp.br\">RNP</a>. Ele está integrado ao sistema de webconferência <a href=\"http://bigbluebutton.org/\">BigBlueButton</a>. Para mais informações, acesse o website do projeto <a href=\"http://www.inf.ufrgs.br/prav/gtmconf\">clicando aqui</a>."
+      supported_by: "Apoio de"
   getting_started: Começando!
   group: 
     other: "Listas de e-mails"
@@ -873,7 +878,7 @@ pt-br:
     email_or_login: "E-mail ou usuário"
     one: Login
     password: Senha
-  login_or_register: "Login / Registre-se"
+  login_or_register: "Login"
   login_request: "Você precisa estar logado para"
   logo: 
     created: "Logotipo enviado com sucesso"
@@ -1175,8 +1180,9 @@ pt-br:
   shibboleth: 
     create: 
       account_associated: "Sua conta '%{login}' foi associada à sua conta federada! Você agora pode acessar esta conta tanto através da federação quando através de suas credenciais do Mconf."
-      account_created: "Uma nova conta com uma senha aleatória foi criada para você e conectada à sua conta federada. Ambas as contas podem ser usadas para entrar neste site. Você não precisará da sua senha do Mconf para utilizá-lo apenas pela federação, porém, se desejar modificá-la <a href=\"%{url}\">clique aqui</a>."
+      account_created: "Uma nova conta foi criada para você já que esta é sua primeira vez aqui. Bem-vindo(a)!"
       data_error: "Houve um erro tentando acessar suas informações através da federação. Por favor contate-nos para resolver o problema."
+      enrollment_error: "Você não possui um vínculo ativo com a universidade e portanto não pode acessar este serviço."
       existent_email: "Já existe uma conta com o seu e-mail federado (%{email}). Se esta conta é sua, use o formulário abaixo para associá-la à sua conta na federação. Se você tiver problemas você pode nos contatar ou encontrar ajuda na página FAQ."
       invalid_credentials: "Conta ou senha inválida. Por favor, tente novamente."
     login: 

@@ -81,10 +81,11 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.xml
   def new
-    user.openid_identifier = session[:openid_identifier]
+    redirect_to login_path
+    # user.openid_identifier = session[:openid_identifier]
 
     #render :partial => "register" if request.xhr?
-    render :layout => 'application_without_sidebar'
+    # render :layout => 'application_without_sidebar'
   end
 
   # POST /users
@@ -164,6 +165,13 @@ class UsersController < ApplicationController
     else
       respond_to do |format|
         params[:user].delete(:email) # block email changes
+        params[:user].delete(:login) # block login changes
+
+        # block password changes, except for admins
+        unless current_user.superuser
+          params[:user].delete(:password)
+          params[:user].delete(:password_confirmation)
+        end
         if user.update_attributes(params[:user])
           user.tag_with(params[:tags]) if params[:tags]
 
