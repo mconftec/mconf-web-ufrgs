@@ -50,7 +50,7 @@ class SpacesController < ApplicationController
       format.html # index.html.erb
       format.xml { render :xml => @spaces }
       format.js {
-        json = @spaces.to_json(:methods => :user_count, :include => {:logo => { :only => [:height, :width], :methods => :logo_image_path } })
+        json = @spaces.to_json(space_to_json_hash)
         render :json => json, :callback => params[:callback]
       }
       #format.atom
@@ -86,6 +86,10 @@ class SpacesController < ApplicationController
       }
       format.xml  { render :xml => @space }
       format.atom
+      format.js {
+        json = @space.to_json(space_to_json_hash)
+        render :json => json, :callback => params[:callback]
+      }
     end
   end
 
@@ -186,7 +190,7 @@ class SpacesController < ApplicationController
         }
       end
     else
-      if params[:space][:bigbluebutton_room_attributes].blank?
+      unless params[:space][:bigbluebutton_room_attributes].blank?
         params[:space][:bigbluebutton_room_attributes][:id] = @space.bigbluebutton_room.id
       end
       if @space.update_attributes(params[:space])
@@ -294,5 +298,9 @@ class SpacesController < ApplicationController
     else
       @space ||= Space.find_with_param(params[:id])
     end
+  end
+
+  def space_to_json_hash
+    { :methods => :user_count, :include => {:logo => { :only => [:height, :width], :methods => :logo_image_path } } }
   end
 end

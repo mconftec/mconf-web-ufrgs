@@ -7,7 +7,7 @@
 
     // remove accents, swap ñ for n, etc
     var from = "ãàáäâẽèéëêĩìíïîõòóöôũùúüûñçć·/_,:;!";
-    var to   = "aaaaaeeeeeiiiiiooooouuuuuncc-------";
+    var to = "aaaaaeeeeeiiiiiooooouuuuuncc-------";
     for (var i=0, l=from.length ; i<l ; i++) {
       str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     }
@@ -31,7 +31,7 @@
  $('img.tooltip_user_id').qtip({
    content: '<%= escape_javascript(t("tooltip.user_id")) %>',
    position: {adjust: { screen: true }},
-   show:  'mouseover',
+   show: 'mouseover',
    hide: { when: 'mouseout', fixed: true },
    style: 'mystyle'
   });
@@ -39,7 +39,7 @@
  $('img.tooltip_new_password').qtip({
    content: '<%= escape_javascript(t("user.new_password_tip")) %>',
    position: {adjust: { screen: true }},
-   show:  'mouseover',
+   show: 'mouseover',
    hide: { when: 'mouseout', fixed: true },
    style: 'mystyle'
   });
@@ -72,18 +72,19 @@
   <% end %>
 <% end %>
 
-<div><label for="email"><%=t('user.email')%></label><br/>
 <% if f.object.new_record? %>
-  <%= f.text_field :email, :size => 30 %>
+  <div><label for="email"><%=t('user.email') + "*"%></label><br/>
+  <%= f.text_field :email, :size => 30, :required => "required" %>
 <% else %>
+  <div><label for="email"><%=t('user.email')%></label><br/>
   <%= text_field_tag 'name', @user.email, :disabled => true, :size => 30 %>
 <% end %>
 </div>
 
 <% if f.object.new_record? # User is not registered yet, ask for a full_name %>
   <div>
-    <label for="full_name"><%=t('user.full_name')%></label><br/>
-    <%= f.text_field :_full_name %>
+    <label for="full_name"><%=t('user.full_name') + "*"%></label><br/>
+    <%= f.text_field :_full_name, :required => "required" %>
   </div>
 <% end -%>
 
