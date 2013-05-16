@@ -31,6 +31,7 @@ class ShibbolethController < ApplicationController
   # The application should only reach this point after authenticating using Shibboleth
   # The authentication is currently made with the Apache module mod_shib
   def login
+    test_data()
     shib_vars_to_session()
     return unless check_shib_information()
 
@@ -160,13 +161,17 @@ class ShibbolethController < ApplicationController
     if session[:shib_data] && session[:shib_data]["ufrgsVinculo"]
       data = session[:shib_data]["ufrgsVinculo"]
       if data.match(/(^|;)ativo/) # beggining of line or after a ';'
+        logger.info "Shibboleth: user has active enrollment"
         return true
       else
+        logger.info "Shibboleth: user has no active enrollment, ", session[:shib_data]["ufrgsVinculo"]
         flash[:error] = t("shibboleth.create.enrollment_error")
         render 'error', :layout => 'application_without_sidebar'
         false
       end
     else
+      logger.info "Shibboleth: failed to find 'ufrgsVinculo' in the session, " +
+        "data: #{session[:shib_data].inspect}"
       flash[:error] = t("shibboleth.create.data_error")
       render 'error', :layout => 'application_without_sidebar'
       false
