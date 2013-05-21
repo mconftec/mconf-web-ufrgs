@@ -979,7 +979,6 @@ div#manage .user a:hover{text-decoration:underline;}
 
 #footer .about-mconf {
   float: right;
-  margin: 20px 0;
   text-align: center;
   color: #888;
 }
@@ -992,6 +991,12 @@ div#manage .user a:hover{text-decoration:underline;}
   height: 60px;
 }
 
+#footer .languages {
+    border-top: 1px solid #E1EEF5;
+    margin-top: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
 
 /*Inbox*/
 #inbox-wrapper{background:#fff url("../images/dot1.png") repeat-x bottom;}
