@@ -992,10 +992,18 @@ div#manage .user a:hover{text-decoration:underline;}
 }
 
 #footer .languages {
-    border-top: 1px solid #E1EEF5;
-    margin-top: 10px;
-    padding-top: 10px;
-    text-align: center;
+  border-top: 1px solid #E1EEF5;
+  margin-top: 10px;
+  padding-top: 10px;
+  text-align: center;
+}
+
+#footer .links li {
+  display: block;
+}
+
+#footer .links li .icon {
+  float: right;
 }
 
 /*Inbox*/
