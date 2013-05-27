@@ -31,7 +31,6 @@ class ShibbolethController < ApplicationController
   # The application should only reach this point after authenticating using Shibboleth
   # The authentication is currently made with the Apache module mod_shib
   def login
-    test_data()
     shib_vars_to_session()
     return unless check_shib_information()
 
