@@ -188,6 +188,16 @@ ol{list-style-type:decimal;}*/
 #footer ul #trade_mark{font-weight:bold;}
 #footer .icon,#global .icon{margin-bottom:-4px;}
 
+#footer a
+{
+  color: #ddd;
+}
+
+#footer .languages
+{
+  color: #aaa;
+}
+
 #footer {
   width: 980px;
   margin: auto;
@@ -197,9 +207,21 @@ ol{list-style-type:decimal;}*/
   padding: 0;
 }
 
+#footer .links {
+  margin-top: 10px;
+}
+
+#footer .links li {
+  display: block;
+}
+
+#footer .links li .icon {
+  float: right;
+}
+
 #footer .about-mconf {
   float: right;
-  margin: 20px 0;
+  margin: 10px 0;
   text-align: center;
   color: #ccc;
 }

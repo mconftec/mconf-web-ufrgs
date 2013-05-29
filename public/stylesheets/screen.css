@@ -979,6 +979,7 @@ div#manage .user a:hover{text-decoration:underline;}
 
 #footer .about-mconf {
   float: right;
+  margin: 0;
   text-align: center;
   color: #888;
 }
