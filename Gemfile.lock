@@ -5,12 +5,6 @@ GIT
     table_helper (0.2.2)
 
 GIT
-  remote: git://github.com/galetahub/simple-captcha.git
-  revision: b8493942e9a9bb58c58712fa21d41963330da6aa
-  specs:
-    simple_captcha (0.1.1)
-
-GIT
   remote: git://github.com/mconf/attachment_fu.git
   revision: 828ea99a2b6f101f63b5faac7068d2b4ad731e56
   specs:
@@ -26,9 +20,9 @@ GIT
 
 GIT
   remote: git://github.com/mconf/bigbluebutton_rails.git
-  revision: 0d76ee698bc8de66ac2cb94475e40495f154c7a6
+  revision: cc0f34cc52ba85cafaa85e58ff0b9455c18a7984
   specs:
-    bigbluebutton_rails (1.2.0)
+    bigbluebutton_rails (1.3.0.beta1)
       bigbluebutton-api-ruby (~> 1.2.0)
       rails (>= 3.0.0)
 
@@ -189,6 +183,7 @@ GEM
     rcov (0.9.9)
     rdoc (3.12.1)
       json (~> 1.4)
+    recaptcha (0.3.5)
     rspec (2.6.0)
       rspec-core (~> 2.6.0)
       rspec-expectations (~> 2.6.0)
@@ -274,6 +269,7 @@ DEPENDENCIES
   rails-footnotes
   rake (= 0.8.7)
   rcov
+  recaptcha
   rmagick!
   rspec-instafail
   rspec-rails (~> 2.5)
@@ -281,7 +277,6 @@ DEPENDENCIES
   rubyzip
   rvm-capistrano
   shoulda-matchers
-  simple_captcha!
   spork-rails
   sqlite3-ruby
   table_helper!

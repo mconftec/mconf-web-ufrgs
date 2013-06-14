@@ -705,6 +705,8 @@ en:
     view_invite_url: "View URL"
     webconf: 
       configure: Configure
+      end: "Stop the room"
+      enter: "Enter the room"
       invite_people: "Invite other people"
       join_from_mobile: "Join from a mobile device"
       no_recording_options: "A meeting is running, the recording options are not currently available."
@@ -715,7 +717,7 @@ en:
       recording_duration_units: hours
       recording_title: Title
       recording_title_placeholder: "A title for this recording"
-      start: Start!
+      start: "Start the room"
   icalendar: 
     error_import: "An error ocurred while importing the iCalendar."
     import: "Import iCalendar"
@@ -1017,6 +1019,10 @@ en:
   province: Province
   public: Public
   read_more: "Read more"
+  recaptcha: 
+    errors: 
+      recaptcha_unavailable: "Oops, we failed to validate your word verification response (captcha). Please try again."
+      verification_failed: "Word verification response (captcha) is incorrect, please try again."
   received_message_more_machines: "You have received a message from %{user} asking for more machines"
   recent: 
     activity: "Recent activity"
@@ -1173,8 +1179,6 @@ en:
   show_advanced_editor: "Show advanced editor"
   show_list_version_arrows: "show list version >>"
   show_question: Show?
-  simple_captcha: 
-    label: "Insert here the text from the image"
   site: 
     analytics_code: "Analytics Code"
     analytics_code_tip: "Code for your Google Analytics account. Leave it blank to disable. Example: \"UA-12345678-9\""
@@ -1215,7 +1219,13 @@ en:
     smtp_use_tls: "Use TLS in SMTP"
     ssl: SSL
     ssl_tip: "With SSL enabled all the internal links (including pages, images, attachments) will use the protocol https instead of http"
-    timezone: Timezone
+    timezone: "Timezone"
+    use_recaptcha: "Use reCaptcha"
+    use_recaptcha_tip: "Enable the checkbox if you want to use reCaptcha on user registration. Need private and public keys in order to work."
+    recaptcha_private_key: "reCaptcha's Private Key"
+    recaptcha_private_key_tip: "Insert here your private key that reCaptcha's website gave to you."
+    recaptcha_public_key: "reCaptcha's Public Key"
+    recaptcha_public_key_tip: "Insert here your public key that reCaptcha's website gave to you."
   size: Size
   skype: Skype
   source: 
@@ -1228,6 +1238,8 @@ en:
     all: "All spaces"
     allow_public_access: "Allow public access?"
     attendeePW: "edit attendee password"
+    change_name: "Ok"
+    change_name_warning: "Renaming a space will invalidate links previously pointing to it. Are you sure?"
     clic: "Click to edit..."
     clic_logo: "Click to change your logo"
     configuration: "Space configuration"

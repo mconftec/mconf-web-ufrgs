@@ -730,6 +730,8 @@ pt-br:
     view_invite_url: "Ver URL"
     webconf: 
       configure: Configurar
+      end: "Parar a sala"
+      enter: "Entrar na sala"
       invite_people: "Convidar outras pessoas"
       join_from_mobile: "Entrar a partir de um dispositivo móvel"
       no_recording_options: "A sala está em execução, as opções de gravação não estão disponíveis no momento."
@@ -740,7 +742,7 @@ pt-br:
       recording_duration_units: horas
       recording_title: Título
       recording_title_placeholder: "Um título para esta gravação"
-      start: Iniciar!
+      start: "Iniciar a sala"
   icalendar: 
     error_import: "Ocorreu um erro ao importar o iCalendar."
     import: "Importar iCalendar"
@@ -1042,6 +1044,10 @@ pt-br:
   province: Estado
   public: Público
   read_more: "Ler mais"
+  recaptcha: 
+    errors: 
+      recaptcha_unavailable: "Oops, falhamos em validar sua resposta à validação de palavras (captcha). Por favor tente novamente."
+      verification_failed: "Sua resposta para a verificação de palavras (captcha) está incorreta, por favor tente novamente."
   received_message_more_machines: "Você recebeu uma mensagem de %{user} pedindo mais máquinas"
   recent: 
     activity: "Atividades recentes"
@@ -1198,8 +1204,6 @@ pt-br:
   show_advanced_editor: "Exibir editor avançado"
   show_list_version_arrows: "exibir versão em lista >>"
   show_question: Exibir?
-  simple_captcha: 
-    label: "Insira aqui o texto da imagem"
   site: 
     analytics_code: "Código do Google Analytics"
     analytics_code_tip: "Código para sua conta do Google Analytics. Deixe em branco para desabilitar. Exemplo: \"UA-12345678-9\""
@@ -1241,6 +1245,12 @@ pt-br:
     ssl: SSL
     ssl_tip: "Com SSL habilitado todos os links internos (incluindo páginas, imagens, anexos) utilizarão o protocolo https ao invés de http"
     timezone: "Fuso horário"
+    use_recaptcha: "Utilizar reCaptcha"
+    use_recaptcha_tip: "Clique no checkbox para utilizar o reCaptcha no registro de usuários. É necessário que você insira a chave pública e a privada para seu funcionamento correto."
+    recaptcha_private_key: "Chave Privada do reCaptcha"    
+    recaptcha_private_key_tip: "Insira aqui sua chave privada obtida no site do reCaptcha."
+    recaptcha_public_key: "Chave Pública do reCaptcha"
+    recaptcha_public_key_tip: "Insira aqui sua chave pública obtida no site do reCaptcha."
   size: Tamanho
   skype: Skype
   source: 
@@ -1252,6 +1262,8 @@ pt-br:
     all: Comunidades
     allow_public_access: "Permitir acesso público?"
     attendeePW: "editar senha de participante"
+    change_name: "Ok"
+    change_name_warning: "Renomear uma comunidade vai invalidar links gerados previamente para ela. Tem certeza?"
     clic: "Clique para editar..."
     clic_logo: "Clique para mudar o seu logotipo"
     configuration: "Configurações da comunidade"
