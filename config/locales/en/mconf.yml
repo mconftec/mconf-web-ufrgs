@@ -1101,9 +1101,9 @@ en:
       msg1: " prohibited this room from being saved:"
     identification:
       title: "You are accessing the room <span class='room_title'>%{room}</span>, identify yourself"
-      member: "I'm already member of Mconf"
+      member: "I want to access with my UFRGS account"
       next: "Next"
-      not_member: "I'm not member of Mconf yet"
+      not_member: "I want to join as a guest"
     identified:
       title: "You are accessing the room <span class='room_title'>%{room}</span>"
     invite: 

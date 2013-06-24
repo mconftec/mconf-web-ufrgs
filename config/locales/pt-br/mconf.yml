@@ -1126,9 +1126,9 @@ pt-br:
       msg1: " impossibilitaram esta sala de ser salva:"
     identification:
       title: "Você está acessando a sala <span class='room_title'>%{room}</span>, identifique-se"
-      member: "Eu já sou membro do Mconf"
+      member: "Quero entrar com minha conta da UFRGS"
       next: "Avançar"
-      not_member: "Eu não sou membro do Mconf ainda"
+      not_member: "Quero entrar como convidado"
     identified:
       title: "Você está acessando a sala <span class='room_title'>%{room}</span>"
     invite: 

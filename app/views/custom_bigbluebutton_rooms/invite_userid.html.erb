@@ -6,29 +6,12 @@
   <div id="body">
     <div id="left">
       <div class="title"><%= t('rooms.identification.member') %></div>
-      <div class="field">
-        <%= form_tag session_url(:protocol => current_site.protocol, :url => invite_bigbluebutton_room_path(@room)), :class => "login_form" do -%>
-        <div>
-          <label for="login"><%= t('login.email_or_login') %></label><br/>
-          <%= text_field_tag 'login', params[:login] %>
-        </div>
-        <div>
-          <label for="password"><%= t('login.password') %></label><br/>
-          <%= password_field_tag 'password' %>
-        </div>
-      </div>
-        <div class="submit_area">
-          <button type="submit" class="basic_button blue_button"><%=t("login.one")%></button>
-        </div>
-      <% end -%>
       <% if current_site.shib_enabled? %>
         <div id="shib-login">
-          <span><%= t('cafe.login_page.description_small').html_safe %></span>
-          <div class="image">
-            <%= link_to(image_tag("logos/cafe-logo-small.jpg"), shib_login_path) %>
-            <br>
-            <%= link_to(t('cafe.login_page.click_here_to_login'), shib_login_path, :id => "shib_login") %>
-          </div>
+          <a href="/secure?return_to=<%= escape_javascript(request.fullpath) %>" class="btn btn-danger">
+            <%= t('frontpage.ufrgs.click_to_access').html_safe %>
+          </a>
+          <span><%= t('frontpage.ufrgs.accessible_to').html_safe %></span>
         </div>
       <% end %>
     </div>

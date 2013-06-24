@@ -55,7 +55,7 @@ class ShibbolethController < ApplicationController
       logger.info "Shibboleth: user logged in #{token.user.inspect}"
       self.current_agent = token.user
       flash.keep(:success)
-      redirect_to home_path
+      redirect_to params[:return_to] || home_path
     end
   end
 
@@ -129,7 +129,7 @@ class ShibbolethController < ApplicationController
   # If there's a current user redirects to home.
   def check_current_user
     if current_user != Anonymous.current
-      redirect_to home_path
+      redirect_to params[:return_to] || home_path
       return false
     else
       return true
