@@ -532,6 +532,13 @@ en:
   from: From
   frontpage: 
     about: About
+    index:
+      docs:
+        headline: "Read the documentation for this service at (in portuguese):"
+        link_faq: "FAQ: <a href=\"%{url}\">click here</a>"
+        link_index: "General index: <a href=\"%{url}\">click here</a>"
+        link_tutorials: "Tutorials: <a href=\"%{url}\">click here</a>"
+        title: "Documentation"
     join_button: Join
     members: Members
     more_info: "More information..."

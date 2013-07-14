@@ -558,6 +558,13 @@ pt-br:
   from: De
   frontpage: 
     about: Sobre
+    index:
+      docs:
+        headline: "Consulte a documentação deste serviço em:"
+        link_faq: "FAQ: <a href=\"%{url}\">clique aqui</a>"
+        link_index: "Índice geral da documentação: <a href=\"%{url}\">clique aqui</a>"
+        link_tutorials: "Tutoriais: <a href=\"%{url}\">clique aqui</a>"
+        title: "Documentação"
     join_button: Entrar
     members: Membros
     more_info: "Mais informações..."

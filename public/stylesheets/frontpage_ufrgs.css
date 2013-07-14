@@ -301,9 +301,34 @@ html, body, #home {
   border-bottom: none;
 }
 
-#content-core {
+#content-join {
+  float: left;
+  width: 380px;
   padding: 100px 50px;
   text-align: center;
+}
+
+#content-help {
+  float: right;
+  width: 350px;
+  padding: 20px;
+  margin: 45px;
+  font-size: 14px;
+  background: #eee;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+#content-help h3 {
+  margin-bottom: 10px;
+}
+
+#content-help ul {
+  margin-top: 10px;
+}
+#content-help li {
+  margin-top: 3px;
 }
 
 #login-button {
