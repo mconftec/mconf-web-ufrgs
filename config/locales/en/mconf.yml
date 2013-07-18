@@ -12,12 +12,18 @@ en:
   actions: Actions
   activerecord: 
     attributes: 
+      private_message:
+         title: "Title"
+         receiver_id: "Receiver"
+         body: "Body"
       spaces: 
         attendee_password: "Attendee Password"
         moderator_password: "Moderator Password"
     errors: 
       messages: 
         missing: "is missing"
+    models:
+      private_message: "Message"
   address: Address
   admin: 
     one: Admin
@@ -78,6 +84,7 @@ en:
     add: "Add attachment"
     delete: "Delete attachment"
     deleted: "Attachment successfully deleted"
+    created: "Attachment successfully uploaded"
     error: 
       not_deleted: "%{file} not deleted correctly. "
       not_permission: "%{user} cannot delete %{file}. "
@@ -1317,13 +1324,18 @@ en:
     name_none: "A space name must be given to create a new space"
     one: Space
     other: Spaces
-    people_in_conference: 
+    people_in_conference:
       one: "%{count} participant in the room."
       other: "%{count} participant in the room."
+    edit_performances: Edit permissions
     performances:
       user: Member
       admin: Administrator
       invited: Invited
+      tooltips:
+        admin: "Administrators can read and create any content in the space and can also use the administration features, including accepting new users and changing the role of users."
+        invited: "Invited members can read all content from a space, but aren't able to create content (events, messages or documents)."
+        user: "Regular members can read all content and create content (upload documents, create events and comments)."
     possesion: "My Spaces"
     private: "Private spaces"
     public: 

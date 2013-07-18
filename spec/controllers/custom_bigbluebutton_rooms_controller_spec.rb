@@ -128,19 +128,60 @@ describe CustomBigbluebuttonRoomsController do
   end
 
   context "#auth" do
-    # renders a view when unauthorized
-    let(:user) { Factory.create(:user) }
-    let(:room) { Factory.create(:bigbluebutton_room, :private => false) }
-    before {
-      request.env["HTTP_REFERER"] = "/any"
-      controller.should_receive(:bigbluebutton_role) { :password }
-    }
-    before(:each) {
-      login_as(user)
-      post :auth, :id => room.to_param, :user => { }
-    }
-    it { should render_template(:invite) }
-    it { should render_with_layout("application_without_sidebar") }
+    context "template and layout" do
+      # renders a view only when unauthorized
+      let(:user) { Factory.create(:user) }
+      let(:room) { Factory.create(:bigbluebutton_room, :private => false) }
+      before {
+        request.env["HTTP_REFERER"] = "/any"
+        controller.should_receive(:bigbluebutton_role) { :password }
+      }
+      before(:each) {
+        login_as(user)
+        post :auth, :id => room.to_param, :user => { }
+      }
+      it { should render_template(:invite) }
+      it { should render_with_layout("application_without_sidebar") }
+    end
+
+    context do
+      let(:user) { Factory.create(:user) }
+      let(:room) { user.bigbluebutton_room }
+      let(:server) { room.server }
+
+      context "creates the room if the current user is the owner" do
+        before :each do
+          login_as(user)
+          request.env["HTTP_REFERER"] = "/any"
+          BigbluebuttonRoom.stub(:find_by_param) { room }
+
+          # to guide the behavior of #auth, copied from the tests in BigbluebuttonRails
+          room.should_receive(:fetch_is_running?)
+          room.should_receive(:is_running?).and_return(false)
+          room.should_receive(:create_meeting).with(user.name, user.id, anything)
+          room.should_receive(:join_url).and_return("http://test.com/attendee/join")
+        end
+        before(:each) { post :auth, :id => room.to_param, :user => { :password => room.moderator_password, :name => "Any Name" } }
+        it { should respond_with(:redirect) }
+        it { should redirect_to("http://test.com/attendee/join") }
+      end
+
+      context "doesn't create the room if the current user is not the owner" do
+        before :each do
+          another_user = Factory.create(:user)
+          login_as(another_user)
+          request.env["HTTP_REFERER"] = "/any"
+          BigbluebuttonRoom.stub(:find_by_param) { room }
+
+          # to guide the behavior of #auth, copied from the tests in BigbluebuttonRails
+          server.api.stub(:is_meeting_running?) { false }
+        end
+        before(:each) { post :auth, :id => room.to_param, :user => { :password => room.moderator_password, :name => "Any Name" } }
+        it { should respond_with(:unauthorized) }
+        it { should render_template(:invite) }
+        it { should set_the_flash.to(I18n.t('bigbluebutton_rails.rooms.errors.auth.cannot_create')) }
+      end
+    end
   end
 
   context "#index" do

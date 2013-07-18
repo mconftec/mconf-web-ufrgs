@@ -34,6 +34,36 @@ class ApplicationController < ActionController::Base
   # Don't log passwords
   config.filter_parameter :password, :password_confirmation
 
+  # When the user is not authorized to perform an action
+  rescue_from Station::NotAuthorized do |exception|
+
+    # A user trying to view something in a space he doesn't have access will
+    # redirect him to the join request page. But only when trying to view something.
+    if params[:action] == "show" or params[:action] == "index" or params[:action] == "recordings"
+      if params[:space_id]
+        space = Space.find_by_permalink(params[:space_id])
+      elsif params[:controller] == "spaces"
+        space = Space.find_by_permalink(params[:id])
+      end
+    end
+
+    if space
+      redirect_to(new_space_join_request_url(space))
+    else
+      respond_to do |format|
+        format.all do
+          render :text => 'Forbidden',
+                 :status => 403
+        end
+
+        format.html do
+          render(:file => "#{Rails.root.to_s}/public/403.html",
+                 :status => 403)
+        end
+      end
+    end
+  end
+
   # This method calls one from the plugin, to get the Space from params or session
   def space
     @space ||= current_container(:type => :space, :path_ancestors => true)
@@ -105,7 +135,16 @@ class ApplicationController < ActionController::Base
 
   # Overrides 'bigbluebutton_can_create?' in BigbluebuttonRails
   def bigbluebutton_can_create?(room, role)
-    if role == :moderator
+    can_create = false
+    if (room.owner_type == "User" && room.owner.id == current_user.id)
+      can_create = true
+    elsif (room.owner_type == "Space")
+      space = Space.find(room.owner.id)
+      if space.users.include?(current_user)
+        can_create = true
+      end
+    end
+    if can_create
       # if the user cannot record but is a moderator (so he can start the meeting)
       # we make sure the 'record' flag is set to false
       if bigbluebutton_user.nil? or not

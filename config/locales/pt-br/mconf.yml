@@ -10,14 +10,21 @@ pt-br:
   action: 
     other: Ações
   actions: Ações
-  activerecord: 
-    attributes: 
-      spaces: 
+  activerecord:
+    attributes:
+      private_message:
+         title: "Título"
+         receiver_id: "Destinatário"
+         body: "Texto"
+      spaces:
         attendee_password: "Senha de Participante"
         moderator_password: "Senha do Moderador"
-    errors: 
-      messages: 
+    errors:
+      messages:
+        blank: " deve ser incluido"
         missing: "não encontrado"
+    models:
+      private_message: "Mensagem"
   address: Endereço
   admin: 
     one: Administrador
@@ -78,6 +85,7 @@ pt-br:
     add: "Adicionar anexo"
     delete: "Remover anexo"
     deleted: "Anexo removido com sucesso"
+    created: "Anexo criado com sucesso"
     error: 
       not_deleted: "%{file} não removido corretamente."
       not_permission: "%{user} não pode remover o arquivo %{file}"
@@ -1341,13 +1349,18 @@ pt-br:
     name_none: "Um nome deve ser dado para criar uma nova comunidade"
     one: Comunidade
     other: Comunidades
-    people_in_conference: 
+    people_in_conference:
       one: "%{count} participant in the room."
       other: "%{count} participant in the room."
+    edit_performances: Editar permissões
     performances:
       user: Membro
       admin: Administrador
       invited: Convidado
+      tooltips:
+        admin: "Administradores podem ler e editar qualquer conteúdo da comunidade e também utilizar as funcionalidades de administração, incluindo aceitar novos usuários e mudar o papel dos usuários."
+        invited: "Membros convidados podem ler todo o conteúdo de uma comunidade, mas não podem criar conteúdo (eventos, mensagens ou documentos)."
+        user: "Membros podem ler todo o conteúdo de uma comunidade e também criar conteúdo (enviar documentos, criar eventos e comentários)."
     possesion: "Minhas Comunidades"
     private: "Comunidades privadas"
     public: 
