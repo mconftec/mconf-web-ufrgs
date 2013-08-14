@@ -297,6 +297,7 @@ class User < ActiveRecord::Base
   def can_record_meeting?(room=nil, role=nil)
 
     # check if the user is a professor
+    # TODO: use token.data_as_hash
     if !self.shib_token.nil?
       shib_data = self.shib_token.data.split("\n")
       shib_data.each do |x|
@@ -316,5 +317,4 @@ class User < ActiveRecord::Base
     # if not a professor, must be an admin to record
     superuser
   end
-
 end

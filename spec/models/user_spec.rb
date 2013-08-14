@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require "spec_helper"
 
 describe User do
@@ -92,6 +93,64 @@ describe User do
     it { should include(public_space_member.bigbluebutton_room) }
     it { should include(public_space_not_member.bigbluebutton_room) }
     it { should_not include(private_space_not_member.bigbluebutton_room) }
+  end
+
+  describe "#can_record_meeting?" do
+    let(:user) { Factory.create(:user) }
+
+    context "for a normal user" do
+      it { user.can_record_meeting?.should be_false }
+    end
+
+    context "for a superuser" do
+      it { Factory.create(:superuser).can_record_meeting?.should be_true }
+    end
+
+    context "for a user without 'shib_token'" do
+      before { user.shib_token = nil }
+      it { user.can_record_meeting?.should be_false }
+    end
+
+    context "for a user with 'shib_token'" do
+
+      context "without the shib variable 'ufrgsVinculo'" do
+        let(:token) {
+          t = Factory.create(:shib_token, :user => user)
+          t.data = t.data_as_hash.except!("ufrgsVinculo").to_yaml
+          t
+        }
+        before { user.update_attribute("shib_token", token) }
+        it { user.can_record_meeting?.should be_false }
+      end
+
+      context "without an active enrollment" do
+        let(:token) { Factory.create(:shib_token, :user => user) }
+        it { user.can_record_meeting?.should be_false }
+      end
+
+      context "with an active enrollment" do
+        context "but with a role that can't record" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_false }
+        end
+
+        context "as 'Docente'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:2:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+      end
+    end
+
   end
 
 end
