@@ -111,7 +111,8 @@ describe User do
       it { user.can_record_meeting?.should be_false }
     end
 
-    context "for a user with 'shib_token'" do
+    # users with a valid #shib_token
+    context "for a user logged via federation" do
 
       context "without the shib variable 'ufrgsVinculo'" do
         let(:token) {
@@ -133,7 +134,7 @@ describe User do
           let(:token) { Factory.create(:shib_token, :user => user) }
           before {
             data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+            data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
             token.update_attribute("data", data.to_yaml)
           }
           it { user.can_record_meeting?.should be_false }
@@ -143,11 +144,94 @@ describe User do
           let(:token) { Factory.create(:shib_token, :user => user) }
           before {
             data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:2:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+            data["ufrgsVinculo"] = "ativo:2:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
             token.update_attribute("data", data.to_yaml)
           }
           it { user.can_record_meeting?.should be_true }
         end
+
+        context "as 'Técnico-Administrativo'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:1:Técnico-Administrativo:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "as 'Tutor de disciplina'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:21:Tutor de disciplina:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "as 'Funcionário de Fundações da UFRGS'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "as 'Professor visitante'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:10:Professor visitante:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "as 'Colaborador convidado'" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:11:Colaborador convidado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "ignores accents when matching the enrollment" do
+          let(:token) { Factory.create(:shib_token, :user => user) }
+          before {
+            data = token.data_as_hash
+            data["ufrgsVinculo"] = "ativo:12:Funcionario de Fundacoes da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data.to_yaml)
+          }
+          it { user.can_record_meeting?.should be_true }
+        end
+
+        context "with more than one active enrollment" do
+          context "and one allows recording" do
+            let(:token) { Factory.create(:shib_token, :user => user) }
+            before {
+              data = token.data_as_hash
+              data["ufrgsVinculo"] = "ativo:11:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+              token.update_attribute("data", data.to_yaml)
+            }
+            it { user.can_record_meeting?.should be_true }
+          end
+
+          context "but none allows recording" do
+            let(:token) { Factory.create(:shib_token, :user => user) }
+            before {
+              data = token.data_as_hash
+              data["ufrgsVinculo"] = "ativo:11:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+              token.update_attribute("data", data.to_yaml)
+            }
+            it { user.can_record_meeting?.should be_false }
+          end
+        end
+
       end
     end
 

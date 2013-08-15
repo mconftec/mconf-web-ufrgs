@@ -296,18 +296,18 @@ class User < ActiveRecord::Base
   # decided that the user's role in this room is `role`.
   def can_record_meeting?(room=nil, role=nil)
 
-    # check if the user is a professor
-    # TODO: use token.data_as_hash
-    if !self.shib_token.nil?
-      shib_data = self.shib_token.data.split("\n")
-      shib_data.each do |x|
-        if x.match(/ufrgsVinculo/)
-          x = x.gsub("ufrgsVinculo:","")
-          ufrgs_vinculo = x.split(";")
-          ufrgs_vinculo.each do |y|
-            array_vinculo = y.split(":");
-            if !array_vinculo[0].match(/inativo/) && array_vinculo[0].match(/ativo/) && array_vinculo[2].match(/Docente/)
-              return true
+    # check the enrollment of the user in the university
+    unless self.shib_token.nil?
+      data = self.shib_token.data_as_hash
+      data.each do |key, value|
+        if key == "ufrgsVinculo"
+          # value is a string with several "enrollments" in the format as the example below:
+          # 'ativo:2:Tutor de disciplina:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL'
+          enrollments = value.split(";")
+          enrollments.each do |enrollment|
+            enrollment_array = enrollment.split(":")
+            if enrollment_array[0] == "ativo"
+              return true if is_enrollment_allowed_to_record?(enrollment_array[2])
             end
           end
         end
@@ -317,4 +317,22 @@ class User < ActiveRecord::Base
     # if not a professor, must be an admin to record
     superuser
   end
+
+  private
+
+  # TODO: the list of enrollments could come from Site and be configured in the app
+  #       by an admin.
+  def is_enrollment_allowed_to_record?(enrollment)
+    enrollment = I18n.transliterate(enrollment)
+    all_allowed = ["Docente", "Técnico-Administrativo", "Funcionário de Fundações da UFRGS",
+                   "Tutor de disciplina", "Professor visitante", "Colaborador convidado"]
+    all_allowed.each do |allowed|
+      allowed = I18n.transliterate(allowed)
+      if enrollment.match(/#{allowed}/i)
+        return true
+      end
+    end
+    false
+  end
+
 end
