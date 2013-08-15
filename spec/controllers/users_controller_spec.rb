@@ -309,9 +309,9 @@ describe UsersController do
           login_as Factory(:superuser)
         end
         
-        it "should let the user to create a new account" do
+        it "should not let the user create a new account" do
           get :new
-          assert_response 200
+          assert_response 302
         end    
       end
       
@@ -320,17 +320,17 @@ describe UsersController do
           login_as Factory(:user)
         end
         
-        it "should let the user to create a new account" do
+        it "should not let the user create a new account" do
           get :new
-          assert_response 200
+          assert_response 302
         end
         
       end
     end
     describe "if you are not logged in" do
-      it "should let the user to create a new account" do
+      it "should not let the user create a new account" do
         get :new
-        assert_response 200
+        assert_response 302
       end
     end
   end
