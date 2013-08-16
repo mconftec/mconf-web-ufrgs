@@ -96,23 +96,46 @@ describe User do
   end
 
   describe "#can_record_meeting?" do
-    let(:user) { Factory.create(:user) }
-
-    context "for a normal user" do
-      it { user.can_record_meeting?.should be_false }
-    end
 
     context "for a superuser" do
-      it { Factory.create(:superuser).can_record_meeting?.should be_true }
+      let(:user) { Factory.create(:superuser) }
+
+      it "can record when the room is not informed" do
+        user.can_record_meeting?.should be_true
+      end
+
+      it "can record in his room" do
+        user.can_record_meeting?(user.bigbluebutton_room).should be_true
+      end
+
+      it "can record in another user's room" do
+        another = Factory.create(:user)
+        user.can_record_meeting?(another.bigbluebutton_room).should be_true
+      end
+
+      it "can record in a room of a space he belongs to" do
+        space = Factory.create(:space)
+        Factory(:user_performance, :stage => space, :agent => user)
+        user.can_record_meeting?(space.bigbluebutton_room).should be_true
+      end
+
+      it "can record in a room of a space he does not belongs to" do
+        space = Factory.create(:space)
+        user.can_record_meeting?(space.bigbluebutton_room).should be_true
+      end
     end
 
-    context "for a user without 'shib_token'" do
+    context "for a normal user" do
+      let(:user) { Factory.create(:user) }
+      # cannot record, ever, because he has no enrollment set
       before { user.shib_token = nil }
       it { user.can_record_meeting?.should be_false }
+      it { user.can_record_meeting?(user.bigbluebutton_room).should be_false }
     end
 
     # users with a valid #shib_token
-    context "for a user logged via federation" do
+    context "for a normal user logged via federation" do
+      let(:user) { Factory.create(:user) }
 
       context "without the shib variable 'ufrgsVinculo'" do
         let(:token) {
@@ -122,11 +145,13 @@ describe User do
         }
         before { user.update_attribute("shib_token", token) }
         it { user.can_record_meeting?.should be_false }
+        it { user.can_record_meeting?(user.bigbluebutton_room).should be_false }
       end
 
       context "without an active enrollment" do
         let(:token) { Factory.create(:shib_token, :user => user) }
         it { user.can_record_meeting?.should be_false }
+        it { user.can_record_meeting?(user.bigbluebutton_room).should be_false }
       end
 
       context "with an active enrollment" do
@@ -138,66 +163,45 @@ describe User do
             token.update_attribute("data", data.to_yaml)
           }
           it { user.can_record_meeting?.should be_false }
+          it { user.can_record_meeting?(user.bigbluebutton_room).should be_false }
         end
 
-        context "as 'Docente'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:2:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
-        end
+        ["Docente", "Técnico-Administrativo", "Funcionário de Fundações da UFRGS",
+         "Tutor de disciplina", "Professor visitante", "Colaborador convidado"].each do |enrollment|
 
-        context "as 'Técnico-Administrativo'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:1:Técnico-Administrativo:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
-        end
+          context "as '#{enrollment}'" do
+            let(:token) { Factory.create(:shib_token, :user => user) }
+            before {
+              data = token.data_as_hash
+              data["ufrgsVinculo"] = "ativo:2:#{enrollment}:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data.to_yaml)
+            }
 
-        context "as 'Tutor de disciplina'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:21:Tutor de disciplina:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
-        end
+            it "can record when the room is not informed" do
+              user.can_record_meeting?.should be_true
+            end
 
-        context "as 'Funcionário de Fundações da UFRGS'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
-        end
+            it "can record in his room" do
+              user.can_record_meeting?(user.bigbluebutton_room).should be_true
+            end
 
-        context "as 'Professor visitante'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:10:Professor visitante:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
-        end
+            it "cannot record in another user's room" do
+              another = Factory.create(:user)
+              user.can_record_meeting?(another.bigbluebutton_room).should be_false
+            end
 
-        context "as 'Colaborador convidado'" do
-          let(:token) { Factory.create(:shib_token, :user => user) }
-          before {
-            data = token.data_as_hash
-            data["ufrgsVinculo"] = "ativo:11:Colaborador convidado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
-            token.update_attribute("data", data.to_yaml)
-          }
-          it { user.can_record_meeting?.should be_true }
+            it "can record in a room of a space he belongs to" do
+              space = Factory.create(:space)
+              Factory(:user_performance, :stage => space, :agent => user)
+              user.can_record_meeting?(space.bigbluebutton_room).should be_true
+            end
+
+            it "cannot record in a room of a space he does not belongs to" do
+              space = Factory.create(:space)
+              user.can_record_meeting?(space.bigbluebutton_room).should be_false
+            end
+          end
+
         end
 
         context "ignores accents when matching the enrollment" do
@@ -235,6 +239,34 @@ describe User do
       end
     end
 
+  end
+
+  describe "#is_moderator?" do
+    let(:user) { Factory.create(:user) }
+
+    it "false if the room is not informed" do
+      user.is_moderator?.should be_false
+    end
+
+    it "true for his room" do
+      user.is_moderator?(user.bigbluebutton_room).should be_true
+    end
+
+    it "false for another user's room" do
+      another = Factory.create(:user)
+      user.is_moderator?(another.bigbluebutton_room).should be_false
+    end
+
+    it "false for a room of a space he belongs to" do
+      space = Factory.create(:space)
+      Factory(:user_performance, :stage => space, :agent => user)
+      user.is_moderator?(space.bigbluebutton_room).should be_true
+    end
+
+    it "false for a room of a space he does not belongs to" do
+      space = Factory.create(:space)
+      user.is_moderator?(space.bigbluebutton_room).should be_false
+    end
   end
 
 end

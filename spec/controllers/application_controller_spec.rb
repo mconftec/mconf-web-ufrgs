@@ -56,5 +56,6 @@ describe ApplicationController do
       end
     end
 
+    it "if the user is not allowed to record, sets the record flag as false"
   end
 end

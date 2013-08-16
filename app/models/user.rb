@@ -292,11 +292,44 @@ class User < ActiveRecord::Base
     rooms
   end
 
-  # Returns whether this user can record a meeting in `room` or not after BigbluebuttonRails
-  # decided that the user's role in this room is `role`.
-  def can_record_meeting?(room=nil, role=nil)
+  # Returns whether this user can record a meeting in `room` or not.
+  def can_record_meeting?(room=nil)
 
-    # check the enrollment of the user in the university
+    # superusers can record any room
+    # if room is not set, can record if the enrollment allows it
+    # otherwise, can record if the enrollment allows it and the user is a moderator in the room
+    allowed = has_enrollment_allowed_to_record?
+    superuser or
+      (room.nil? and allowed) or
+      (is_moderator?(room) and allowed)
+  end
+
+  # Returns whether the user is a moderator in the BigbluebuttonRoom 'room'.
+  # True is the user is either the owner of a user's room or a member of the space
+  # to which the room belongs.
+  def is_moderator?(room=nil)
+    if room.nil?
+      false
+    else
+      if room.owner_type == "User" and room.owner.id == self.id
+        true
+      elsif room.owner_type == "Space"
+        space = Space.find(room.owner.id)
+        if space.users.include?(self)
+          true
+        else
+          false
+        end
+      else
+        false
+      end
+    end
+  end
+
+  private
+
+  # Returns whether the user has an enrollment allowed to record meetings.
+  def has_enrollment_allowed_to_record?
     unless self.shib_token.nil?
       data = self.shib_token.data_as_hash
       data.each do |key, value|
@@ -313,13 +346,10 @@ class User < ActiveRecord::Base
         end
       end
     end
-
-    # if not a professor, must be an admin to record
-    superuser
+    false
   end
 
-  private
-
+  # Returns whether a enrollment (a string, such as "Docente") is permitted to record meetings.
   # TODO: the list of enrollments could come from Site and be configured in the app
   #       by an admin.
   def is_enrollment_allowed_to_record?(enrollment)

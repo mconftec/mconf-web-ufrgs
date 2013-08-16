@@ -293,11 +293,13 @@ class ShibbolethController < ApplicationController
     request.env["cn"] = "Rick Astley"
     request.env["mail"] = "nevergonnagiveyouup@rick.com"
     request.env["uid"] = "00000000000"
-    request.env["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
-    # active
-    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    request.env["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+    # active that can record
+    # request.env["ufrgsVinculo"] = "ativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+    # active that cannot record
+    # request.env["ufrgsVinculo"] = "ativo:12:Aluno de mestrado acadêmico:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
     # inactive
-    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Ativo Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:6:Aluno de mestrado acadêmico ativo:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+    # request.env["ufrgsVinculo"] = "inativo:12:Funcionário de Fundações da UFRGS:1:Instituto de Ativo Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
   end
 
 end
