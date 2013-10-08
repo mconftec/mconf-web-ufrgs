@@ -218,7 +218,7 @@ class ShibbolethController < ApplicationController
       "trying field #{current_site.shib_email_field} " +
       "in #{session[:shib_data].inspect}" if email.nil?
     email = email.clone unless email.nil?
-    email.clone
+    email
   end
 
   # Returns the shibboleth user name from the data stored in the session.
@@ -232,7 +232,7 @@ class ShibbolethController < ApplicationController
       "trying field #{current_site.shib_name_field} " +
       "in #{session[:shib_data].inspect}" if name.nil?
     name = name.clone unless name.nil?
-    name.clone
+    name
   end
 
   # Returns the shibboleth login from the data stored in the session.
@@ -246,7 +246,7 @@ class ShibbolethController < ApplicationController
       "trying field #{current_site.shib_login_field} " +
       "in #{session[:shib_data].inspect}" if login.nil?
     login = login.clone unless login.nil?
-    login.clone
+    login
   end
 
   # Returns the shibboleth data stored in the session.
