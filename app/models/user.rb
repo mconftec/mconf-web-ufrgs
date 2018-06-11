@@ -455,12 +455,13 @@ class User < ActiveRecord::Base
         if enrollment_to_match.match(/#{Regexp.quote(allowed)}/i)
           return true
         end
+      end
 
-        if enrollment.match(/aluno/i) && (room.owner_type == Space.name && room.owner.admins.include?(self))
-          return true
-        end
+      if enrollment.match(/aluno/i) && (room.owner_type == Space.name && room.owner.admins.include?(self))
+        return true
       end
     end
+
     false
   end
 end

@@ -313,7 +313,7 @@ describe BigbluebuttonRoom do
               data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
               token.update_attribute("data", data)
             }
-            it { should_not be_able_to(:record_meeting, target) }
+            it { should be_able_to(:record_meeting, target) }
           end
 
           context "enrollment aluno and have permission to record" do
