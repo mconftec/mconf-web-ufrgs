@@ -116,6 +116,8 @@ describe BigbluebuttonRoom do
 
     context "a normal user", :user => "normal" do
       let(:user) { FactoryGirl.create(:user) }
+      let(:space) { FactoryGirl.create(:space_with_associations)}
+      let(:token) { FactoryGirl.create(:shib_token, :user => user) }
 
       context "in his own room" do
         let(:target) { user.bigbluebutton_room }
@@ -126,6 +128,26 @@ describe BigbluebuttonRoom do
 
         context "with permission to record" do
           before { user.update_attributes(:can_record => true) }
+          it { should be_able_to(:record_meeting, target) }
+        end
+
+        context "enrollment aluno with no permission to record" do
+          before {
+            data = token.data
+            data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data)
+            user.update_attributes(:can_record => false)
+          }
+          it { should_not be_able_to(:record_meeting, target) }
+        end
+
+        context "enrollment aluno with permission to record" do
+          before {
+            data = token.data
+            data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+            token.update_attribute("data", data)
+            user.update_attributes(:can_record => true)
+          }
           it { should be_able_to(:record_meeting, target) }
         end
 
@@ -146,7 +168,7 @@ describe BigbluebuttonRoom do
 
       context "in another user's room" do
         let(:another_user) { FactoryGirl.create(:user) }
-        let(:target) { another_user.bigbluebutton_room }
+        let(:target) { another_user.bigbluebutton_room}
         let(:allowed) { [:invite, :invite_userid, :running, :join, :join_mobile] }
         it { should_not be_able_to_do_anything_to(target).except(allowed) }
 
@@ -166,7 +188,6 @@ describe BigbluebuttonRoom do
           it { should_not be_able_to(:record_meeting, target) }
         end
       end
-
       context "in a public space" do
         let(:space) { FactoryGirl.create(:space_with_associations, public: true) }
         let(:target) { space.bigbluebutton_room }
@@ -179,6 +200,7 @@ describe BigbluebuttonRoom do
             before { user.update_attributes(:can_record => true) }
             it { should_not be_able_to(:record_meeting, target) }
           end
+
 
           context "when the owner is disabled" do
             before { target.owner.disable }
@@ -195,6 +217,41 @@ describe BigbluebuttonRoom do
             before { set_active_enrollment_on_shib_token(token) }
             it { should_not be_able_to(:record_meeting, target) }
           end
+
+          context "enrollment aluno not a member of the space" do
+            before {
+              user.update_attributes(:can_record => false)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should_not be_able_to(:record_meeting, target) }
+          end
+
+          context "enrollment aluno and a member of the space" do
+            let(:user) { FactoryGirl.create(:user) }
+            before {
+              space.add_member!(user)
+              user.update_attributes(:can_record => false)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should_not be_able_to(:record_meeting, target) }
+          end
+
+          context "enrollment aluno and an admin of the space" do
+            let(:user) { FactoryGirl.create(:user) }
+            before {
+              space.add_member!(user, "Admin")
+              user.update_attributes(:can_record => true)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should be_able_to(:record_meeting, target) }
+          end
+
         end
 
         context "he belongs to" do
@@ -247,6 +304,26 @@ describe BigbluebuttonRoom do
           context "when the owner is disabled" do
             before { target.owner.disable }
             it { should_not be_able_to_do_anything_to(target) }
+          end
+
+          context "enrollment aluno and do not have permission to record" do
+            before {
+              user.update_attributes(:can_record => false)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should be_able_to(:record_meeting, target) }
+          end
+
+          context "enrollment aluno and have permission to record" do
+            before {
+              user.update_attributes(:can_record => true)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should be_able_to(:record_meeting, target) }
           end
         end
       end
@@ -277,6 +354,28 @@ describe BigbluebuttonRoom do
             before { set_active_enrollment_on_shib_token(token) }
             it { should_not be_able_to(:record_meeting, target) }
           end
+
+          context "enrollment aluno and have permission to record" do
+            let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+            before {
+              user.update_attributes(:can_record => true)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data) }
+            it { should_not be_able_to(:record_meeting, target) }
+          end
+
+          context "enrollment aluno and do not have permission to record" do
+            let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+            before {
+              user.update_attributes(:can_record => false)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data) }
+            it { should_not be_able_to(:record_meeting, target) }
+          end
+
+
         end
 
         context "he belongs to" do
@@ -317,6 +416,26 @@ describe BigbluebuttonRoom do
             before { set_active_enrollment_on_shib_token(token) }
             it { should be_able_to(:record_meeting, target) }
           end
+
+          context "enrollment aluno and have permission to record" do
+            before {
+              user.update_attributes(:can_record => true)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should be_able_to(:record_meeting, target) }
+          end
+
+         context "enrollment aluno and do not have permission to record" do
+            before {
+              user.update_attributes(:can_record => false)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should_not be_able_to(:record_meeting, target) }
+          end
         end
 
         context "he belongs to and is an admin" do
@@ -332,6 +451,15 @@ describe BigbluebuttonRoom do
               user.update_attributes(:can_record => true)
             }
             it { should_not be_able_to_do_anything_to(target) }
+          end
+          context "is an admin but do not have permission to record" do
+            before {
+              user.update_attributes(:can_record => true)
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+              token.update_attribute("data", data)
+            }
+            it { should be_able_to(:record_meeting, target) }
           end
         end
       end
