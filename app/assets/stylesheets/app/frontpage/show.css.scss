@@ -155,3 +155,12 @@ $login-width: $contents-width - ($docs-width + 140px + 20px);
     }
   }
 }
+
+#news {
+  margin: 15px auto;
+  max-width: 1300px;
+
+  div {
+    margin-bottom: 8px;
+  }
+}
