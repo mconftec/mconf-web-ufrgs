@@ -6,8 +6,8 @@
 @import "app/application/footer_simple";
 
 $navbar-height: auto;
-$docs-width: $contents-width / 2 - 140px - 20px;
-$login-width: $contents-width - ($docs-width + 140px + 20px);
+$docs-width: $contents-width / 2 - 40px;
+$login-width: $contents-width - ($docs-width + 40px);
 
 #navbar-wrapper {
   background: $ufrgs-blue-dark;
@@ -135,7 +135,7 @@ $login-width: $contents-width - ($docs-width + 140px + 20px);
   float: left;
   width: $docs-width;
   padding: 20px;
-  margin: 50px;
+  margin: 50px 0;
   background: #eee;
   @include border-radius(5px);
   @include font-size($font-medium);

@@ -18,31 +18,6 @@
 - content_for :page_header do
   = image_tag "ufrgs/logo.jpg", :size => "160x127", :class => "logo-ufrgs"
 
-
-#news.alert.alert-gray
-  %div
-    %strong= "ATENÇÃO: Mconf indisponível dia 31 de julho de 2018 no turno da manhã."
-  %div
-    = "A Secretaria de Educação a Distância (SEAD) informa que no dia "
-    %strong= "31 de julho de 2017, das 8h às 12h,"
-    = "ocorrerá uma atualização do serviço de webconferência Mconf da UFRGS. Durante esse período, os usuários não terão acesso ao ambiente, pois ele ficará indisponível para a utilização."
-  %div= "A mudança tem como objetivo qualificar o tal sistema através da implementação de melhorias propostas pelos usuários, tais como monitoramento de qualidade de rede, disponibilização de sala de apoio, legendas em tempo real, novo compartilhamento de tela e discagem e recebimento de chamadas de dispositivos SIP, entre outras."
-  %div
-    = "A migração da plataforma é executada pelo Centro de Processamentos de Dados "
-    = ("(" + link_to("CPD", "http://www.ufrgs.br/cpd/") + ")").html_safe
-    = " e pela Mconf Tecnologia Ltda., parceira do Instituto de Informática da UFRGS."
-  %div
-    = "Maiores esclarecimentos e demais informações poderão ser obtidas através do e-mail "
-    = link_to("suporte.pedagogico@sead.ufrgs.br", "mailto:suporte.pedagogico@sead.ufrgs.br") + "."
-  %div
-    = "E para conhecer o funcionamento do sistema de webconferência Mconf, disponibilizou-se um "
-    = link_to "curso", "https://lumina.ufrgs.br/course/view.php?id=15"
-    = " na plataforma Lúmina: "
-    = link_to("https://lumina.ufrgs.br/course/view.php?id=15", "https://lumina.ufrgs.br/course/view.php?id=15") + "."
-    = "Outras informações como tutoriais e mais informações sobre as novidades podem ser obtidas em: "
-    = link_to("https://mconf.ufrgs.br", "https://mconf.ufrgs.br") + "."
-
-
 #content
 
   %h1#content-title
@@ -59,10 +34,11 @@
     %span= t(".docs.headline")
     %ul
       %li
-        = t(".docs.link_index", :url => "https://www1.ufrgs.br/catalogoti/servicos/servico?servico=13").html_safe
-      %li
-        = t(".docs.link_tutorials", :url => "https://www.ufrgs.br/documentacaoti/mconf-tutorial-de-uso/").html_safe
-      %li
-        = t(".docs.link_moodle", :url => "https://moodle.ufrgs.br/suporte/assets/manual/Guia_do_Professor_Moodle_29.pdf").html_safe
-      %li
         = t(".docs.link_lumina", :url => "https://lumina.ufrgs.br/course/view.php?id=15").html_safe
+      %li
+        = t(".docs.link_tips", :url => "https://lumina.ufrgs.br/pluginfile.php/19131/mod_resource/content/3/1%20M1%201%20Como%20acessar%20o%20Mconf.pdf").html_safe
+      %li
+        = t(".docs.link_tutorials_1_1", :url => "https://chasquebox.ufrgs.br/data/public/aed39f.php").html_safe
+        = t(".docs.link_tutorials_1_1_desc").html_safe
+      %li
+        = t(".docs.link_details", :url => "https://www1.ufrgs.br/catalogoti/servicos/servico?servico=13").html_safe
