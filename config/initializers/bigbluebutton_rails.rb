@@ -123,4 +123,13 @@ Rails.application.config.to_prepare do
       where.not(id: BigbluebuttonPlaybackFormat.select(:recording_id).distinct)
     }
   end
+
+
+  BigbluebuttonRails.instance_eval do
+    # Overrides use_mobile_client function in BigbluebuttonRails to always returns false.
+    # The mobile browser verification is unecessary once HTML5 is enable.
+    def self.use_mobile_client?(browser=nil)
+      false
+    end
+  end
 end
