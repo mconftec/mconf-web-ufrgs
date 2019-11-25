@@ -1,0 +1,143 @@
+version: '2'
+services:
+
+  dev:
+    container_name: mconf_web_ufrgs_dev
+    image: mconf_web_ufrgs_dev:dev
+    build: .
+    tty: true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - dev_db
+      - dev_redis
+    environment:
+      - MCONF_REDIS_HOST=dev_redis
+      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
+      - MCONF_DATABASE_DEV_HOST=dev_db
+      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
+      - MCONF_DATABASE_DEV_USERNAME=mconf
+      - MCONF_DATABASE_DEV_PASSWORD=mconf
+      - RAILS_ENV=development
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "rm -f tmp/pids/server.pid && rake db:create db:migrate && rails s -p3000"
+  dev_db:
+    container_name: mconf_web_ufrgs_dev_db
+    image: mysql:5.6
+    expose:
+      - "3306"
+    volumes:
+      - ~/.docker-volumes/mconf-web-ufrgs/dev/mysql/:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mconf
+      - MYSQL_DATABASE=mconf_web_ufrgs_dev
+      - MYSQL_USER=mconf
+      - MYSQL_PASSWORD=mconf
+  dev_redis:
+    container_name: mconf_web_ufrgs_dev_redis
+    image: redis:3.2
+    expose:
+      - "6379"
+    command: redis-server --requirepass "XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE"
+
+
+  #
+  # Mailcatcher and its dependencies to test emails in development
+  #
+
+  dev_mailer:
+    container_name: mconf_web_ufrgs_dev_mailer
+    image: mconf_web_ufrgs_dev:dev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+    depends_on:
+      - dev_resque_worker
+      - dev_resque_scheduler
+    environment:
+      - MCONF_REDIS_HOST=dev_redis
+      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
+      - MCONF_DATABASE_DEV_HOST=dev_db
+      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
+      - MCONF_DATABASE_DEV_USERNAME=mconf
+      - MCONF_DATABASE_DEV_PASSWORD=mconf
+      - RAILS_ENV=development
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "mailcatcher --ip=0.0.0.0 -f"
+
+  dev_resque_worker:
+    container_name: mconf_web_ufrgs_dev_resque_worker
+    image: mconf_web_ufrgs_dev:dev
+    depends_on:
+      - dev_db
+      - dev_redis
+    environment:
+      - MCONF_REDIS_HOST=dev_redis
+      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
+      - MCONF_DATABASE_DEV_HOST=dev_db
+      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
+      - MCONF_DATABASE_DEV_USERNAME=mconf
+      - MCONF_DATABASE_DEV_PASSWORD=mconf
+      - RAILS_ENV=development
+      - QUEUE=*
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "rake resque:work"
+
+  dev_resque_scheduler:
+    container_name: mconf_web_ufrgs_dev_resque_scheduler
+    image: mconf_web_ufrgs_dev:dev
+    depends_on:
+      - dev_db
+      - dev_redis
+    environment:
+      - MCONF_REDIS_HOST=dev_redis
+      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
+      - MCONF_DATABASE_DEV_HOST=dev_db
+      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
+      - MCONF_DATABASE_DEV_USERNAME=mconf
+      - MCONF_DATABASE_DEV_PASSWORD=mconf
+      - RAILS_ENV=development
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "rake resque:scheduler"
+
+
+  test:
+    container_name: mconf_web_ufrgs_test
+    build: .
+    tty: true
+    depends_on:
+      - test_db
+      - test_redis
+    environment:
+      - MCONF_REDIS_HOST=test_redis
+      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
+      - MCONF_DATABASE_TEST_HOST=test_db
+      - MCONF_DATABASE_TEST_NAME=mconf_web_ufrgs_test
+      - MCONF_DATABASE_TEST_USERNAME=mconf
+      - MCONF_DATABASE_TEST_PASSWORD=mconf
+      - RAILS_ENV=test
+    volumes:
+      - ./:/usr/src/app
+    command: bash -c "rake"
+  test_db:
+    container_name: mconf_web_ufrgs_test_db
+    image: mysql:5.6
+    expose:
+      - "3306"
+    volumes:
+      - ~/.docker-volumes/mconf-web-ufrgs/test/mysql/:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mconf
+      - MYSQL_DATABASE=mconf_web_ufrgs_test
+      - MYSQL_USER=mconf
+      - MYSQL_PASSWORD=mconf
+  test_redis:
+    container_name: mconf_web_ufrgs_test_redis
+    image: redis:3.2
+    expose:
+      - "6379"
+    command: redis-server --requirepass "XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE"
