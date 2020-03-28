@@ -11,10 +11,7 @@ pt-br:
       description: "Este website é parte do projeto <a href=\"http://mconf.org\">Mconf</a>, sistema em desenvolvimento no grupo de pesquisa <a href=\"http://www.inf.ufrgs.br/prav\">PRAV</a> da <a href=\"http://www.ufrgs.br\">UFRGS</a> em parceria com a <a href=\"http://www.rnp.br\">RNP</a>. Ele está integrado ao sistema de webconferência <a href=\"http://bigbluebutton.org/\">BigBlueButton</a>. Para mais informações, acesse o website do projeto <a href=\"http://www.inf.ufrgs.br/prav/gtmconf\">clicando aqui</a>."
       docs:
         headline: "Consulte a documentação deste serviço em:"
-        link_lumina: "<a href=\"%{url}\">Curso do Mconf na plataforma Lumina</a>"
-        link_tips: "<a href=\"%{url}\">Como acessar o Mconf (dicas básicas - detalhes no curso)</a>"
-        link_tutorials_1_1: "<a href=\"%{url}\">Tutorial das novas características do Mconf versão 1.1</a>"
-        link_tutorials_1_1_desc: "(a partir de 1 de agosto de 2018)"
+        link_tutorial: "<a href=\"%{url}\">Tutorial de uso do Mconf na UFRGS</a>"
         link_details: "<a href=\"%{url}\">Detalhes do serviço na UFRGS</a>"
         title: "Documentação"
       service_name: "Serviço de Webconferência"

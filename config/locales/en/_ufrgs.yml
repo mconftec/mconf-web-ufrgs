@@ -11,10 +11,7 @@ en:
       description: "This website is part of the project <a href=\"http://mconf.org\">Mconf</a>, currently being developed in the research group <a href=\"http://www.inf.ufrgs.br/prav\">PRAV</a> from <a href=\"http://www.ufrgs.br\">UFRGS</a> in partnership with <a href=\"http://www.rnp.br\">RNP</a>. It is integrated with the webconference system <a href=\"http://bigbluebutton.org/\">BigBlueButton</a>. For more information, access the project website <a href=\"http://www.inf.ufrgs.br/prav/gtmconf\">clicking here</a>."
       docs:
         headline: "Read the documentation for this service at (in portuguese):"
-        link_lumina: "<a href=\"%{url}\">Mconf course on Lumina</a>"
-        link_tips: "<a href=\"%{url}\">How to access Mconf (basic tips - details in the course)</a>"
-        link_tutorials_1_1: "<a href=\"%{url}\">Tutorial with the new features of Mconf 1.1</a>"
-        link_tutorials_1_1_desc: "(since August 1st 2018)"
+        link_tutorial: "<a href=\"%{url}\">Tutorial guide</a>"
         link_details: "<a href=\"%{url}\">Details of the service at UFRGS</a>"
         title: "Documentation"
       service_name: "Web Conference Service"
