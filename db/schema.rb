@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410150551) do
+ActiveRecord::Schema.define(version: 20200328223742) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20170410150551) do
     t.boolean  "notified"
   end
 
+  add_index "activities", ["key"], name: "activities_key_IDX", using: :btree
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170410150551) do
   end
 
   add_index "bigbluebutton_meetings", ["meetingid", "create_time"], name: "index_bigbluebutton_meetings_on_meetingid_and_create_time", unique: true, using: :btree
+  add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "bigbluebutton_meetings_room_id_IDX", using: :btree
 
   create_table "bigbluebutton_metadata", force: true do |t|
     t.integer  "owner_id"
@@ -71,6 +73,8 @@ ActiveRecord::Schema.define(version: 20170410150551) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "bigbluebutton_metadata", ["owner_id", "owner_type", "name"], name: "bigbluebutton_metadata_owner_id_IDX", using: :btree
 
   create_table "bigbluebutton_playback_formats", force: true do |t|
     t.integer  "recording_id"
@@ -151,6 +155,7 @@ ActiveRecord::Schema.define(version: 20170410150551) do
   end
 
   add_index "bigbluebutton_rooms", ["meetingid"], name: "index_bigbluebutton_rooms_on_meetingid", unique: true, using: :btree
+  add_index "bigbluebutton_rooms", ["param"], name: "bigbluebutton_rooms_param_IDX", using: :btree
   add_index "bigbluebutton_rooms", ["server_id"], name: "index_bigbluebutton_rooms_on_server_id", using: :btree
 
   create_table "bigbluebutton_server_configs", force: true do |t|
@@ -286,6 +291,9 @@ ActiveRecord::Schema.define(version: 20170410150551) do
     t.datetime "updated_at"
   end
 
+  add_index "permissions", ["user_id", "subject_type", "subject_id"], name: "permissions_user_id_IDX_02", using: :btree
+  add_index "permissions", ["user_id", "subject_type"], name: "permissions_user_id_IDX", using: :btree
+
   create_table "posts", force: true do |t|
     t.string   "title"
     t.text     "text"
@@ -318,6 +326,8 @@ ActiveRecord::Schema.define(version: 20170410150551) do
     t.string  "full_name"
     t.string  "logo_image"
   end
+
+  add_index "profiles", ["user_id"], name: "profiles_user_id_IDX", using: :btree
 
   create_table "roles", force: true do |t|
     t.string "name"
@@ -478,6 +488,7 @@ ActiveRecord::Schema.define(version: 20170410150551) do
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+  add_index "users", ["disabled"], name: "users_disabled_IDX", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
