@@ -376,30 +376,32 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Returns the user's role/enrollment.
+  # Returns the user's first role/enrollment.
   def enrollment
-    unless self.shib_token.nil?
+    enrollments.first
+  end
+
+  # Returns all active roles/enrollments
+  def enrollments
+    result = []
+    if self.shib_token.present?
       data = self.shib_token.data
-      data.each do |key, value|
-        if key == "ufrgsVinculo"
-          # value is a string with several "enrollments" in the format as the example below:
-          # 'ativo:2:Tutor de disciplina:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL'
-          enrollments = value.split(";")
-          enrollments.each do |enrollment|
-            enrollment_array = enrollment.split(":")
-            if enrollment_array[0] == "ativo"
-              return enrollment_array[2]
-            end
-          end
+      value = data['ufrgsVinculo']
+      if value.present?
+        # value is a string with several "enrollments" in the format as the example below:
+        # 'ativo:2:Tutor de disciplina:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL'
+        value.split(";").each do |enrollment|
+          enrollment_a = enrollment.split(":")
+          result << enrollment_a[2] if enrollment_a[0] == 'ativo'
         end
       end
     end
-    nil
+    result
   end
 
   # Returns whether the user has a role allowed to record meetings.
   def has_enrollment_allowed_to_record?(room)
-    is_enrollment_allowed_to_record?(enrollment, room)
+    enrollments.map { |e| is_enrollment_allowed_to_record?(e, room) }.any?
   end
 
   protected

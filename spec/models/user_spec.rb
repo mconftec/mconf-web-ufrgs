@@ -1181,7 +1181,6 @@ describe User do
   end
 
   describe "#enrollment" do
-
     context "for a user without shibboleth information" do
       let(:user) { FactoryGirl.create(:user) }
       before { user.shib_token = nil }
@@ -1238,8 +1237,64 @@ describe User do
     end
   end
 
-  describe "#has_enrollment_allowed_to_record?" do
+  describe "#enrollments" do
+    context "for a user without shibboleth information" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { user.shib_token = nil }
+      it { user.enrollments.should eql([]) }
+    end
 
+    context "for a user logged via federation" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      context "without the shib variable 'ufrgsVinculo'" do
+        let(:token) {
+          t = FactoryGirl.create(:shib_token, :user => user)
+          t.data = t.data.except!("ufrgsVinculo")
+          t
+        }
+        before { user.update_attribute("shib_token", token) }
+        it { user.enrollments.should eql([]) }
+      end
+
+      context "without an active enrollment" do
+        let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+        it { user.enrollments.should eql([]) }
+      end
+
+      context "with a blank enrollment" do
+        let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+        before {
+          data = token.data
+          data["ufrgsVinculo"] = ""
+          token.update_attribute("data", data)
+        }
+        it { user.enrollments.should eql([]) }
+      end
+
+      context "with an active enrollment" do
+        let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+        before {
+          data = token.data
+          data["ufrgsVinculo"] = "ativo:12:Aluno de doutorado:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL"
+          token.update_attribute("data", data)
+        }
+        it { user.enrollments.should eql(["Aluno de doutorado"]) }
+      end
+
+      context "with more than one active enrollment" do
+        let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+        before {
+          data = token.data
+          data["ufrgsVinculo"] = "ativo:11:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;inativo:7:Aluno de graduação:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+          token.update_attribute("data", data)
+        }
+        it { user.enrollments.should eql(["Docente", "Aluno de mestrado acadêmico"]) }
+      end
+    end
+  end
+
+  describe "#has_enrollment_allowed_to_record?" do
     context "for a user without shibboleth information" do
       let(:user) { FactoryGirl.create(:user) }
       let(:room) { FactoryGirl.create(:bigbluebutton_room)}
@@ -1419,12 +1474,23 @@ describe User do
         end
 
         context "with more than one active enrollment" do
-          context "and one allows recording" do
+          context "and the first allows recording" do
             let(:token) { FactoryGirl.create(:shib_token, :user => user) }
             let(:room) { FactoryGirl.create(:bigbluebutton_room)}
             before {
               data = token.data
               data["ufrgsVinculo"] = "ativo:11:Docente:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Aluno de mestrado acadêmico:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
+              token.update_attribute("data", data)
+            }
+            it { user.has_enrollment_allowed_to_record?(room).should be(true) }
+          end
+
+          context "and the second allows recording" do
+            let(:token) { FactoryGirl.create(:shib_token, :user => user) }
+            let(:room) { FactoryGirl.create(:bigbluebutton_room)}
+            before {
+              data = token.data
+              data["ufrgsVinculo"] = "ativo:11:Algum que não pode gravar:1:Instituto de Informática:NULL:NULL:NULL:NULL:01/01/2011:NULL;ativo:6:Docente:NULL:NULL:NULL:NULL:2:COMPUTAÇÃO:01/01/2001:11/12/2002"
               token.update_attribute("data", data)
             }
             it { user.has_enrollment_allowed_to_record?(room).should be(true) }
