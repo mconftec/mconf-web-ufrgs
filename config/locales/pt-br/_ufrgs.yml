@@ -12,6 +12,7 @@ pt-br:
       docs:
         headline: "Consulte a documentação deste serviço em:"
         link_tutorial: "<a href=\"%{url}\">Tutorial de uso do Mconf na UFRGS</a>"
+        link_tutorial_moodle: "<a href=\"%{url}\">Tutorial de uso do Mconf no Moodle</a>"
         link_details: "<a href=\"%{url}\">Detalhes do serviço na UFRGS</a>"
         title: "Documentação"
       service_name: "Serviço de Webconferência"

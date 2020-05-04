@@ -12,6 +12,7 @@ en:
       docs:
         headline: "Read the documentation for this service at (in portuguese):"
         link_tutorial: "<a href=\"%{url}\">Tutorial guide</a>"
+        link_tutorial_moodle: "<a href=\"%{url}\">Tutorial guide for Moodle</a>"
         link_details: "<a href=\"%{url}\">Details of the service at UFRGS</a>"
         title: "Documentation"
       service_name: "Web Conference Service"
