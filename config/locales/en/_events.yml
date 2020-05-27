@@ -88,6 +88,8 @@ en:
       at: "at"
       clear_start_date: "Clear start date"
       clear_end_date: "Clear end date"
+    ics:
+      urls: "Event page: %{events}"
     index:
       create_new_event: "Add a new event"
       count:

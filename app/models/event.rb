@@ -149,9 +149,11 @@ class Event < ActiveRecord::Base
   end
 
   def to_ical
+    site = Site.current
     calendar = Icalendar::Calendar.new
     calendar.add_event(to_ics_internal)
-    calendar.publish
+    calendar.prodid = "-//#{site.name}//#{site.domain}"
+    calendar.ip_method = "REQUEST"
     calendar.to_ical
   end
   alias_method :to_ics, :to_ical
@@ -220,19 +222,40 @@ class Event < ActiveRecord::Base
 
   def to_ics_internal
     event = Icalendar::Event.new
-    event.dtstart = start_on.strftime("%Y%m%dT%H%M%SZ")
-    event.dtend = end_on.strftime("%Y%m%dT%H%M%SZ") if !end_on.blank?
+    event.dtstart = start_on.utc.strftime("%Y%m%dT%H%M%SZ")
+    event.dtend = end_on.utc.strftime("%Y%m%dT%H%M%SZ") if !end_on.blank?
     event.summary = name
-    event.organizer = owner_name
-    event.description = summary
-    event.location = "#{location}"
-    event.location += " - #{address}" if !address.blank?
-    event.ip_class = "PUBLIC"
-    event.created = created_at.strftime("%Y%m%dT%H%M%S")
-    event.last_modified = updated_at.strftime("%Y%m%dT%H%M%S")
-    event.uid = full_url
+    event.organizer = ics_organizer
+    event.description = ics_description
+    event.location = ics_location
+    event.ip_class = "PRIVATE"
+    event.created = created_at.utc.strftime("%Y%m%dT%H%M%S")
+    event.last_modified = updated_at.utc.strftime("%Y%m%dT%H%M%S")
     event.url = full_url
+
+    # NOTE: The uid has to change if we want calendars to reimport the event in case it was
+    # already imported and removed, for example. So, for now, we change the ID whenever any
+    # attribute changes in the event.
+    event.uid = "#{Digest::MD5.hexdigest(attributes.to_s)}@#{Site.current.domain}"
+
     event
+  end
+
+  def ics_location
+    r = ''
+    r = location unless location.blank?
+    r.blank? ? address : "#{r} - #{address}"
+  end
+
+  def ics_organizer
+    Icalendar::Values::CalAddress.new("mailto:#{owner.try(:email)}", cn: owner.try(:name))
+  end
+
+  def ics_description
+    r = ''
+    r = description unless description.blank?
+    r = "#{r}\n\n" unless r.blank?
+    "#{r}#{I18n.t('.events.ics.urls', events: full_url, locale: I18n.locale.to_s)}"
   end
 
   def check_end_on

@@ -61,6 +61,8 @@ pt-br:
       at: "às"
       clear_start_date: "Limpar data de início"
       clear_end_date: "Limpar data de término"
+    ics:
+      urls: "Página do evento: %{events}"
     index:
       create_new_event: "Adicionar evento"
       count:
