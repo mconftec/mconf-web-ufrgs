@@ -78,5 +78,9 @@ module Mconf
     config.paths['app/views'].unshift("#{Rails.root}/app/mailers/views")
 
     config.exceptions_app = self.routes
+
+    # to force a different conference server URL in join calls
+    # used when there's a proxy in front the API calls
+    config.server_url_for_join = nil
   end
 end

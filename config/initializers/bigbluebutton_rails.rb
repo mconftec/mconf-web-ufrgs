@@ -13,6 +13,19 @@ BigbluebuttonRails.configure do |config|
     Rails.application.routes.url_helpers.join_webconf_url(room, host: host)
   end
 
+  # New method to select a server for a room
+  config.select_server = Proc.new do |room, api_method=nil|
+    selected = BigbluebuttonServer.default
+
+    # override the URL in join calls in case it's set
+    # used when there's a proxy in front of the API calls
+    if !Rails.application.config.server_url_for_join.nil? && api_method == :join_meeting_url
+      selected.url = Rails.application.config.server_url_for_join
+    end
+
+    selected
+  end
+
   # Add custom metadata to all create calls
   config.get_dynamic_metadata = Proc.new do |room|
     host = Site.current.domain_with_protocol
