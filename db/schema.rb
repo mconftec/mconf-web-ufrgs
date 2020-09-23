@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200328223742) do
+ActiveRecord::Schema.define(version: 20200918005522) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.boolean  "notified"
   end
 
-  add_index "activities", ["key"], name: "activities_key_IDX", using: :btree
+  add_index "activities", ["key"], name: "index_activities_on_key", using: :btree
   add_index "activities", ["owner_id", "owner_type"], name: "index_activities_on_owner_id_and_owner_type", using: :btree
   add_index "activities", ["recipient_id", "recipient_type"], name: "index_activities_on_recipient_id_and_recipient_type", using: :btree
   add_index "activities", ["trackable_id", "trackable_type"], name: "index_activities_on_trackable_id_and_trackable_type", using: :btree
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.string   "author_type"
     t.string   "attachment"
   end
+
+  add_index "attachments", ["space_id"], name: "index_attachments_on_space_id", using: :btree
 
   create_table "bigbluebutton_meetings", force: true do |t|
     t.integer  "server_id"
@@ -63,7 +65,9 @@ ActiveRecord::Schema.define(version: 20200328223742) do
   end
 
   add_index "bigbluebutton_meetings", ["meetingid", "create_time"], name: "index_bigbluebutton_meetings_on_meetingid_and_create_time", unique: true, using: :btree
-  add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "bigbluebutton_meetings_room_id_IDX", using: :btree
+  add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "index_bigbluebutton_meetings_on_room_id_create_time", using: :btree
+  add_index "bigbluebutton_meetings", ["room_id"], name: "index_bigbluebutton_meetings_on_room_id", using: :btree
+  add_index "bigbluebutton_meetings", ["server_id"], name: "index_bigbluebutton_meetings_on_server_id", using: :btree
 
   create_table "bigbluebutton_metadata", force: true do |t|
     t.integer  "owner_id"
@@ -75,6 +79,7 @@ ActiveRecord::Schema.define(version: 20200328223742) do
   end
 
   add_index "bigbluebutton_metadata", ["owner_id", "owner_type", "name"], name: "bigbluebutton_metadata_owner_id_IDX", using: :btree
+  add_index "bigbluebutton_metadata", ["owner_id", "owner_type"], name: "index_bigbluebutton_metadata_on_owner_id_owner_type", using: :btree
 
   create_table "bigbluebutton_playback_formats", force: true do |t|
     t.integer  "recording_id"
@@ -110,8 +115,10 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.integer  "size",        limit: 8, default: 0
   end
 
+  add_index "bigbluebutton_recordings", ["meeting_id"], name: "index_bigbluebutton_recordings_on_meeting_id", using: :btree
   add_index "bigbluebutton_recordings", ["recordid"], name: "index_bigbluebutton_recordings_on_recordid", unique: true, using: :btree
   add_index "bigbluebutton_recordings", ["room_id"], name: "index_bigbluebutton_recordings_on_room_id", using: :btree
+  add_index "bigbluebutton_recordings", ["server_id"], name: "index_bigbluebutton_recordings_on_server_id", using: :btree
 
   create_table "bigbluebutton_room_options", force: true do |t|
     t.integer  "room_id"
@@ -155,7 +162,8 @@ ActiveRecord::Schema.define(version: 20200328223742) do
   end
 
   add_index "bigbluebutton_rooms", ["meetingid"], name: "index_bigbluebutton_rooms_on_meetingid", unique: true, using: :btree
-  add_index "bigbluebutton_rooms", ["param"], name: "bigbluebutton_rooms_param_IDX", using: :btree
+  add_index "bigbluebutton_rooms", ["owner_id", "owner_type"], name: "index_bigbluebutton_rooms_on_owner_id_owner_type", using: :btree
+  add_index "bigbluebutton_rooms", ["param"], name: "index_bigbluebutton_rooms_on_param", using: :btree
   add_index "bigbluebutton_rooms", ["server_id"], name: "index_bigbluebutton_rooms_on_server_id", using: :btree
 
   create_table "bigbluebutton_server_configs", force: true do |t|
@@ -174,6 +182,8 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "updated_at"
     t.string   "param"
   end
+
+  add_index "bigbluebutton_servers", ["param"], name: "index_bigbluebutton_servers_on_param", using: :btree
 
   create_table "certificate_tokens", force: true do |t|
     t.string   "identifier"
@@ -211,7 +221,12 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "updated_at"
   end
 
+  add_index "events", ["end_on"], name: "index_events_on_end_on", using: :btree
+  add_index "events", ["owner_id", "owner_type"], name: "index_events_on_owner_id_owner_type", using: :btree
+  add_index "events", ["owner_id"], name: "index_events_on_owner_id", using: :btree
+  add_index "events", ["owner_type"], name: "index_events_on_owner_type", using: :btree
   add_index "events", ["permalink"], name: "index_events_on_permalink", using: :btree
+  add_index "events", ["start_on"], name: "index_events_on_start_on", using: :btree
 
   create_table "invitations", force: true do |t|
     t.integer  "target_id"
@@ -233,6 +248,8 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.string   "invitation_group"
   end
 
+  add_index "invitations", ["recipient_id"], name: "index_invitations_on_recipient_id", using: :btree
+  add_index "invitations", ["sender_id"], name: "index_invitations_on_sender_id", using: :btree
   add_index "invitations", ["target_id", "target_type"], name: "index_invitations_on_target_id_and_target_type", using: :btree
 
   create_table "join_requests", force: true do |t|
@@ -250,6 +267,13 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "processed_at"
     t.string   "secret_token"
   end
+
+  add_index "join_requests", ["candidate_id"], name: "index_join_requests_on_candidate_id", using: :btree
+  add_index "join_requests", ["group_id", "group_type"], name: "index_join_requests_on_group_id_group_type", using: :btree
+  add_index "join_requests", ["introducer_id"], name: "index_join_requests_on_introducer_id", using: :btree
+  add_index "join_requests", ["request_type"], name: "index_join_requests_on_request_type", using: :btree
+  add_index "join_requests", ["role_id"], name: "index_join_requests_on_role_id", using: :btree
+  add_index "join_requests", ["secret_token"], name: "index_join_requests_on_secret_token", using: :btree
 
   create_table "ldap_tokens", force: true do |t|
     t.integer  "user_id"
@@ -273,6 +297,9 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "updated_at"
   end
 
+  add_index "participant_confirmations", ["participant_id"], name: "index_participant_confirmations_on_participant_id", using: :btree
+  add_index "participant_confirmations", ["token"], name: "index_participant_confirmations_on_token", using: :btree
+
   create_table "participants", force: true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -281,6 +308,9 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "participants", ["event_id"], name: "fk_participants_event_id", using: :btree
+  add_index "participants", ["owner_id", "owner_type"], name: "index_participants_on_owner_id_owner_type", using: :btree
 
   create_table "permissions", force: true do |t|
     t.integer  "user_id",      null: false
@@ -291,8 +321,16 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "updated_at"
   end
 
-  add_index "permissions", ["user_id", "subject_type", "subject_id"], name: "permissions_user_id_IDX_02", using: :btree
-  add_index "permissions", ["user_id", "subject_type"], name: "permissions_user_id_IDX", using: :btree
+  add_index "permissions", ["role_id"], name: "fk_permissions_role_id", using: :btree
+  add_index "permissions", ["role_id"], name: "permissions_role_id_IDX", using: :btree
+  add_index "permissions", ["subject_id"], name: "index_permissions_on_subject_id", using: :btree
+  add_index "permissions", ["subject_id"], name: "permissions_subject_id_IDX", using: :btree
+  add_index "permissions", ["subject_type"], name: "index_permissions_on_subject_type", using: :btree
+  add_index "permissions", ["user_id", "subject_type", "subject_id"], name: "index_permissions_on_user_id_subject_type_subject_id", using: :btree
+  add_index "permissions", ["user_id", "subject_type"], name: "index_permissions_on_subject_id_subject_type", using: :btree
+  add_index "permissions", ["user_id", "subject_type"], name: "index_permissions_on_user_id_subject_type", using: :btree
+  add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
+  add_index "permissions", ["user_id"], name: "permissions_user_id_IDX_03", using: :btree
 
   create_table "posts", force: true do |t|
     t.string   "title"
@@ -305,6 +343,11 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.string   "author_type"
     t.integer  "parent_id"
   end
+
+  add_index "posts", ["author_id", "author_type"], name: "index_posts_on_author_id_author_type", using: :btree
+  add_index "posts", ["parent_id"], name: "index_posts_on_parent_id", using: :btree
+  add_index "posts", ["reader_id"], name: "index_posts_on_reader_id", using: :btree
+  add_index "posts", ["space_id"], name: "index_posts_on_space_id", using: :btree
 
   create_table "profiles", force: true do |t|
     t.string  "organization"
@@ -327,6 +370,7 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.string  "logo_image"
   end
 
+  add_index "profiles", ["full_name"], name: "index_profiles_on_full_name", using: :btree
   add_index "profiles", ["user_id"], name: "profiles_user_id_IDX", using: :btree
 
   create_table "roles", force: true do |t|
@@ -374,11 +418,11 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.string   "smtp_domain"
     t.string   "smtp_auth_type"
     t.string   "smtp_sender"
-    t.string   "xmpp_server"
     t.text     "shib_env_variables"
     t.string   "shib_login_field"
     t.string   "timezone",                       default: "UTC"
     t.string   "external_help"
+    t.string   "xmpp_server"
     t.boolean  "ldap_enabled"
     t.string   "ldap_host"
     t.integer  "ldap_port"
@@ -397,14 +441,14 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.boolean  "local_auth_enabled",             default: true
     t.string   "visible_locales",                default: "---\n- en\n- pt-br\n"
     t.string   "room_dial_number_pattern"
+    t.boolean  "require_space_approval",         default: false
+    t.boolean  "forbid_user_space_creation",     default: false
+    t.string   "allowed_to_record"
+    t.boolean  "shib_update_users",              default: false
     t.boolean  "captcha_enabled",                default: false
     t.string   "recaptcha_public_key"
     t.string   "recaptcha_private_key"
-    t.boolean  "require_space_approval",         default: false
-    t.boolean  "forbid_user_space_creation",     default: false
     t.string   "max_upload_size",                default: "15000000"
-    t.string   "allowed_to_record"
-    t.boolean  "shib_update_users",              default: false
     t.boolean  "use_gravatar",                   default: false
     t.string   "smtp_receiver"
     t.boolean  "unauth_access_to_conferences",   default: true
@@ -429,8 +473,12 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.integer  "last_activity_count"
   end
 
+  add_index "spaces", ["approved"], name: "index_spaces_on_approved", using: :btree
+  add_index "spaces", ["disabled"], name: "index_spaces_on_disabled", using: :btree
   add_index "spaces", ["last_activity"], name: "index_spaces_on_last_activity", using: :btree
   add_index "spaces", ["last_activity_count"], name: "index_spaces_on_last_activity_count", using: :btree
+  add_index "spaces", ["permalink"], name: "index_spaces_on_permalink", using: :btree
+  add_index "spaces", ["public"], name: "index_spaces_on_public", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -487,9 +535,12 @@ ActiveRecord::Schema.define(version: 20200328223742) do
     t.datetime "current_local_sign_in_at"
   end
 
+  add_index "users", ["approved"], name: "index_users_on_approved", using: :btree
+  add_index "users", ["can_record"], name: "index_users_on_can_record", using: :btree
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-  add_index "users", ["disabled"], name: "users_disabled_IDX", using: :btree
+  add_index "users", ["disabled"], name: "index_users_on_disabled", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", using: :btree
 
 end
