@@ -3,7 +3,7 @@ FROM ruby:2.2.5
 RUN printf "deb http://archive.debian.org/debian/ jessie main\ndeb-src http://archive.debian.org/debian/ jessie main\ndeb http://security.debian.org jessie/updates main\ndeb-src http://security.debian.org jessie/updates main" > /etc/apt/sources.list
 
 RUN apt-get update && \
-    apt-get install -y libruby aspell-es aspell-en libxml2-dev \
+    apt-get install -y --force-yes libruby aspell-es aspell-en libxml2-dev \
                        libxslt1-dev libmagickcore-dev libmagickwand-dev imagemagick \
                        zlib1g-dev build-essential \
                        libqtwebkit-dev libreadline-dev libsqlite3-dev libssl-dev \
