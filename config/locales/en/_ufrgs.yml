@@ -18,6 +18,6 @@ en:
       service_name: "Web Conference Service"
   layouts:
     footer:
-      more_about_mconf: "Learn more at"
+      more_about_mconf: "Mconf Tecnologia"
     footer_simple:
-      more_about_mconf: "Learn more at"
+      more_about_mconf: "Mconf Tecnologia"
