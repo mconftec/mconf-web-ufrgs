@@ -1,5 +1,27 @@
 # Change Log
 
+## 3.0.0 - 2021-02-22
+
+* Add option to configure a different URL for join API requests so we can use Kong in the
+  server to proxy API requests.
+* Set a new default welcome message on rooms.
+* Fix the timezone in the ICS sent for event invitations and improve other data in it.
+* Check all enrollments when deciding if a user can record so that having a single enrolment that
+  allows recording is enough (before it required the first enrolment to allow recording).
+* Add a lot of indexes to the db to optimize queries.
+* Update the documentation links in the frontpage.
+* Disable the mobile client and everything related to the Flash client, it's all HTML5 now.
+* Added all configs to run the application on docker for development.
+
+
+## 2.4.0-ufrgs4 - 2018-07-31
+
+## 2.4.0-ufrgs3 - 2018-07-27
+
+## 2.4.0-ufrgs2 - 2017-10-04
+
+## 2.4.0-ufrgs1 - 2017-04-24
+
 ## [2.4.0] - 2017-01-12
 
 Includes improvements in the management pages, a new management page for recordings,
