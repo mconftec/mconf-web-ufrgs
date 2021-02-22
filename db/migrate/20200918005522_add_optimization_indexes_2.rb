@@ -82,10 +82,6 @@ class AddOptimizationIndexes2 < ActiveRecord::Migration
     rename_index :permissions,
                  'permissions_user_id_IDX_02',
                  'index_permissions_on_user_id_subject_type_subject_id'
-    # remove_index :permissions, [:user_id, :subject_type, :subject_id], using: 'btree',
-                 # name: 'permissions_user_id_IDX_02'
-    # add_index :permissions, [:user_id, :subject_type, :subject_id], using: 'btree',
-    #           name: 'index_permissions_on_user_id_subject_type_and_others'
     add_index :permissions, [:user_id, :subject_type], using: 'btree',
               name: 'index_permissions_on_user_id_subject_type'
     add_index :permissions, :user_id, using: 'btree',
