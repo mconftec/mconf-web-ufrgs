@@ -57,12 +57,15 @@
       text-align: center;
       padding-top: 15px;
 
+
       img {
         margin-bottom: 5px;
       }
 
       span {
         display: block;
+        font-weight: bold;
+        color: white;
         @include font-size($font-small);
       }
     }

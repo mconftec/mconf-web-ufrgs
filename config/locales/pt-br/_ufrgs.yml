@@ -18,6 +18,6 @@ pt-br:
       service_name: "Serviço de Webconferência"
   layouts:
     footer:
-      more_about_mconf: "Veja mais em"
+      more_about_mconf: "Mconf Tecnologia"
     footer_simple:
-      more_about_mconf: "Veja mais em"
+      more_about_mconf: "Mconf Tecnologia"
