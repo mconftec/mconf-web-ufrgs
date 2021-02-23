@@ -1,4 +1,4 @@
-version: '2'
+version: '2.4'
 services:
 
   dev:
@@ -21,6 +21,7 @@ services:
       - RAILS_ENV=development
     volumes:
       - ./:/usr/src/app
+      - bundle-volume:/usr/src/bundle
     command: bash -c "rm -f tmp/pids/server.pid && rake db:create db:migrate && rails s -p3000"
   dev_db:
     container_name: mconf_web_ufrgs_dev_db
@@ -28,7 +29,7 @@ services:
     expose:
       - "3306"
     volumes:
-      - ~/.docker-volumes/mconf-web-ufrgs/dev/mysql/:/var/lib/mysql
+      - dev-db-volume:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mconf
       - MYSQL_DATABASE=mconf_web_ufrgs_dev
@@ -129,7 +130,7 @@ services:
     expose:
       - "3306"
     volumes:
-      - ~/.docker-volumes/mconf-web-ufrgs/test/mysql/:/var/lib/mysql
+      - test-db-volume:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mconf
       - MYSQL_DATABASE=mconf_web_ufrgs_test
@@ -141,3 +142,8 @@ services:
     expose:
       - "6379"
     command: redis-server --requirepass "XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE"
+
+volumes:
+  dev-db-volume:
+  test-db-volume:
+  bundle-volume:
