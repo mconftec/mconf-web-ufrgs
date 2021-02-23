@@ -889,6 +889,10 @@ pt-br:
       login: "Login"
       manage: "Gerenciar"
       register: "Registre-se"
+    banners:
+      banner_expiring:
+        banner_expiring_text: "Atenção! As gravações serão armazenadas por 6 meses, após este período serão automaticamente removidas do sistema. (O mesmo não é valido para gravações realizadas no Moodle.)"
+
     footer:
       copyright: "© 2010-%{year} %{site}."
       current_version: "Versão atual"

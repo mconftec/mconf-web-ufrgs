@@ -21,6 +21,7 @@
 
   %body{:class => "#{controller_name_for_view} #{params[:action]}"}
     #site
+      = render :partial => 'layouts/banners/banner_expiring'
       #navbar-wrapper
         #navbar
           = render :partial => 'layouts/application_navbar'

@@ -29,6 +29,15 @@ class mconf.Base
       e.preventDefault()
       true # so it continues to the next callbacks, if any
 
+    $(document).ready ->
+      if (!Cookies.get('hide_expiring_banner'))
+        $("#banner-expiring-wrapper").removeClass('hide')
+
+      # To close the banner and set the cookie
+      $("#banner-btn-close").on 'click', ->
+        $('#banner-expiring-wrapper').addClass('hide')
+        Cookies.set('hide_expiring_banner', 'true', { expires: 10000 })
+
     # Add a title and tooltip to elements that can only be used by a logged user
     $(".login-to-enable").each ->
       $(this).attr("title", I18n.t("_other.login_to_enable"))

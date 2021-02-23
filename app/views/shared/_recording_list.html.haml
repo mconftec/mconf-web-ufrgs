@@ -5,6 +5,11 @@
 - show_authors = true if show_authors.nil?
 
 #my-webconference-recordings-list
+  .banner
+    .banner-wrapper
+      .banner-content
+        = t('.banner_expiring')
+    
   - if recordings.count <= 0
     = t('.no_recordings')
 
