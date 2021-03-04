@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.1.0 - 2021-03-03
+
+* [UFRGSP-8] Add a banner informing that recordings will start to expire after a while.
+* [UFRGSP-6] Changed the footer to point to Mconf.com instead of Mconf.org, that's not maintained
+  anymore.
+
+
 ## 3.0.0 - 2021-02-22
 
 * Add option to configure a different URL for join API requests so we can use Kong in the
