@@ -144,5 +144,9 @@ Rails.application.config.to_prepare do
     def self.use_mobile_client?(browser=nil)
       false
     end
+    #Returns an array with the RecentActivity keys used to notify recordings expiring soon
+    def expiration_activities_keys
+      k = ([0]+Rails.application.config.recordings_expiration_warnings).sort.reverse
+      k.map{ |v| "bigbluebutton_recording.expiration_#{v}" }
   end
 end
