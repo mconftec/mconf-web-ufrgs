@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200918005522) do
+ActiveRecord::Schema.define(version: 20200924185608) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -89,6 +89,9 @@ ActiveRecord::Schema.define(version: 20200918005522) do
     t.datetime "updated_at"
     t.integer  "playback_type_id"
   end
+
+  add_index "bigbluebutton_playback_formats", ["playback_type_id"], name: "index_bigbluebutton_playback_formats_on_playback_type_id", using: :btree
+  add_index "bigbluebutton_playback_formats", ["recording_id"], name: "index_bigbluebutton_playback_formats_on_recording_id", using: :btree
 
   create_table "bigbluebutton_playback_types", force: true do |t|
     t.string   "identifier"
@@ -322,15 +325,11 @@ ActiveRecord::Schema.define(version: 20200918005522) do
   end
 
   add_index "permissions", ["role_id"], name: "fk_permissions_role_id", using: :btree
-  add_index "permissions", ["role_id"], name: "permissions_role_id_IDX", using: :btree
   add_index "permissions", ["subject_id"], name: "index_permissions_on_subject_id", using: :btree
-  add_index "permissions", ["subject_id"], name: "permissions_subject_id_IDX", using: :btree
   add_index "permissions", ["subject_type"], name: "index_permissions_on_subject_type", using: :btree
   add_index "permissions", ["user_id", "subject_type", "subject_id"], name: "index_permissions_on_user_id_subject_type_subject_id", using: :btree
-  add_index "permissions", ["user_id", "subject_type"], name: "index_permissions_on_subject_id_subject_type", using: :btree
   add_index "permissions", ["user_id", "subject_type"], name: "index_permissions_on_user_id_subject_type", using: :btree
   add_index "permissions", ["user_id"], name: "index_permissions_on_user_id", using: :btree
-  add_index "permissions", ["user_id"], name: "permissions_user_id_IDX_03", using: :btree
 
   create_table "posts", force: true do |t|
     t.string   "title"
@@ -378,6 +377,8 @@ ActiveRecord::Schema.define(version: 20200918005522) do
     t.string "stage_type"
   end
 
+  add_index "roles", ["stage_type"], name: "index_roles_on_stage_type", using: :btree
+
   create_table "shib_tokens", force: true do |t|
     t.integer  "user_id"
     t.string   "identifier"
@@ -418,11 +419,11 @@ ActiveRecord::Schema.define(version: 20200918005522) do
     t.string   "smtp_domain"
     t.string   "smtp_auth_type"
     t.string   "smtp_sender"
+    t.string   "xmpp_server"
     t.text     "shib_env_variables"
     t.string   "shib_login_field"
     t.string   "timezone",                       default: "UTC"
     t.string   "external_help"
-    t.string   "xmpp_server"
     t.boolean  "ldap_enabled"
     t.string   "ldap_host"
     t.integer  "ldap_port"
@@ -441,14 +442,14 @@ ActiveRecord::Schema.define(version: 20200918005522) do
     t.boolean  "local_auth_enabled",             default: true
     t.string   "visible_locales",                default: "---\n- en\n- pt-br\n"
     t.string   "room_dial_number_pattern"
-    t.boolean  "require_space_approval",         default: false
-    t.boolean  "forbid_user_space_creation",     default: false
-    t.string   "allowed_to_record"
-    t.boolean  "shib_update_users",              default: false
     t.boolean  "captcha_enabled",                default: false
     t.string   "recaptcha_public_key"
     t.string   "recaptcha_private_key"
+    t.boolean  "require_space_approval",         default: false
+    t.boolean  "forbid_user_space_creation",     default: false
     t.string   "max_upload_size",                default: "15000000"
+    t.string   "allowed_to_record"
+    t.boolean  "shib_update_users",              default: false
     t.boolean  "use_gravatar",                   default: false
     t.string   "smtp_receiver"
     t.boolean  "unauth_access_to_conferences",   default: true
