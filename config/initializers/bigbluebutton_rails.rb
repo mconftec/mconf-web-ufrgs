@@ -88,6 +88,18 @@ Rails.application.config.to_prepare do
 
   end
 
+  BigbluebuttonRecording.class_eval do
+    def new_activity_recording_expiration
+      key = "expiration_#{self.expires_in_slot}"
+      if RecentActivity.find_by(trackable: self.id, key: "bigbluebutton_recording.#{key}").blank?
+        params = {
+          expires_in: self.expires_in_slot,
+          owners: self.owner.map { |o| {id: o.id, username: o.username} }
+        }
+        self.create_activity key, owner: self, recipient: nil, parameters: params
+      end
+    end
+
   BigbluebuttonRecording.instance_eval do
 
     # Search recordings based on a list of words
@@ -137,6 +149,11 @@ Rails.application.config.to_prepare do
     }
   end
 
+  #Returns an array with the RecentActivity keys used to notify recordings expiring soon
+  def expiration_activities_keys
+    k = ([0]+Rails.application.config.recordings_expiration_warnings).sort.reverse
+    k.map{ |v| "bigbluebutton_recording.expiration_#{v}" }
+  end
 
   BigbluebuttonRails.instance_eval do
     # Overrides use_mobile_client function in BigbluebuttonRails to always returns false.
@@ -144,9 +161,4 @@ Rails.application.config.to_prepare do
     def self.use_mobile_client?(browser=nil)
       false
     end
-    #Returns an array with the RecentActivity keys used to notify recordings expiring soon
-    def expiration_activities_keys
-      k = ([0]+Rails.application.config.recordings_expiration_warnings).sort.reverse
-      k.map{ |v| "bigbluebutton_recording.expiration_#{v}" }
-  end
-end
+    
