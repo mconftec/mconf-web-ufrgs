@@ -129,7 +129,16 @@
 #   When a `User` was created after being registered by an admin.
 #   Created by: `User`.
 #
-class RecentActivity < PublicActivity::Activity
+class RecentActivity < PublicActivity::
+  include RecentActivityConcern
+
+  has_many :notifications, :dependent => :destroy
+
+  RECENT_ACTIVITY_KEYS = {
+    "bigbluebutton_recording.created": ['email']
+  }.with_indifferent_access
+
+
   # Used for home page and user page pagination
   self.per_page = 10
 
