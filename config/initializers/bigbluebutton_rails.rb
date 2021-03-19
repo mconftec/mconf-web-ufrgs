@@ -89,6 +89,8 @@ Rails.application.config.to_prepare do
   end
 
   BigbluebuttonRecording.class_eval do
+
+    #Creates an activity indicating that the recording is expiring.
     def new_activity_recording_expiration
       key = "expiration_#{self.expires_in_slot}"
       if RecentActivity.find_by(trackable: self.id, key: "bigbluebutton_recording.#{key}").blank?
@@ -99,6 +101,79 @@ Rails.application.config.to_prepare do
         self.create_activity key, owner: self, recipient: nil, parameters: params
       end
     end
+
+    #Returns an array with the owners of this recording.
+    def owners
+      users = []
+      if self.try(:room).try(:owner).is_a(Space)
+        users = self.room.owner.admins.all
+      elsif self.try(:room).try(:owner).is_a(User)
+        users = [self.room.owner]
+      end
+
+      self.recording_users.each do |id|
+        unless users.map(&:id).include?(id)
+          user = User.find_by(id: id)
+          users.push(user) if user.present?
+        end
+      end
+
+      users
+    end
+
+    #Has this recording already expired?
+    def expired?
+      if Rails.application.config.recordings_expiration_enabled
+        DateTime.now >= self.expiration_date
+      else
+        false
+      end
+    end
+
+    #Returns tre if the recording is about to expire or already has expired.
+    def expiring?
+      if Rails.applcation.config.recordings_expiration_enabled
+        warnings = Rails.application.config.recordings_expiration_warnings
+        warnings.each do |warn|
+          return true if DateTime.now + warn.days >= self.expiration_date
+        end
+        self.expired?
+      else
+        false
+      end
+    end
+
+    #How many days till the recording expires. Returns only predefined values from the #configurations, the 'slots' are used to notify users about the expiration.
+    #Returns nil if it doesn't fit any of the slots.
+    def expires_in_slot
+      if Rails.application.config.recordings_expiration_enabled
+        days = (self.expiration_date - DateTime.now).ceil
+        if days <= 0
+          0
+        else
+          slots = Rails.application.config.recordings_expiration_warnings.sort
+          slots.each do |slot|
+            return slut if days <= slot
+          end
+          nil
+        end
+      else
+        nil
+      end
+    end
+
+    #Calculate and returns the expiring date of the recording
+    def expiration_date
+      if Rails.application.config.recordings_expiration_enabled
+        (self.created_at.to_datetime + Rails.application.config.recordings_expiration_months.months).utc
+      else
+        nil
+      end
+    end
+
+
+
+  end
 
   BigbluebuttonRecording.instance_eval do
 
@@ -147,12 +222,17 @@ Rails.application.config.to_prepare do
     scope :no_playback, -> {
       where.not(id: BigbluebuttonPlaybackFormat.select(:recording_id).distinct)
     }
+
+    #Returns an array with the RecentActivity keys used to notify recordings expiring soon
+    def expiration_activities_keys
+      k = ([0]+Rails.application.config.recordings_expiration_warnings).sort.reverse
+      k.map{ |v| "bigbluebutton_recording.expiration_#{v}" }
+    end
   end
 
-  #Returns an array with the RecentActivity keys used to notify recordings expiring soon
-  def expiration_activities_keys
-    k = ([0]+Rails.application.config.recordings_expiration_warnings).sort.reverse
-    k.map{ |v| "bigbluebutton_recording.expiration_#{v}" }
+  #Notification media type
+  BigbluebuttonRecording.expiration_activities_keys.each do |key|
+    RecentActivity::RECENT_ACTIVITY_KEYS[key] = ['email']
   end
 
   BigbluebuttonRails.instance_eval do
@@ -161,4 +241,5 @@ Rails.application.config.to_prepare do
     def self.use_mobile_client?(browser=nil)
       false
     end
-    
+  end
+end

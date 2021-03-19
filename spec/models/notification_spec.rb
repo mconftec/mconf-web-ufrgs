@@ -18,3 +18,7 @@ describe Notification, type :model do
             it ('notification should be notified') { notification.reload.notified.should eql(true) }
         end
     end
+
+    describe '#new_notification'
+end
+

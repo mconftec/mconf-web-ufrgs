@@ -39,6 +39,11 @@ pt-br:
       hello: "Olá,"
       message: "Acabamos de receber uma inscrição no evento <b>%{event}</b> para o e-mail <b>%{email}</b>."
       subject: "Confirme sua inscrição no evento %{event}"
+  recording_mailer:
+    recording_expiration:
+      subject:
+        expired: "Uma gravação da sala %{room} expirou"
+        expiring: "Uma gravação da sala %{room} está prestes a expirar"
   space_mailer:
     invitation_email:
       message:

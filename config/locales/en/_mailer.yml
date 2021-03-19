@@ -39,6 +39,11 @@ en:
       hello: "Hello,"
       message: "We just received a registration in the event <b>%{event}</b> for the email <b>%{email}</b>."
       subject: "Confirm your registration in the event %{event}"
+  recording_mailer:
+    recording_expiration:
+      subject:
+        expired: "A recording from the room %{room} has expired"
+        expiring: "A recording in the room %{room} is about to expire"
   space_mailer:
     invitation_email:
       message:

@@ -15,6 +15,7 @@ class RecordingNotificationWorker < BaseWorker
       #remove_expired_recordings
     end
   
+    #Searchs for a recent activity that triggers the expiration
     def self.notify_recordings_expiring
       recordings = expiring_candidates
       recordings.find_each do |rec|
