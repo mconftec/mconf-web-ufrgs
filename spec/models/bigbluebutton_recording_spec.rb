@@ -340,8 +340,7 @@ describe BigbluebuttonRecording do
         it { target.reload.expiration_date.should be_nil }
       end
     end
-
-
+  end
   # This is a model from BigbluebuttonRails, but we have permissions set in cancan for it,
   # so we test them here.
   describe "abilities", :abilities => true do

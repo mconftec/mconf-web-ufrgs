@@ -26,11 +26,11 @@ class RecordingNotificationWorker < BaseWorker
       recordings = expiring_candidates
       recordings.find_each do |rec|
         activity = RecentActivity.find_by(trackable: rec, key: 'bigbluebutton_recording_expiration_0')
-        if activity.trackable.present?
-          
-          
-          Resque.logger.info "Sending user registered email to #{}"
-          UserMailer.recording_expiring_email() #falta owner
+        if activity.present?
+          owners = activity.parameters[:owners]
+          owners.for_each do | owner |
+            Resque.logger.info "Sending user registered email to #{owner.id}"
+            UserMailer.recording_expiring_email(owner.id)
           end
         end
       end
