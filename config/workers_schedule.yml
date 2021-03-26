@@ -59,3 +59,10 @@ update_space_relevance_indexes:
    class: UpdateSpaceRelevanceIndexesWorker
    queue: low
    description: "Recalculate and update indexes used for ordering spaces in the spaces#index page."
+
+recording_notification:
+  every:
+    - "30min"
+  class: RecordingNotificationWorker
+  queue: low
+  description: "Notifies the user when a recording is about to expire"
