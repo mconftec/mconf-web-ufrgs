@@ -25,7 +25,7 @@ class RecordingNotificationWorker < BaseWorker
     def self.notify_recordings_expiring
       recordings = expiring_candidates
       recordings.find_each do |rec|
-        activity = RecentActivity.find_by(trackable: rec, key: 'bigbluebutton_recording_expiration_0')
+        activity = RecentActivity.find_by(trackable: rec, key: 'bigbluebutton_recording_expiration_1')
         if activity.present?
           owners = activity.parameters[:owners]
           owners.for_each do | owner |
@@ -50,4 +50,4 @@ class RecordingNotificationWorker < BaseWorker
         .where("start_time <= ?", not_after.to_i)
     end
   end
-  
+end
