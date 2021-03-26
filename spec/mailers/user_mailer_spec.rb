@@ -144,6 +144,25 @@ describe UserMailer do
     end
   end
 
+  describe '.recording_expiring_email' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:mail) { UserMailer.registration_by_admin_notification_email(user.id) }
+    let(:url) { my_home_url(host: Site.current.domain) }
+
+    context 'in the standard case' do
+      it("sets 'to'") { mail.to.should eql([user.mail]) }
+      it("sets 'subject") {
+        text = I18n.t('user_mailer.recording_expiring_email.subject')
+        text = "[#{Site.current.name}] #{text}"
+        mail.subject.should eql(text)
+      }
+      it("sets 'from'") { mail.from.should eql([Site.current.smtp_sender]) }
+      it("sets 'headers'") { mail.headers.should eql({}) }
+      it("sets 'reply_to'") { mail.reply_to.should eql([Site.current.smtp_sender]) }
+    end
+
+  end
+
   context "calls the error handler on exceptions" do
     let(:exception) { Exception.new("test exception") }
     it {

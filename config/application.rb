@@ -79,6 +79,12 @@ module Mconf
 
     config.exceptions_app = self.routes
 
+    #Recording expirations variables
+    config.recordings_expiration_enabled = true
+    config.recordings_expiration_months = 6
+    config.recordings_expiration_warnings = [10, 1] # in days
+    config.recordings_expiration_candidates_margin = 7.days
+    
     # to force a different conference server URL in join calls
     # used when there's a proxy in front the API calls
     config.server_url_for_join = nil

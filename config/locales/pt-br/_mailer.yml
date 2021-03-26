@@ -24,6 +24,10 @@ pt-br:
       click_here: "Você pode acessar a sua página inicial através do endereço: <a href=\"%{url}\">%{url}</a>"
       message: "Olá %{name},<br/><br/>Estamos enviando este email para lhe informar que uma conta foi criada para você em <a href=\"%{url}\">%{site}</a>.<br><br>Esta conta foi criada por um administrador do site. Se você acha que foi um mal entendido entre em contato conosco respondendo a este e-mail."
       subject: "Uma conta foi criada para você por um administrador"
+    recording_expiring_email:
+      click_here: "Você pode acessar a sua página inicial através do endereço: <a href=\"%{url}\">%{url}</a>"
+      message: "Olá %{name},uma gravação sua está prestes a expirar. Se você deseja salvar o seu vídeo, acesse o Mconf UFRGS e faça o Download."
+      subject: "Gravação expirando no Mconf UFRGS"
   event_mailer:
     invitation_email:
       message:
