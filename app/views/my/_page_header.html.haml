@@ -15,13 +15,13 @@
             = icon_profile()
             = t('profile.one')
         %li
-          = link_to edit_user_path(current_user) do
-            = icon_account()
-            = t('account')
-        %li
           = link_to my_activity_path do
             = icon_activity()
             = t('.activity_list')
+        %li
+          = link_to my_recordings_path do
+            = icon_activity()
+            = t('.recordings')
 
 .right-column
   = render :partial => "webconference_room"
