@@ -1061,6 +1061,7 @@ pt-br:
       spaces_list: lista de comunidades
     page_header:
       activity_list: "Atividades recentes"
+      recordings: "Ver Gravações"
     home:
       create_space: "Criar uma comunidade"
       events:

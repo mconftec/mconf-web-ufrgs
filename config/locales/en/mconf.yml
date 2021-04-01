@@ -1056,6 +1056,7 @@ en:
       spaces_list: list of spaces
     page_header:
       activity_list: "Activity list"
+      recordings: "My Recordings"
     home:
       create_space: "Create a new space"
       events:
