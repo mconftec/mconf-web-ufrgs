@@ -44,6 +44,20 @@ form {
   }
 }
 
+.webconf-my-recordings {
+  .btn i.icon-awesome {
+    float: none;
+    margin: 0;
+    padding: 0;
+    @include font-size($font-small);
+    color: white;
+    &:hover { color: white; }
+  }
+  .btn-small i.icon-awesome {
+    @include font-size($font-small);
+  }
+}
+
 // user logos in a thread with several snippets
 // e.g. list of posts, list of recent users, etc.
 .logo-in-thread {
