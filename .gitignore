@@ -6,7 +6,6 @@ private/uploads/*
 app/assets/images/tmp/*
 public/images/tmp/*
 *~
-config/setup_conf.yml
 config/deploy/conf.yml
 db/*.sqlite3*
 tmp/*
@@ -15,7 +14,6 @@ db/data.yml
 pids/*
 doc/app/*
 .sass-cache/
-config/analytics_conf.yml
 public/assets/*
 public/uploads/*
 .bundle/

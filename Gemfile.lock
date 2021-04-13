@@ -181,6 +181,10 @@ GEM
       devise (>= 2.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     dotiw (2.0)
       actionpack (>= 3)
       i18n
@@ -570,6 +574,7 @@ DEPENDENCIES
   devise (~> 3.5.4)
   devise-async
   devise-encryptable
+  dotenv-rails
   dotiw
   epic-editor-rails
   exception_notification (~> 4.0.0)

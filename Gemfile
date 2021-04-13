@@ -66,6 +66,7 @@ gem 'mini_magick', '~> 3.8.1'
 
 # global configurations
 gem 'configatron', '~> 2.13.0'
+gem 'dotenv-rails'
 
 # for bootstrap
 gem 'less-rails'
