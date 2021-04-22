@@ -2,13 +2,11 @@
 
 development:
   adapter:  <%= ENV['MCONF_DATABASE_DEV_ADAPTER'] || 'mysql2' %>
-  host:     <%= ENV['MCONF_DATABASE_DEV_HOST'] || '127.0.0.1' %>
+  host:     <%= ENV['MCONF_DATABASE_DEV_HOST'] || 'dev_db' %>
   database: <%= ENV['MCONF_DATABASE_DEV_NAME'] || 'mconf_web_dev' %>
   username: <%= ENV['MCONF_DATABASE_DEV_USERNAME'] %>
   password: <%= ENV['MCONF_DATABASE_DEV_PASSWORD'] %>
   socket:   <%= ENV['MCONF_DATABASE_DEV_SOCKET'] || '/var/run/mysqld/mysqld.sock' %>
-  encoding: utf8mb4
-  collation: utf8mb4_bin
 
 test:
   adapter:  <%= ENV['MCONF_DATABASE_TEST_ADAPTER'] || 'mysql2' %>
@@ -17,8 +15,6 @@ test:
   username: <%= ENV['MCONF_DATABASE_TEST_USERNAME'] %>
   password: <%= ENV['MCONF_DATABASE_TEST_PASSWORD'] %>
   socket:   <%= ENV['MCONF_DATABASE_TEST_SOCKET'] || '/var/run/mysqld/mysqld.sock' %>
-  encoding: utf8mb4
-  collation: utf8mb4_bin
 
 production:
   adapter:  <%= ENV['MCONF_DATABASE_PROD_ADAPTER'] || 'mysql2' %>
@@ -27,5 +23,3 @@ production:
   username: <%= ENV['MCONF_DATABASE_PROD_USERNAME'] %>
   password: <%= ENV['MCONF_DATABASE_PROD_PASSWORD'] %>
   socket:   <%= ENV['MCONF_DATABASE_PROD_SOCKET'] || '/var/run/mysqld/mysqld.sock' %>
-  encoding: utf8mb4
-  collation: utf8mb4_bin
