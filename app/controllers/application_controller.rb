@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
 
   # Returns the translation for of a locale given its acronym (e.g. "en")
   def locale_i18n(acronym)
-    configatron.locales.names[acronym.to_sym]
+    Rails.application.config.locale_names[acronym.to_sym]
   end
 
   # The payload is used by lograge. We add more information to it here so that it is saved
