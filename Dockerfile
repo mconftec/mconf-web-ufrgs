@@ -19,7 +19,9 @@ WORKDIR $app
 COPY . $app
 
 # Install app dependencies
-RUN bundle install
+ENV BUNDLE_PATH /usr/src/bundle
+COPY Gemfile* $app/
+RUN bundle install --path /usr/src/bundle --jobs 4
 
 # dumb-init
 ADD dumb-init_1.2.0 /usr/bin/dumb-init

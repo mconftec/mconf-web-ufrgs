@@ -11,14 +11,10 @@ services:
     depends_on:
       - dev_db
       - dev_redis
-    environment:
-      - MCONF_REDIS_HOST=dev_redis
-      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
-      - MCONF_DATABASE_DEV_HOST=dev_db
-      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
-      - MCONF_DATABASE_DEV_USERNAME=mconf
-      - MCONF_DATABASE_DEV_PASSWORD=mconf
-      - RAILS_ENV=development
+    env_file:
+      - ./.env
+      - ./.env.development
+      - ./.env.development.local
     volumes:
       - ./:/usr/src/app
       - bundle-volume:/usr/src/bundle
@@ -32,7 +28,7 @@ services:
       - dev-db-volume:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mconf
-      - MYSQL_DATABASE=mconf_web_ufrgs_dev
+      - MYSQL_DATABASE=mconf_web_dev
       - MYSQL_USER=mconf
       - MYSQL_PASSWORD=mconf
   dev_redis:
@@ -56,14 +52,9 @@ services:
     depends_on:
       - dev_resque_worker
       - dev_resque_scheduler
-    environment:
-      - MCONF_REDIS_HOST=dev_redis
-      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
-      - MCONF_DATABASE_DEV_HOST=dev_db
-      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
-      - MCONF_DATABASE_DEV_USERNAME=mconf
-      - MCONF_DATABASE_DEV_PASSWORD=mconf
-      - RAILS_ENV=development
+    env_file:
+      - ./.env
+      - ./.env.development
     volumes:
       - ./:/usr/src/app
     command: bash -c "mailcatcher --ip=0.0.0.0 -f"
@@ -74,15 +65,9 @@ services:
     depends_on:
       - dev_db
       - dev_redis
-    environment:
-      - MCONF_REDIS_HOST=dev_redis
-      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
-      - MCONF_DATABASE_DEV_HOST=dev_db
-      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
-      - MCONF_DATABASE_DEV_USERNAME=mconf
-      - MCONF_DATABASE_DEV_PASSWORD=mconf
-      - RAILS_ENV=development
-      - QUEUE=*
+    env_file:
+      - ./.env
+      - ./.env.development
     volumes:
       - ./:/usr/src/app
     command: bash -c "rake resque:work"
@@ -93,14 +78,9 @@ services:
     depends_on:
       - dev_db
       - dev_redis
-    environment:
-      - MCONF_REDIS_HOST=dev_redis
-      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
-      - MCONF_DATABASE_DEV_HOST=dev_db
-      - MCONF_DATABASE_DEV_NAME=mconf_web_ufrgs_dev
-      - MCONF_DATABASE_DEV_USERNAME=mconf
-      - MCONF_DATABASE_DEV_PASSWORD=mconf
-      - RAILS_ENV=development
+    env_file:
+      - ./.env
+      - ./.env.development
     volumes:
       - ./:/usr/src/app
     command: bash -c "rake resque:scheduler"
@@ -113,16 +93,12 @@ services:
     depends_on:
       - test_db
       - test_redis
-    environment:
-      - MCONF_REDIS_HOST=test_redis
-      - MCONF_REDIS_PASSWORD=XYqZihWYGeAIOZo2VN2LcNJxC2R4UcQE
-      - MCONF_DATABASE_TEST_HOST=test_db
-      - MCONF_DATABASE_TEST_NAME=mconf_web_ufrgs_test
-      - MCONF_DATABASE_TEST_USERNAME=mconf
-      - MCONF_DATABASE_TEST_PASSWORD=mconf
-      - RAILS_ENV=test
+    env_file:
+      - ./.env
+      - ./.env.test
     volumes:
       - ./:/usr/src/app
+      - bundle-volume:/usr/src/bundle
     command: bash -c "rake"
   test_db:
     container_name: mconf_web_ufrgs_test_db
