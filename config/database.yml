@@ -2,7 +2,7 @@
 
 development:
   adapter:  <%= ENV['MCONF_DATABASE_DEV_ADAPTER'] || 'mysql2' %>
-  host:     <%= ENV['MCONF_DATABASE_DEV_HOST'] || 'dev_db' %>
+  host:     <%= ENV['MCONF_DATABASE_DEV_HOST'] || '127.0.0.1' %>
   database: <%= ENV['MCONF_DATABASE_DEV_NAME'] || 'mconf_web_dev' %>
   username: <%= ENV['MCONF_DATABASE_DEV_USERNAME'] %>
   password: <%= ENV['MCONF_DATABASE_DEV_PASSWORD'] %>
@@ -11,7 +11,7 @@ development:
 test:
   adapter:  <%= ENV['MCONF_DATABASE_TEST_ADAPTER'] || 'mysql2' %>
   host:     <%= ENV['MCONF_DATABASE_TEST_HOST'] || '127.0.0.1' %>
-  database: <%= ENV['MCONF_DATABASE_TEST_NAME'] %>_<%= ENV['TEST_ENV_NUMBER'] %>
+  database: <%= ENV['MCONF_DATABASE_TEST_NAME'] || 'mconf_web_ufrgs_test' %>
   username: <%= ENV['MCONF_DATABASE_TEST_USERNAME'] %>
   password: <%= ENV['MCONF_DATABASE_TEST_PASSWORD'] %>
   socket:   <%= ENV['MCONF_DATABASE_TEST_SOCKET'] || '/var/run/mysqld/mysqld.sock' %>
