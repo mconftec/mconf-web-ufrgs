@@ -82,5 +82,23 @@ module Mconf
     # to force a different conference server URL in join calls
     # used when there's a proxy in front the API calls
     config.server_url_for_join = nil
+
+    config.locale_names =
+      {
+        bg: "Български",
+        de: "Deutsch",
+        en: "English",
+        "es-419": "Español",
+        "pt-br": "Português",
+        ru: "Pусский"
+      }
+
+    # Redis configurations. Defaults to a localhost instance.
+    config.redis_host = ENV['MCONF_REDIS_HOST'] || 'localhost'
+    config.redis_port = ENV['MCONF_REDIS_PORT'] || 6379
+    config.redis_db   = ENV['MCONF_REDIS_DB'] || 0
+    config.redis_password  = ENV['MCONF_REDIS_PASSWORD'] || nil
+
+
   end
 end

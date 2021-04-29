@@ -12,14 +12,15 @@ RUN apt-get update && \
 ENV app /usr/src/app
 
 # Create app directory
-RUN mkdir -p $app
 WORKDIR $app
+
+# Install app dependencies
+ENV BUNDLE_PATH /usr/src/bundle
+COPY Gemfile* $app/
+RUN bundle install --path /usr/src/bundle --jobs 4
 
 # Bundle app source
 COPY . $app
-
-# Install app dependencies
-RUN bundle install
 
 # dumb-init
 ADD dumb-init_1.2.0 /usr/bin/dumb-init
