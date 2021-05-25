@@ -8,10 +8,11 @@ GIT
 
 GIT
   remote: https://github.com/mconf/bigbluebutton_rails.git
-  revision: 24d83a7d46b99b2445640f1f0ecebad6b82de587
-  branch: master
+  revision: 1514773a83a8b1dfd95d2c6bba1242a655fe5feb
+  branch: release-2.3
   specs:
-    bigbluebutton_rails (2.1.0)
+    bigbluebutton_rails (2.3.1)
+      activerecord-import (~> 1.0)
       bigbluebutton-api-ruby (~> 1.6)
       browser (~> 0.8.0)
       rails (>= 4.0.0)
@@ -66,6 +67,8 @@ GEM
       activemodel (= 4.1.14.2)
       activesupport (= 4.1.14.2)
       arel (~> 5.0.0)
+    activerecord-import (1.0.8)
+      activerecord (>= 3.2)
     activesupport (4.1.14.2)
       i18n (~> 0.6, >= 0.6.9)
       json (~> 1.7, >= 1.7.7)
