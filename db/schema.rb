@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200924185608) do
+ActiveRecord::Schema.define(version: 20210531203333) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -46,12 +46,21 @@ ActiveRecord::Schema.define(version: 20200924185608) do
 
   add_index "attachments", ["space_id"], name: "index_attachments_on_space_id", using: :btree
 
+  create_table "bigbluebutton_attendees", force: true do |t|
+    t.string   "user_id"
+    t.string   "external_user_id"
+    t.string   "user_name"
+    t.decimal  "join_time",                precision: 14, scale: 0
+    t.decimal  "left_time",                precision: 14, scale: 0
+    t.integer  "bigbluebutton_meeting_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "bigbluebutton_meetings", force: true do |t|
-    t.integer  "server_id"
     t.integer  "room_id"
     t.string   "meetingid"
     t.string   "name"
-    t.datetime "start_time"
     t.boolean  "running",                                default: false
     t.boolean  "recorded",                               default: false
     t.datetime "created_at"
@@ -62,12 +71,13 @@ ActiveRecord::Schema.define(version: 20200924185608) do
     t.string   "server_secret"
     t.decimal  "create_time",   precision: 14, scale: 0
     t.boolean  "ended",                                  default: false
+    t.decimal  "finish_time",   precision: 14, scale: 0
   end
 
   add_index "bigbluebutton_meetings", ["meetingid", "create_time"], name: "index_bigbluebutton_meetings_on_meetingid_and_create_time", unique: true, using: :btree
+  add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "bigbluebutton_meetings_room_id_IDX", using: :btree
   add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "index_bigbluebutton_meetings_on_room_id_create_time", using: :btree
   add_index "bigbluebutton_meetings", ["room_id"], name: "index_bigbluebutton_meetings_on_room_id", using: :btree
-  add_index "bigbluebutton_meetings", ["server_id"], name: "index_bigbluebutton_meetings_on_server_id", using: :btree
 
   create_table "bigbluebutton_metadata", force: true do |t|
     t.integer  "owner_id"
@@ -95,10 +105,11 @@ ActiveRecord::Schema.define(version: 20200924185608) do
 
   create_table "bigbluebutton_playback_types", force: true do |t|
     t.string   "identifier"
-    t.boolean  "visible",    default: false
-    t.boolean  "default",    default: false
+    t.boolean  "visible",      default: false
+    t.boolean  "default",      default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "downloadable", default: false
   end
 
   create_table "bigbluebutton_recordings", force: true do |t|
@@ -107,15 +118,16 @@ ActiveRecord::Schema.define(version: 20200924185608) do
     t.string   "recordid"
     t.string   "meetingid"
     t.string   "name"
-    t.boolean  "published",             default: false
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.boolean  "available",             default: true
+    t.boolean  "published",                                          default: false
+    t.boolean  "available",                                          default: true
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "description"
     t.integer  "meeting_id"
-    t.integer  "size",        limit: 8, default: 0
+    t.integer  "size",            limit: 8,                          default: 0
+    t.decimal  "start_time",                precision: 14, scale: 0
+    t.decimal  "end_time",                  precision: 14, scale: 0
+    t.text     "recording_users"
   end
 
   add_index "bigbluebutton_recordings", ["meeting_id"], name: "index_bigbluebutton_recordings_on_meeting_id", using: :btree
@@ -137,7 +149,6 @@ ActiveRecord::Schema.define(version: 20200924185608) do
   add_index "bigbluebutton_room_options", ["room_id"], name: "index_bigbluebutton_room_options_on_room_id", using: :btree
 
   create_table "bigbluebutton_rooms", force: true do |t|
-    t.integer  "server_id"
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "meetingid"
@@ -166,8 +177,8 @@ ActiveRecord::Schema.define(version: 20200924185608) do
 
   add_index "bigbluebutton_rooms", ["meetingid"], name: "index_bigbluebutton_rooms_on_meetingid", unique: true, using: :btree
   add_index "bigbluebutton_rooms", ["owner_id", "owner_type"], name: "index_bigbluebutton_rooms_on_owner_id_owner_type", using: :btree
+  add_index "bigbluebutton_rooms", ["param"], name: "bigbluebutton_rooms_param_IDX", using: :btree
   add_index "bigbluebutton_rooms", ["param"], name: "index_bigbluebutton_rooms_on_param", using: :btree
-  add_index "bigbluebutton_rooms", ["server_id"], name: "index_bigbluebutton_rooms_on_server_id", using: :btree
 
   create_table "bigbluebutton_server_configs", force: true do |t|
     t.integer  "server_id"
