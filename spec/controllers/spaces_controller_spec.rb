@@ -543,19 +543,19 @@ describe SpacesController do
         let(:attendee1) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
-          attendee.full_name = user.username
+          attendee.user_name = user.username
           attendee.role = :attendee
           attendee
         }
         let(:attendee2) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user2.id
-          attendee.full_name = user2.username
+          attendee.user_name = user2.username
           attendee.role = :moderator
           attendee
         }
         before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:attendees).and_return([attendee1, attendee2])
+          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
         it { should assign_to(:webconf_attendees).with([user, user2]) }
@@ -573,19 +573,19 @@ describe SpacesController do
         let(:attendee1) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
-          attendee.full_name = user.username
+          attendee.user_name = user.username
           attendee.role = :attendee
           attendee
         }
         let(:attendee2) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
-          attendee.full_name = user.username
+          attendee.user_name = user.username
           attendee.role = :moderator
           attendee
         }
         before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:attendees).and_return([attendee1, attendee2])
+          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
         it { should assign_to(:webconf_attendees).with([user]) }
@@ -595,19 +595,19 @@ describe SpacesController do
         let(:attendee1) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
-          attendee.full_name = user.username
+          attendee.user_name = user.username
           attendee.role = :attendee
           attendee
         }
         let(:attendee2) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = "anything-invalid"
-          attendee.full_name = "Invited User"
+          attendee.user_name = "Invited User"
           attendee.role = :moderator
           attendee
         }
         before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:attendees).and_return([attendee1, attendee2])
+          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
         it { should assign_to(:webconf_attendees).with([user]) }
