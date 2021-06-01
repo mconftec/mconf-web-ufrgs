@@ -162,11 +162,15 @@ class SpacesController < InheritedResources::Base
   def webconference
     attendees = @webconf_room.current_attendees
     @webconf_attendees = []
+    @webconf_users = []
     attendees.each do |attendee|
       user = User.find_by(id: attendee.user_id)
-      @webconf_attendees << user unless user.nil?
+      if user.present?
+        @webconf_users << user
+      else
+        @webconf_attendees << attendee
+      end
     end
-    @webconf_attendees.uniq!
   end
 
   # Action used to show the recordings of a space
