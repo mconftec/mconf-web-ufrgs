@@ -10,7 +10,6 @@
 = simple_form_for room, :url => url, :html => { :class => 'single-column' } do |f|
   - if !editing
     = f.input :id, :disabled => true
-  = f.input :server_id, :disabled => !editing
   = f.input :name, :disabled => !editing
   = f.input :meetingid, :disabled => !editing
   = f.input :private, :as => :boolean, :disabled => !editing
