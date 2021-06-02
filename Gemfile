@@ -10,6 +10,7 @@ gem 'yui-compressor'
 gem 'compass-rails', '~> 2.0'
 gem 'handlebars_assets'
 gem 'select2-rails'
+gem 'activerecord-import'
 
 # To use sql UNION with activerecord
 gem 'active_record_union', '~> 1.1.0'
