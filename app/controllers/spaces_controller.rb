@@ -170,6 +170,7 @@ class SpacesController < InheritedResources::Base
       else
         @webconf_attendees << attendee
       end
+      @webconf_users.uniq!
     end
   end
 
