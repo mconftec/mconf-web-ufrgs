@@ -558,7 +558,7 @@ describe SpacesController do
           BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
-        it { should assign_to(:webconf_attendees).with([user, user2]) }
+        it { should assign_to(:webconf_users).with([user, user2]) }
       end
 
       context "when there are no attendees" do
@@ -588,7 +588,7 @@ describe SpacesController do
           BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
-        it { should assign_to(:webconf_attendees).with([user]) }
+        it { should assign_to(:webconf_users).with([user]) }
       end
 
       context "ignores users that are not registered" do
@@ -610,7 +610,7 @@ describe SpacesController do
           BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
           get :webconference, :id => space.to_param
         }
-        it { should assign_to(:webconf_attendees).with([user]) }
+        it { should assign_to(:webconf_users).with([user]) }
       end
     end
   end
