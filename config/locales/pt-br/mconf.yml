@@ -1642,7 +1642,7 @@ pt-br:
       invite: "Convidar outras pessoas"
       webconference:
         attendees:
-          all_users: "Todos usuários"
+          invited_users: "Usuários convidados"
           nobody: "Não há ninguém na sala."
           people_in_the_room: "Pessoas na sala"
           registered_users: "Usuários registrados"

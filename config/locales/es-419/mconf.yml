@@ -1539,7 +1539,7 @@ es-419:
       invite: "Invitar a otras personas"
       webconference:
         attendees:
-          all_users: "Todos los usuarios"
+          invited_users: "Usuarios invitados"
           nobody: "No hay nadie actualmente en la sala."
           people_in_the_room: "Personas en la sala"
           registered_users: "Usuarios registrados"

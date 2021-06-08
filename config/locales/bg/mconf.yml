@@ -1541,7 +1541,7 @@ bg:
       invite: "Покани други участници"
       webconference:
         attendees:
-          all_users: "Всички потребители"
+          invited_users: "Поканени потребители"
           nobody: "В стаята все още няма участници."
           people_in_the_room: "Потребители в стаята"
           registered_users: "Регистрирани потребители"

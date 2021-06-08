@@ -1551,7 +1551,7 @@ ru:
       invite: "Пригласить других людей"
       webconference:
         attendees:
-          all_users: "Все пользователи"
+          invited_users: "Приглашенные пользователи"
           nobody: "В комнате пока нет участников."
           people_in_the_room: "Пользователи в комнате"
           registered_users: "Зарегистрированные пользователи"

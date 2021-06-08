@@ -47,7 +47,7 @@
           = render :partial => 'users/simple_user', :locals => { :user => user }
       - if @webconf_attendees.count > 0
         #webconference-all-users
-          %h4= t('.webconference.attendees.all_users')
+          %h4= t('.webconference.attendees.invited_users')
           - @webconf_attendees.each_with_index do |attendee, i|
             - if attendee.role == :moderator
               = icon_user title: "Moderator"
