@@ -530,54 +530,23 @@ describe SpacesController do
         get :webconference, :id => space.to_param
       }
 
-      it { should render_template(:webconference) }
-      it { should render_with_layout("spaces_show") }
-      it { should assign_to(:space).with(space) }
-      it { should assign_to(:webconf_room).with(space.bigbluebutton_room) }
+      it { expect render_template(:webconference) }
+      it { expect render_with_layout("spaces_show") }
+      it { expect assign_to(:space).with(space) }
+      it { expect assign_to(:webconf_room).with(space.bigbluebutton_room) }
     end
 
-    context "assigns @webconf_attendees" do
+    context "when there are only users attendees on webconference" do
+      let(:moderator_user_attendee) {
+        attendee = BigbluebuttonAttendee.new
+        attendee.user_id = user.id
+        attendee.user_name = user.username
+        attendee.role = :moderator
+        attendee
+      }
 
-      context "when there are attendees" do
-        let!(:user2) { FactoryGirl.create(:user) }
-        let(:attendee1) {
-          attendee = BigbluebuttonAttendee.new
-          attendee.user_id = user.id
-          attendee.user_name = user.username
-          attendee.role = :attendee
-          attendee
-        }
-        let(:attendee2) {
-          attendee = BigbluebuttonAttendee.new
-          attendee.user_id = user2.id
-          attendee.user_name = user2.username
-          attendee.role = :moderator
-          attendee
-        }
-        before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
-          get :webconference, :id => space.to_param
-        }
-        it { should assign_to(:webconf_users).with([user, user2]) }
-      end
-
-      context "when there are no attendees" do
-        before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:attendees).and_return([])
-          get :webconference, :id => space.to_param
-        }
-        it { should assign_to(:webconf_attendees).with([]) }
-      end
-
-      context "doesn't replicate users" do
-        let(:attendee1) {
-          attendee = BigbluebuttonAttendee.new
-          attendee.user_id = user.id
-          attendee.user_name = user.username
-          attendee.role = :attendee
-          attendee
-        }
-        let(:attendee2) {
+      context "and they are same user" do 
+        let(:replicate_user_attendee) {
           attendee = BigbluebuttonAttendee.new
           attendee.user_id = user.id
           attendee.user_name = user.username
@@ -585,32 +554,147 @@ describe SpacesController do
           attendee
         }
         before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
+            .and_return([moderator_user_attendee, replicate_user_attendee])
           get :webconference, :id => space.to_param
         }
-        it { should assign_to(:webconf_users).with([user]) }
+        it { expect(assigns(:webconf_users)).to eq([user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([]) }
       end
 
-      context "ignores users that are not registered" do
-        let(:attendee1) {
+      context "and they are distinct users" do
+        let!(:another_user) { FactoryGirl.create(:superuser) }
+        let(:replicate_user_attendee) {
           attendee = BigbluebuttonAttendee.new
-          attendee.user_id = user.id
-          attendee.user_name = user.username
-          attendee.role = :attendee
-          attendee
-        }
-        let(:attendee2) {
-          attendee = BigbluebuttonAttendee.new
-          attendee.user_id = "anything-invalid"
-          attendee.user_name = "Invited User"
+          attendee.user_id = another_user.id
+          attendee.user_name = another_user.username
           attendee.role = :moderator
           attendee
         }
         before(:each) {
-          BigbluebuttonRoom.any_instance.stub(:current_attendees).and_return([attendee1, attendee2])
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees).and_return([moderator_user_attendee, replicate_user_attendee])
           get :webconference, :id => space.to_param
         }
-        it { should assign_to(:webconf_users).with([user]) }
+        it { expect(assigns(:webconf_users)).to eq([user, another_user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([]) }
+      end
+    end
+
+    context "when there are users attendees and unregistered attendees on webconference" do
+      let!(:another_user) { FactoryGirl.create(:superuser) }
+      let(:moderator_user_attendee) {
+        attendee = BigbluebuttonAttendee.new
+        attendee.user_id = user.id
+        attendee.user_name = user.username
+        attendee.role = :moderator
+        attendee
+      }
+      let(:unregistered_attendee) {
+        attendee = BigbluebuttonAttendee.new
+        attendee.user_id = "something"
+        attendee.user_name = "something"
+        attendee.role = :attendee
+        attendee
+      }
+
+      context "when there are replicate users" do
+        let(:replicate_user_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = user.id
+          attendee.user_name = user.username
+          attendee.role = :moderator
+          attendee
+        }
+        let(:another_unregistered_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = "distinct something"
+          attendee.user_name = "distinct something"
+          attendee.role = :attendee
+          attendee
+        }
+        before(:each) {
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
+            .and_return([moderator_user_attendee, replicate_user_attendee, 
+              unregistered_attendee, another_unregistered_attendee])
+          get :webconference, :id => space.to_param
+        }
+        it { expect(assigns(:webconf_users)).to eq([user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, another_unregistered_attendee]) }
+      end
+
+      context "when there are replicate unregistered attendees" do
+        let(:another_user_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = another_user.id
+          attendee.user_name = another_user.username
+          attendee.role = :moderator
+          attendee
+        }
+        let(:replicate_unregistered_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = "something"
+          attendee.user_name = "something"
+          attendee.role = :attendee
+          attendee
+        }
+        before(:each) {
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
+            .and_return([moderator_user_attendee, another_user_attendee, 
+              unregistered_attendee, replicate_unregistered_attendee])
+          get :webconference, :id => space.to_param
+        }
+        it { expect(assigns(:webconf_users)).to eq([user, another_user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, replicate_unregistered_attendee]) }
+      end
+      
+      context "when there are not replicate attendees" do
+        let(:another_user_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = another_user.id
+          attendee.user_name = another_user.username
+          attendee.role = :moderator
+          attendee
+        }
+        let(:another_unregistered_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = "distinct something"
+          attendee.user_name = "distinct something"
+          attendee.role = :attendee
+          attendee
+        }
+        before(:each) {
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
+            .and_return([moderator_user_attendee, another_user_attendee, 
+              unregistered_attendee, another_unregistered_attendee])
+          get :webconference, :id => space.to_param
+        }
+        it { expect(assigns(:webconf_users)).to eq([user, another_user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, another_unregistered_attendee]) }
+      end
+      
+      context "when there are replicate in both profiles" do
+        let(:replicate_user_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = user.id
+          attendee.user_name = user.username
+          attendee.role = :moderator
+          attendee
+        }
+        let(:replicate_unregistered_attendee) {
+          attendee = BigbluebuttonAttendee.new
+          attendee.user_id = "something"
+          attendee.user_name = "something"
+          attendee.role = :attendee
+          attendee
+        }
+        before(:each) {
+          allow_any_instance_of(BigbluebuttonRoom).to receive(:current_attendees)
+            .and_return([moderator_user_attendee, replicate_user_attendee, 
+              unregistered_attendee, replicate_unregistered_attendee])
+          get :webconference, :id => space.to_param
+        }
+        it { expect(assigns(:webconf_users)).to eq([user]) }
+        it { expect(assigns(:webconf_attendees)).to eq([unregistered_attendee, replicate_unregistered_attendee]) }
       end
     end
   end

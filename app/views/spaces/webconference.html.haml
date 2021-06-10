@@ -46,7 +46,7 @@
         - @webconf_users.each do |user|
           = render :partial => 'users/simple_user', :locals => { :user => user }
       - if @webconf_attendees.count > 0
-        #webconference-all-users
+        #webconference-invited-users
           %h4= t('.webconference.attendees.invited_users')
           - @webconf_attendees.each_with_index do |attendee, i|
             - if attendee.role == :moderator
