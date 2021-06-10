@@ -591,7 +591,7 @@ describe SpacesController do
       }
       let(:unregistered_attendee) {
         attendee = BigbluebuttonAttendee.new
-        attendee.user_id = "something"
+        attendee.user_id = "some id"
         attendee.user_name = "something"
         attendee.role = :attendee
         attendee
@@ -607,7 +607,7 @@ describe SpacesController do
         }
         let(:another_unregistered_attendee) {
           attendee = BigbluebuttonAttendee.new
-          attendee.user_id = "distinct something"
+          attendee.user_id = "distinct id"
           attendee.user_name = "distinct something"
           attendee.role = :attendee
           attendee
@@ -632,7 +632,7 @@ describe SpacesController do
         }
         let(:replicate_unregistered_attendee) {
           attendee = BigbluebuttonAttendee.new
-          attendee.user_id = "something"
+          attendee.user_id = "some id"
           attendee.user_name = "something"
           attendee.role = :attendee
           attendee
@@ -657,7 +657,7 @@ describe SpacesController do
         }
         let(:another_unregistered_attendee) {
           attendee = BigbluebuttonAttendee.new
-          attendee.user_id = "distinct something"
+          attendee.user_id = "distinct id"
           attendee.user_name = "distinct something"
           attendee.role = :attendee
           attendee
@@ -682,7 +682,7 @@ describe SpacesController do
         }
         let(:replicate_unregistered_attendee) {
           attendee = BigbluebuttonAttendee.new
-          attendee.user_id = "something"
+          attendee.user_id = "some id"
           attendee.user_name = "something"
           attendee.role = :attendee
           attendee
