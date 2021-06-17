@@ -11,6 +11,8 @@ ru:
     labels:
       feedback:
         from: "Ваш email"
+        subject: "Заголовок"
+        message: "Сообщение"
       user:
         edit:
           password: "Новый пароль"

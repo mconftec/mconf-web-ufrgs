@@ -1505,7 +1505,7 @@ de:
       invite: "Andere einladen"
       webconference:
         attendees:
-          all_users: "Alle Benutzer"
+          invited_users: "Eingeladene Benutzer"
           nobody: "Derzeit ist niemand im Raum."
           people_in_the_room: "Leute im Raum"
           registered_users: "Registrierte Benutzer"

@@ -22,10 +22,17 @@ module DatesHelper
 
   # Formats a date object to be shown in a view
   def format_date(date, format=:short)
-    if date.present?
-      I18n.l(date, format: format)
+    return nil unless date.present?
+    
+    if date.is_a?(Integer) && date.to_s.length == 13
+      value = Time.at(date/1000)
     else
-      nil
+      value = Time.at(date)
     end
+    
+    tz = Time.zone.utc_offset
+    # note: for some reason in_time_zone(0) doesn't always work as expected
+    value = tz == 0 ? value.utc : value.in_time_zone(tz)
+    I18n.l(value, format: format)
   end
 end

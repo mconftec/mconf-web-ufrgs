@@ -11,6 +11,8 @@ es-419:
     labels:
       feedback:
         from: "Su correo electrónico"
+        subject: "Título"
+        message: "Mensaje"
       user:
         edit:
           password: "Contraseña nueva"

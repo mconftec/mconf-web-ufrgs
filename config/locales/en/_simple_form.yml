@@ -17,6 +17,8 @@ en:
     labels:
       feedback:
         from: "Your email"
+        subject: "Subject"
+        message: "Message"
       user:
         edit:
           password: "New password"

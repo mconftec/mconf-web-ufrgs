@@ -1634,7 +1634,7 @@ en:
       invite: "Invite other people"
       webconference:
         attendees:
-          all_users: "All users"
+          invited_users: "Invited users"
           nobody: "There is nobody currently in the room."
           people_in_the_room: "People in the room"
           registered_users: "Registered users"
