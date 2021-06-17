@@ -17,6 +17,8 @@ pt-br:
     labels:
       feedback:
         from: "Seu e-mail"
+        subject: "Título"
+        message: "Mensagem"
       user:
         edit:
           password: "Nova senha"

@@ -11,6 +11,8 @@ bg:
     labels:
       feedback:
         from: "Вашият имейл"
+        subject: "Заглавие"
+        message: "Cъобщение"
       user:
         edit:
           password: "Нова парола"

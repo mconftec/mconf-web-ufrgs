@@ -11,6 +11,8 @@ de:
     labels:
       feedback:
         from: "Ihre Email"
+        subject: "Titel"
+        message: "Nachricht"
       user:
         edit:
           password: "Neues Passwort"
