@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210531203333) do
+ActiveRecord::Schema.define(version: 20210531203324) do
 
   create_table "activities", force: true do |t|
     t.integer  "trackable_id"
@@ -75,7 +75,6 @@ ActiveRecord::Schema.define(version: 20210531203333) do
   end
 
   add_index "bigbluebutton_meetings", ["meetingid", "create_time"], name: "index_bigbluebutton_meetings_on_meetingid_and_create_time", unique: true, using: :btree
-  add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "bigbluebutton_meetings_room_id_IDX", using: :btree
   add_index "bigbluebutton_meetings", ["room_id", "create_time"], name: "index_bigbluebutton_meetings_on_room_id_create_time", using: :btree
   add_index "bigbluebutton_meetings", ["room_id"], name: "index_bigbluebutton_meetings_on_room_id", using: :btree
 
@@ -177,7 +176,6 @@ ActiveRecord::Schema.define(version: 20210531203333) do
 
   add_index "bigbluebutton_rooms", ["meetingid"], name: "index_bigbluebutton_rooms_on_meetingid", unique: true, using: :btree
   add_index "bigbluebutton_rooms", ["owner_id", "owner_type"], name: "index_bigbluebutton_rooms_on_owner_id_owner_type", using: :btree
-  add_index "bigbluebutton_rooms", ["param"], name: "bigbluebutton_rooms_param_IDX", using: :btree
   add_index "bigbluebutton_rooms", ["param"], name: "index_bigbluebutton_rooms_on_param", using: :btree
 
   create_table "bigbluebutton_server_configs", force: true do |t|

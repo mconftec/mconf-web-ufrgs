@@ -15,11 +15,9 @@
         = "(ID: #{room.meetingid})"
 
     .meeting-time
-      - unless room.start_time.nil?
-        = t('bigbluebutton_rails.servers.activity.started_at', :time => room.start_time.strftime("%F, %R UTC%z"))
+      - unless room.create_time.nil?
+        = t('bigbluebutton_rails.servers.activity.started_at', :time => format_date(room.create_time, :long))
         <br/>
-      - unless room.end_time.nil?
-        = t('bigbluebutton_rails.servers.activity.ended_at', :time => room.end_time.strftime("%F, %R UTC%z"), :forcibly => room.has_been_forcibly_ended)
 
     .meeting-attendees
       - unless room.current_attendees.count == 0
@@ -35,4 +33,4 @@
               %tr
                 %td= attendee.role
                 %td= attendee.user_id
-                %td= attendee.full_name
+                %td= attendee.user_name

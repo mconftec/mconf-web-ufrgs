@@ -30,6 +30,9 @@ module DatesHelper
       value = Time.at(date)
     end
     
+    tz = Time.zone.utc_offset
+    # note: for some reason in_time_zone(0) doesn't always work as expected
+    value = tz == 0 ? value.utc : value.in_time_zone(tz)
     I18n.l(value, format: format)
   end
 end
