@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.2.0 - 2021-06-29
+* [UFRGSP-9] Show recordings on page header.
+* [UFRGSP-12] Add a few more optimization indexes.
+* [UFRGSP-13] bbb-rails gem upgraded to version 2.3
+* [UFRGSP-14] Removed configatron and is using dotenv-rails
+
 ## 3.1.0 - 2021-03-03
 
 * [UFRGSP-8] Add a banner informing that recordings will start to expire after a while.
