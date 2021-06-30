@@ -1,10 +1,10 @@
 # Change Log
 
 ## 3.2.0 - 2021-06-29
-* [UFRGSP-9] Show recordings on page header.
-* [UFRGSP-12] Add a few more optimization indexes.
-* [UFRGSP-13] bbb-rails gem upgraded to version 2.3
-* [UFRGSP-14] Removed configatron and is using dotenv-rails
+* [UFRGSP-9] Added a redirect to recordings list button in page header.
+* [UFRGSP-12] Added a few more optimization indexes in db.
+* [UFRGSP-13] Upgraded `bigbluebutton_rails` gem to version 2.3.
+* [UFRGSP-14] Removed configatron. Now we are using dotenv-rails.
 
 ## 3.1.0 - 2021-03-03
 
